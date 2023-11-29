@@ -57,16 +57,29 @@ async function sendJson(req,res,data){  // example: sendJson(req,res,{id:2,name:
 // test
 
 app.get('/getTest.html', (req, res) => {
-  console.log(`GET request received for: ${req.originalUrl}`);
+  requestNotifier(req)
   res.sendFile(path.join(__dirname, 'getTest.html'));
 });
 
-sendJson
+
 
 /////////////////////////
 // OPTIONAL
 
-// import {
-// ...
-// } from "../prisma/prismaFunctions.js";
+import {
+  createUser,
+  deleteUserByEmail
+} from "./prisma/prismaFunctions.mjs";
+
+app.get('/createUser',(req,res)=>{
+  requestNotifier(req)
+  createUser('DummyUser','dummy@dum.com','dumdum')
+  sendJson(req,res,{body:'user created'})
+})
+
+app.get('/deleteUser',(req,res)=>{
+  requestNotifier(req)
+  deleteUserByEmail('dummy@dum.com')
+  sendJson(req,res,{body:'user deleted'})
+})
 
