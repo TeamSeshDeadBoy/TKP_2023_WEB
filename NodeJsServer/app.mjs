@@ -68,7 +68,8 @@ app.get('/getTest.html', (req, res) => {
 
 import {
   createUser,
-  deleteUserByEmail
+  deleteUserByEmail,
+  createRoom
 } from "./prisma/prismaFunctions.mjs";
 
 app.get('/createUser',(req,res)=>{
@@ -83,3 +84,13 @@ app.get('/deleteUser',(req,res)=>{
   sendJson(req,res,{body:'user deleted'})
 })
 
+app.get('/test',(req,res)=>{
+  requestNotifier(req);
+  sendJson(req,res,{data: "here is data"})
+})
+
+app.get('/createRoom',(req,res)=>{
+  requestNotifier(req);
+  createRoom();
+  sendJson(req,res,{data: "room created"})
+})
