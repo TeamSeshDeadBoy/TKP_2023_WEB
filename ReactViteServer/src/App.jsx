@@ -14,14 +14,14 @@ function App() {
       <h1>Рубильник</h1>
       <div className="card">
          {/* Ниже строчку редактируй после fetch */}
-        <button onClick={() => fetch('http://localhost:5173/', requestOptions)
+        <button onClick={() => fetch('/', requestOptions)
                 .then(response => response.json())
                 .then(data => setResponse(data.id))}
         >
           {response}
         </button>
         <p>
-          Артем! Отредактируй строчку с ip:port (17) в <code>./ReactViteServer/src/App.jsx</code>
+          На этот раз попробуй в <code>./ReactViteServer/package.json</code>
         </p>
       </div>
     </>
