@@ -91,6 +91,15 @@ app.get('/test',(req,res)=>{
   sendJson(req,res,{data: "here is data"})
 })
 
+app.post('/createRoom',(req,res)=>{
+  requestNotifier(req);
+  try{
+    console.log(req.body.id);
+  } catch (e) {console.log(e);}
+  createRoom()
+  sendJson(req,res,{data: "room created"})
+})
+
 app.get('/createRoom',(req,res)=>{
   requestNotifier(req);
   createRoom();
