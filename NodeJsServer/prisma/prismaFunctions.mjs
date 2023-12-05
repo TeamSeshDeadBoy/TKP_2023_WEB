@@ -37,3 +37,10 @@ export async function createUser(name, email, password) {
       },
     });
   }
+
+  export async function createRoom() {
+    return prisma.room.create({
+      data: {
+      },
+    });
+  }
