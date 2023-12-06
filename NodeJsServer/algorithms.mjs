@@ -71,6 +71,7 @@ class IdTree{
         function _checkNode(node){ // recursive
             if (node instanceof IdNode){
                 if (!isFound){
+                    //
                     if(lvl<idLength){
                         var used=[];
                         var val;
@@ -85,16 +86,24 @@ class IdTree{
                         }
                         
                         var unused = idChars.filter(element => !used.includes(element));
-                        if (unused.length>0){
-                            isFound=true;
-                            freeId.push(unused[0]);
-                            if (doWrite){
+                        if (unused.length>0){ //!!
+                            if (lvl==idLength-1){
+                                isFound=true;
+                                freeId.push(unused[0]);
+                                if (doWrite){
+                                    var newIdNode = new IdNode(unused[0]);
+                                    newIdNode.parent=node;
+                                    node.children.push(newIdNode);
+                                }
+                            } else { //!!
                                 var newIdNode = new IdNode(unused[0]);
                                 newIdNode.parent=node;
                                 node.children.push(newIdNode);
-                            }
+                                _checkNode(node) // check same again (but now with fresh child)
+                            } //!!
                         }
                     }
+                    //
                 }
                 return (node.val); // for the branch top to visit (according to idLength) 
             }
@@ -148,20 +157,20 @@ class IdTree{
 }
 
 var idTree = new IdTree(3);
-console.log(idTree.pushIdString("ABC"));
-console.log(idTree.pushIdString("ABB"));
-console.log(idTree.pushIdString("ACB"));
-console.log(idTree.pushIdString("ACC"));
-console.log(idTree.deleteId("ABC")); 
-console.log(idTree.pushIdString("ABC"));
-console.log(idTree.pushIdString("AAA"));
-console.log(idTree.pushIdString("AAB"));
-console.log(idTree.pushIdString("CAB"));
-console.log(idTree.pushIdString("CAA"));
-console.log(idTree.pushIdString("BAA"));
-console.log(idTree.pushIdString("BAA"));
-console.log(idTree.pushIdString("BA"));
-idTree.visualize();
+// console.log(idTree.pushIdString("ABC"));
+// console.log(idTree.pushIdString("ABB"));
+// console.log(idTree.pushIdString("ACB"));
+// console.log(idTree.pushIdString("ACC"));
+// console.log(idTree.deleteId("ABC")); 
+// console.log(idTree.pushIdString("ABC"));
+// console.log(idTree.pushIdString("AAA"));
+// console.log(idTree.pushIdString("AAB"));
+// console.log(idTree.pushIdString("CAB"));
+// console.log(idTree.pushIdString("CAA"));
+// console.log(idTree.pushIdString("BAA"));
+// console.log(idTree.pushIdString("BAA"));
+// console.log(idTree.pushIdString("BA"));
+// idTree.visualize();
 console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
@@ -184,7 +193,10 @@ console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(false));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
 idTree.visualize();
 
 // console.log(idTree.pushIdString("ABC"));
