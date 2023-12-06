@@ -43,7 +43,7 @@ class IdTree{
                             doCreateNode = false;
                             if (idArray.length==0) return "failed: ID already exists"
                             visitor = child;
-                            i=0;
+                            i=0;            /*?*/
                             break; // next child iteration
                         }
                     } else return "error1"
@@ -99,6 +99,24 @@ class IdTree{
         _checkNode(this.root);
         return freeId.join('');
     }
+    deleteId(idString){
+        var idArray = [...idString];
+        var visitor = this.root;
+        while (idArray.length!=0){
+            var val = idArray.pop();
+            for (var i=0; i<visitor.children.length;i++){
+                var child = visitor.children[i];
+                if (child instanceof IdNode && child.val==val){
+                    if (idArray.length==0){
+                        visitor.children.splice(i,1);
+                        child=null;
+                    }
+                    visitor = child;
+                    break;
+                }
+            }
+        }
+    }
 
 
     visualize() {
@@ -129,6 +147,8 @@ console.log(idTree.pushIdString("BAC"));
 
 idTree.visualize();
 
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(false));
+// console.log(idTree.getFreeId(true));
+// console.log(idTree.getFreeId(false));
+idTree.deleteId("ABC");
 
+idTree.visualize();
