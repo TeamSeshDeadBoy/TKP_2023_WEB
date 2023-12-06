@@ -1,0 +1,26 @@
+.room {
+    min-height: 90vh;
+    min-width: 90vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.questionedit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 75px;
+}
+
+.questions {
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    gap: 10px;
+    justify-content: start;
+    align-items: start;
+}
+
+.main {
+    display: flex;
+    flex-direction: row-reverse;
+}
