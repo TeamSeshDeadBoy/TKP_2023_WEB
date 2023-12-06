@@ -59,9 +59,48 @@ class IdTree{
         } else return "error0"
         return "success"
     }
-    getFreeId(){
-
+    getFreeId(doWrite){
+        var idChars = this.idChars;
+        var idLength = this.idLength;
+        var lvl = 0;
+        var freeId=[];
+        var isFound=false;
+        function _checkNode(node){ // recursive
+            if (node instanceof IdNode){
+                if (!isFound){
+                    if(lvl<idLength){
+                        var used=[];
+                        var val;
+                        for (var i=0; i<node.children.length; i++){
+                            lvl++;
+                            val = _checkNode(node.children[i]);
+                            lvl--;
+                            if (isFound) {
+                                if (val) freeId.push(val);
+                                return node.val;
+                            } else used.push(val);
+                        }
+                        
+                        var unused = idChars.filter(element => !used.includes(element));
+                        if (unused.length>0){
+                            isFound=true;
+                            freeId.push(unused[0]);
+                            if (doWrite){
+                                var newIdNode = new IdNode(unused[0]);
+                                newIdNode.parent=node;
+                                node.children.push(newIdNode);
+                            }
+                        }
+                    }
+                }
+                return (node.val); // for the branch top to visit (according to idLength) 
+            }
+        }
+        _checkNode(this.root);
+        return freeId.join('');
     }
+
+
     visualize() {
         this._visualizeNode(this.root, 0);
     }
@@ -89,4 +128,7 @@ console.log(idTree.pushIdString("BAC"));
 // console.log(idTree.pushIdString("ABCA"));
 
 idTree.visualize();
+
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(false));
 
