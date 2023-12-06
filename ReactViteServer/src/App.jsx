@@ -1,30 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from "axios";
+import { redirect} from "react-router-dom";
 import './App.css'
 
 function App() {
-  const [response, setResponse] = useState('Test GET')
-  const [response2, setResponse2] = useState('Test POST')
+  const [roomID, setroomID] = useState(null)
+  useEffect(() => {
+    redirect('/room')
+  }, [roomID])
+  
 
   return (
     <>
       <h1>Рубильник</h1>
       <div className="card">
-        <button onClick={() =>  axios.get('http://localhost:3000/test').then(function (response) {
-            setResponse(response.data.data);}).catch(function (error) {console.log(error);})}
+        <a className='button' href="/room"
+          onClick={() =>  axios.post('http://localhost:3000/getRooms', {
+            id: '####'
+          }).then(function (response) {setroomID(response)}).catch(function (error) {console.log(JSON.stringify(error));})}
         >
-          {response}
-        </button>
-        <button onClick={() =>  axios.post('http://localhost:3000/createRoom', {
-          id: '####'
-        }).then(function (response) {
-            setResponse2(response.data.data);}).catch(function (error) {console.log(error);})}
+          Присоединиться к существующей викторине
+        </a>
+        <a className='button' href="/room"
+          onClick={() =>  axios.post('http://localhost:3000/createRoom', {
+            id: '####'
+          }).then(function (response) {setroomID(response.data.id)}).catch(function (error) {console.log(JSON.stringify(error));})}
         >
-          {response2}
-        </button>
-        <p>
-          <code>GET /test &  POST /createRoom testing playground</code>
-        </p>
+          Создать новую викторину
+        </a>
+      </div>
+      <p>{roomID}</p>
+      <div className='footer'>
+        Создано Монаховым Артемом, Лебедевым Степаном и Рыбалко Константином в рамках курсового проекта МосПолитеха 5 семестра в 2023 году.
       </div>
     </>
   )

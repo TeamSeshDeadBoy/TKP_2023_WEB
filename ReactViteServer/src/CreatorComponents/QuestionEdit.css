@@ -1,0 +1,33 @@
+.question{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter {
+    display: flex;
+    flex-direction: row-reverse;
+    right: 30%;
+    justify-content: center;
+}
+
+.counter_p {
+    margin: auto 10px;
+}
+
+.counter_button {
+    padding: 3px 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons_{
+    display: grid;
+    grid-template-columns: 50px 50px;
+    gap: 5px;
+    justify-content: center;
+}
