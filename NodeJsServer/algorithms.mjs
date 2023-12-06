@@ -13,6 +13,7 @@ class IdTree{
     root
     idLength
     idChars = ['A','B','C']
+    //idChars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     constructor(idLength){
         this.root=new IdNode(null);
         this.idLength = idLength;
@@ -28,12 +29,12 @@ class IdTree{
         }
         return idArray;
     }
-    pushIdString(idString){ //"ABC"
+    pushId(idString){ //"ABC"
         var idArray = this.checkIdString(idString);
         if (idArray instanceof Error){ return idArray; }
         else { return this._pushIdArray(idArray); }
     }
-    _pushIdArray(idArray){ // ['A','B','C']
+    _pushId(idArray){ // ['A','B','C']
         if (Array.isArray(idArray)){
             var visitor = this.root;
             var value, doCreateNode;
@@ -44,12 +45,12 @@ class IdTree{
                     if (child instanceof IdNode){
                         if (child.val==value){
                             doCreateNode = false;
-                            if (idArray.length==0) return "failed: ID already exists"
+                            if (idArray.length==0) return new Error("failed: ID already exists")
                             visitor = child;
                             i=0;            /*?*/
                             break; // next child iteration
                         }
-                    } else return "error1"
+                    } else return new Error("error1")
                 }
 
                 if (doCreateNode){
@@ -185,18 +186,8 @@ console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
 console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
+
+console.log(idTree.deleteId('CCC'));
 idTree.visualize();
 
 // console.log(idTree.pushIdString("ABC"));
