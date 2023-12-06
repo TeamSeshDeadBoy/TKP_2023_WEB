@@ -23,7 +23,7 @@ function App() {
           {response2}
         </button>
         <p>
-          На этот раз попробуй в <code>./ReactViteServer/package.json</code>
+          <code>GET /test &  POST /createRoom testing playground</code>
         </p>
       </div>
     </>

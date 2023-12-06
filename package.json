@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "frontend": "cd ./ReactViteServer && npm run dev",
+    "backend": "cd ./NodeJsServer && node app.mjs"
+  }
+}
