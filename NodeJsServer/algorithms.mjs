@@ -149,17 +149,56 @@ class IdTree{
 
 var idTree = new IdTree(3);
 console.log(idTree.pushIdString("ABC"));
-console.log(idTree.pushIdString("BBC"));
-console.log(idTree.pushIdString("BAC"));
-// console.log(idTree.pushIdString("ABC"));
-// console.log(idTree.pushIdString("SBC"));
-// console.log(idTree.pushIdString("ABCA"));
-
-idTree.visualize();
-
-// console.log(idTree.getFreeId(true));
-// console.log(idTree.getFreeId(false));
-
+console.log(idTree.pushIdString("ABB"));
+console.log(idTree.pushIdString("ACB"));
+console.log(idTree.pushIdString("ACC"));
 console.log(idTree.deleteId("ABC")); 
-
+console.log(idTree.pushIdString("ABC"));
+console.log(idTree.pushIdString("AAA"));
+console.log(idTree.pushIdString("AAB"));
+console.log(idTree.pushIdString("CAB"));
+console.log(idTree.pushIdString("CAA"));
+console.log(idTree.pushIdString("BAA"));
+console.log(idTree.pushIdString("BAA"));
+console.log(idTree.pushIdString("BA"));
 idTree.visualize();
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId(false));
+idTree.visualize();
+
+// console.log(idTree.pushIdString("ABC"));
+// console.log(idTree.pushIdString("BBC"));
+// console.log(idTree.pushIdString("BAC"));
+// // console.log(idTree.pushIdString("ABC"));
+// // console.log(idTree.pushIdString("SBC"));
+// // console.log(idTree.pushIdString("ABCA"));
+
+// idTree.visualize();
+
+// // console.log(idTree.getFreeId(true));
+// // console.log(idTree.getFreeId(false));
+
+// console.log(idTree.deleteId("ABC")); 
+
+// idTree.visualize();
