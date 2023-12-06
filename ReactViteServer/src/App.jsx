@@ -18,12 +18,12 @@ function App() {
         <button onClick={() =>  axios.post('http://localhost:3000/createRoom', {
           id: '####'
         }).then(function (response) {
-            setResponse2(JSON.stringify(response.data));}).catch(function (error) {console.log(error);})}
+            setResponse2(response.data.data);}).catch(function (error) {console.log(error);})}
         >
           {response2}
         </button>
         <p>
-          На этот раз попробуй в <code>./ReactViteServer/package.json</code>
+          <code>GET /test &  POST /createRoom testing playground</code>
         </p>
       </div>
     </>

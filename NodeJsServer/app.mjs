@@ -94,11 +94,11 @@ app.get('/test',(req,res)=>{
 app.post('/createRoom',(req,res)=>{
   requestNotifier(req);
   createRoom()
-  sendJson(req,res,{data: "room created"})
+  sendJson(req,res,{data: "room created", id: "123"})
 })
 
 app.get('/createRoom',(req,res)=>{
   requestNotifier(req);
   createRoom();
-  sendJson(req,res,{data: "room created"})
+  sendJson(req,res,{data: "room created",  id: "123"})
 })
