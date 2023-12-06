@@ -17,18 +17,21 @@ class IdTree{
         this.root=new IdNode(null);
         this.idLength = idLength;
     }
-    pushIdString(idString){ //"ABC"
+    checkIdString(idString){
         if (typeof idString === 'string' && idString.length==this.idLength){
             var idArray = [...idString];
             for (var i=0; i<idArray.length; i++){
-                if (!this.idChars.includes(idArray[i])) return 'error: id contains prohibited values';
+                if (!this.idChars.includes(idArray[i])) return new Error("id contains prohibited values");;
             }
-
-            return this._pushIdArray(idArray);
-
-        } else{
-            return "error: id doesn't match requerements";
+        } else {
+            return new Error("id doesn't match requerements");
         }
+        return idArray;
+    }
+    pushIdString(idString){ //"ABC"
+        var idArray = this.checkIdString(idString);
+        if (idArray instanceof Error){ return idArray; }
+        else { return this._pushIdArray(idArray); }
     }
     _pushIdArray(idArray){ // ['A','B','C']
         if (Array.isArray(idArray)){
@@ -100,21 +103,28 @@ class IdTree{
         return freeId.join('');
     }
     deleteId(idString){
-        var idArray = [...idString];
-        var visitor = this.root;
-        while (idArray.length!=0){
-            var val = idArray.pop();
-            for (var i=0; i<visitor.children.length;i++){
-                var child = visitor.children[i];
-                if (child instanceof IdNode && child.val==val){
-                    if (idArray.length==0){
-                        visitor.children.splice(i,1);
-                        child=null;
+        var idArray = this.checkIdString(idString);
+        if (idArray instanceof Error) {return idArray}
+        else {
+            var visitor = this.root;
+            var isFound = false;
+            while (idArray.length!=0){
+                var val = idArray.pop();
+                for (var i=0; i<visitor.children.length;i++){
+                    var child = visitor.children[i];
+                    if (child instanceof IdNode && child.val==val){
+                        if (idArray.length==0){
+                            isFound=true;
+                            visitor.children.splice(i,1);
+                            child=null;
+                        }
+                        visitor = child;
+                        break;
                     }
-                    visitor = child;
-                    break;
                 }
             }
+            if (isFound){return "deleted successfully"}
+            else {return new Error("failed: ID wasn't found")}
         }
     }
 
@@ -149,6 +159,7 @@ idTree.visualize();
 
 // console.log(idTree.getFreeId(true));
 // console.log(idTree.getFreeId(false));
-idTree.deleteId("ABC");
+
+console.log(idTree.deleteId("ABC")); 
 
 idTree.visualize();
