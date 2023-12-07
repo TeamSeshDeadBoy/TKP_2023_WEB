@@ -2,6 +2,6 @@
   "scripts": {
     "f": "cd ./ReactViteServer && npm run dev",
     "b": "cd ./NodeJsServer && node app.mjs",
-    "install": "cd ./NodeJsServer && npm install && cd ../ && cd ./ReactViteServer && npm install"
+    "i": "cd ./NodeJsServer && npm install && cd ../ && cd ./ReactViteServer && npm install"
   }
 }
