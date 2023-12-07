@@ -9,7 +9,7 @@ class IdNode{
     }
 }
 
-class IdTree{
+export class IdTree{
     root
     idLength
     idChars = ['A','B','C']
@@ -32,7 +32,7 @@ class IdTree{
     pushId(idString){ //"ABC"
         var idArray = this.checkIdString(idString);
         if (idArray instanceof Error){ return idArray; }
-        else { return this._pushIdArray(idArray); }
+        else { return this._pushId(idArray); }
     }
     _pushId(idArray){ // ['A','B','C']
         if (Array.isArray(idArray)){
@@ -63,7 +63,7 @@ class IdTree{
         } else return "error0"
         return "success"
     }
-    getFreeId(doWrite){
+    getFreeId(){
         var idChars = this.idChars;
         var idLength = this.idLength;
         var lvl = 0;
@@ -88,20 +88,17 @@ class IdTree{
                         
                         var unused = idChars.filter(element => !used.includes(element));
                         if (unused.length>0){ //!!
+                            
+                            var newIdNode = new IdNode(unused[0]);
+                            newIdNode.parent=node;
+                            node.children.push(newIdNode);
+                            
                             if (lvl==idLength-1){
                                 isFound=true;
                                 freeId.push(unused[0]);
-                                if (doWrite){
-                                    var newIdNode = new IdNode(unused[0]);
-                                    newIdNode.parent=node;
-                                    node.children.push(newIdNode);
-                                }
-                            } else { //!!
-                                var newIdNode = new IdNode(unused[0]);
-                                newIdNode.parent=node;
-                                node.children.push(newIdNode);
+                            } else {
                                 _checkNode(node) // check same again (but now with fresh child)
-                            } //!!
+                            }
                         }
                     }
                     //
@@ -172,36 +169,30 @@ var idTree = new IdTree(3);
 // console.log(idTree.pushIdString("BAA"));
 // console.log(idTree.pushIdString("BA"));
 // idTree.visualize();
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
-console.log(idTree.getFreeId(true));
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
+console.log(idTree.getFreeId());
 
 console.log(idTree.deleteId('CCC'));
 idTree.visualize();
 
-// console.log(idTree.pushIdString("ABC"));
-// console.log(idTree.pushIdString("BBC"));
-// console.log(idTree.pushIdString("BAC"));
-// // console.log(idTree.pushIdString("ABC"));
-// // console.log(idTree.pushIdString("SBC"));
-// // console.log(idTree.pushIdString("ABCA"));
+console.log(idTree.pushId("ABC"));
+console.log(idTree.pushId("BBC"));
+console.log(idTree.pushId("BAC"));
 
-// idTree.visualize();
 
-// // console.log(idTree.getFreeId(true));
-// // console.log(idTree.getFreeId(false));
+idTree.visualize();
 
-// console.log(idTree.deleteId("ABC")); 
+console.log(idTree.deleteId("ABC")); 
 
-// idTree.visualize();
+idTree.visualize();

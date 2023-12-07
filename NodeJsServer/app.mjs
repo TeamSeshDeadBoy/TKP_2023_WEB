@@ -42,16 +42,31 @@ function respondJsonResult(res,jsonResult) {
 }
 
 
-async function sendJson(req,res,data){  // example: sendJson(req,res,{id:2,name:"mom"})
+async function sendJson(res,data){  // example: sendJson(res,{id:2,name:"mom"})
   res.set('Content-Type', 'application/json');
   res.json(data);
+}
+
+function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
+  const missingProperties = [];
+  for (const prop of requiredProperties) {
+    if (!(prop in req.body)) {
+      missingProperties.push(prop);
+    }
+  }
+  if (missingProperties.length > 0) {
+    console.error(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
+    sendJson(res,{errorMessage: `Missing required properties in req.body: ${missingProperties.join(', ')}`})
+    return false;
+  }
+  return true;
 }
 
 
 
 // useful (old)
 
-// const sendJson = async (req, res, data) => { // ! old ! don't use JSON.stringify on "data"  // example: app.get('/json', (req, res) => sendJson(req,res,{id:2,name:"mom"}))
+// const sendJson = async (res, data) => { // ! old ! don't use JSON.stringify on "data"  // example: app.get('/json', (req, res) => sendJson(res,{id:2,name:"mom"}))
 //     res.set('Content-Type', 'application/json');
 //     res.json(data);
 // };
@@ -68,37 +83,54 @@ app.get('/getTest.html', (req, res) => {
 /////////////////////////
 // OPTIONAL
 
+
+// app.get('/createUser',(req,res)=>{
+//   requestNotifier(req)
+//   createUser('DummyUser','dummy@dum.com','dumdum')
+//   sendJson(res,{body:'user created'})
+// })
+
+// app.get('/deleteUser',(req,res)=>{
+//   requestNotifier(req)
+//   deleteUserByEmail('dummy@dum.com')
+//   sendJson(res,{body:'user deleted'})
+// })
+
+// app.get('/test',(req,res)=>{
+//   requestNotifier(req);
+//   sendJson(res,{data: "here is data"})
+// })
+
+// app.get('/createRoom',(req,res)=>{
+//   requestNotifier(req);
+//   if (checkReqBodyToContain(req, res, 'name', 'email', 'password')){
+//     //createRoom()
+//     sendJson(res,{data: "room created", id: "123"})
+//   }
+// })
+
 import {
   createUser,
   deleteUserByEmail,
-  createRoom
+  //createRoom
 } from "./prisma/prismaFunctions.mjs";
 
-app.get('/createUser',(req,res)=>{
-  requestNotifier(req)
-  createUser('DummyUser','dummy@dum.com','dumdum')
-  sendJson(req,res,{body:'user created'})
-})
+import {
+  IdTree
+} from "./algorithms.mjs";
 
-app.get('/deleteUser',(req,res)=>{
-  requestNotifier(req)
-  deleteUserByEmail('dummy@dum.com')
-  sendJson(req,res,{body:'user deleted'})
-})
-
-app.get('/test',(req,res)=>{
-  requestNotifier(req);
-  sendJson(req,res,{data: "here is data"})
-})
+var roomIds = new IdTree(5);
 
 app.post('/createRoom',(req,res)=>{
   requestNotifier(req);
-  createRoom()
-  sendJson(req,res,{data: "room created", id: "123"})
+  if (checkReqBodyToContain(req, res, 'userId')){
+    roomIds.getFreeId(true)
+    //createRoom()
+
+    addRoomToUser(roomId, userId)
+    sendJson(res,{message: "room created", id: "123"})
+  }
+  
 })
 
-app.get('/createRoom',(req,res)=>{
-  requestNotifier(req);
-  createRoom();
-  sendJson(req,res,{data: "room created",  id: "123"})
-})
+
