@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import './QuestionEdit.css'
 
 const QuestionEdit = ({childToParent}) => {

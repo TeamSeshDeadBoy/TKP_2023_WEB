@@ -16,12 +16,18 @@ const QuestionWrapper = ({data, change}) => {
         setQuestions([...questions.slice(0, ind -1), ...questions.slice(ind)]);
       }
 
+    const changeQuestion = (childdata, ind) => {
+      let temp = structuredClone(questions)
+      temp[ind - 1] = childdata
+      setQuestions(temp)
+    }
+
 
     function renderQuestions() {
         console.log("rerendering data array")
         let temp = []
         for (let i = 0; i < questions.length; i++) {
-          temp.push(<QuestionViewer key={questions[i].text} ind={i + 1} data={questions[i]} deleteQuestion={deleteQuestion}/>)
+          temp.push(<QuestionViewer key={questions[i].text + questions[i].validIndex} ind={i + 1} data={questions[i]} deleteQuestion={deleteQuestion} passQuestion={changeQuestion}/>)
         }
         setComponents(temp)
       }
