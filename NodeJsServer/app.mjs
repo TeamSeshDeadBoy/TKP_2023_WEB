@@ -19,7 +19,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /////////////////////////
 // USEFULL
 
-function logJsonSeachResult(jsonResult){
+function logJson(jsonResult){
   if (Array.isArray(jsonResult)) {
     console.log("search result:");
     console.log('[');
@@ -34,11 +34,6 @@ function logJsonSeachResult(jsonResult){
 function requestNotifier(req) {
   console.log(`${req.method} request received for: ${req.originalUrl}`);
   console.log(`request body: ${JSON.stringify(req.body)}`);
-}
-function respondJsonResult(res,jsonResult) {
-  logJsonSeachResult(jsonResult)
-  res.json(jsonResult)
-  console.log(`json responded\n`); 
 }
 
 
@@ -62,23 +57,12 @@ function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if
   return true;
 }
 
-
-
-// useful (old)
-
-// const sendJson = async (res, data) => { // ! old ! don't use JSON.stringify on "data"  // example: app.get('/json', (req, res) => sendJson(res,{id:2,name:"mom"}))
-//     res.set('Content-Type', 'application/json');
-//     res.json(data);
-// };
-
 // test
 
 app.get('/getTest.html', (req, res) => {
   requestNotifier(req)
   res.sendFile(path.join(__dirname, 'getTest.html'));
 });
-
-
 
 /////////////////////////
 // OPTIONAL
@@ -114,51 +98,41 @@ import {
   IdTree
 } from "./algorithms.mjs";
 
-function clearDB(){
-  clearAllRooms()
-  clearAllUsers()
+async function clearDB(){
+  await clearAllRooms()
+  await clearAllUsers()
 }
 
 var roomIds, userIds;
 
 function start(){
-  clearDB()
-  roomIds = new IdTree(5);
-  userIds = new IdTree(6);
-  var userId = userIds.getFreeId();
-  createUser(userId, 'DummyUser','dummy@dum.com','dumdum')
-}
+  clearDB().then(result=>{
+    roomIds = new IdTree(5);
+    userIds = new IdTree(6);
+    var userId = userIds.getFreeId();
+    createUser(userId, 'DummyUser','dummy@dum.com','dumdum')
+  })
+};
+  
 
 start()
 
-// app.get('/createUser',(req,res)=>{
-//   requestNotifier(req)
-//   var userId = userIds.getFreeId();
-//   createUser(userId, 'DummyUser','dummy@dum.com','dumdum')
-//   sendJson(res,{message:'user created'})
-// })
-
 app.post('/createRoom',(req,res)=>{
   requestNotifier(req);
-  if (checkReqBodyToContain(req, res, 'id')){
+  if (checkReqBodyToContain(req, res, 'userId')){
     var roomId = roomIds.getFreeId() // overflow
     var userId = 'AAAAAA'
-    createRoom(roomId,userId)
+    try{
+      createRoom(roomId,userId).then(result=>{
+      console.log("createRoom(): "+logJson(result));
+      })
+    } catch (e) {
+      console.log(e);
+      sendJson(res,{message: "failed to create room"})
+    } 
+    
     //var userId = req.body.id // overflow
     //addRoomToUser(roomId, userId)
     sendJson(res,{message: "room created", id: roomId})
   }
 })
-
-//
-
-app.get('/createRoom',(req,res)=>{
-  requestNotifier(req);
-  var roomId = roomIds.getFreeId() // overflow
-  var userId = 'AAAAAA' // overflow
-    createRoom(roomId,userId);
-    // addRoomToUser(roomId, userId)
-    sendJson(res,{message: "room created", id: roomId})
-})
-
-
