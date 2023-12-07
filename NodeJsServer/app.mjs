@@ -120,7 +120,9 @@ start()
 app.post('/createRoom',(req,res)=>{
   requestNotifier(req);
   if (checkReqBodyToContain(req, res, 'userId')){
+
     var roomId = roomIds.getFreeId() // overflow
+    //var userId = req.body.userId // overflow
     var userId = 'AAAAAA'
     try{
       createRoom(roomId,userId).then(result=>{
@@ -130,9 +132,6 @@ app.post('/createRoom',(req,res)=>{
       console.log(e);
       sendJson(res,{message: "failed to create room"})
     } 
-    
-    //var userId = req.body.id // overflow
-    //addRoomToUser(roomId, userId)
     sendJson(res,{message: "room created", id: roomId})
   }
 })
