@@ -11,8 +11,8 @@ app.use(express.json());
 app.use(cors());
 
 app.listen(3000, () => {
-    console.log('Server started on port 3000');
     console.log('');
+    console.log('Server started on port 3000');
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -33,9 +33,9 @@ function logJson(jsonResult){
   }  
 }
 function requestNotifier(req) {
+  console.log('');
   console.log(`${req.method} request received for: ${req.originalUrl}`);
   console.log(`request body: ${JSON.stringify(req.body)}`);
-  console.log('');
 }
 
 
