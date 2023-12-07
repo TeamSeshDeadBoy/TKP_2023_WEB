@@ -12,6 +12,7 @@ app.use(cors());
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');
+    console.log('');
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -34,6 +35,7 @@ function logJson(jsonResult){
 function requestNotifier(req) {
   console.log(`${req.method} request received for: ${req.originalUrl}`);
   console.log(`request body: ${JSON.stringify(req.body)}`);
+  console.log('');
 }
 
 
@@ -50,7 +52,7 @@ function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if
     }
   }
   if (missingProperties.length > 0) {
-    console.error(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
+    console.log(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
     sendJson(res,{errorMessage: `Missing required properties in req.body: ${missingProperties.join(', ')}`})
     return false;
   }
@@ -97,6 +99,7 @@ import {
 import {
   IdTree
 } from "./algorithms.mjs";
+import { log } from 'console';
 
 async function clearDB(){
   await clearAllRooms()
