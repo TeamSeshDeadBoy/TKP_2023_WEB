@@ -8,19 +8,12 @@ datasource db {
 }
 
 model User {
-  id       String  @id @map("_id")
-  email    String  @unique
-  name     String?
-  password String
-  Room     Room?
-  Quizzes  Quiz[]
-}
-
-model Room {
-  userId String @id @map("_id")
-  User   User   @relation(fields: [userId], references: [id])
-  quiz   Quiz
-  quizId String @db.ObjectId
+  id          String @id @map("_id")
+  email       String @unique
+  name        String
+  password    String
+  Quizzes     Quiz[]
+  currentQuiz Quiz?
 }
 
 type Quiz {
