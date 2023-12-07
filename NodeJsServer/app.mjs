@@ -89,12 +89,11 @@ app.get('/getTest.html', (req, res) => {
 // })
 
 import {
+  deleteAllUsers,
   createUser,
-  createRoom,
-  //addRoomToUser,
-  clearAllRooms,
-  clearAllUsers,
-} from "./prisma/prismaFunctions.mjs";
+  deleteUserByEmail,
+  deleteUserById
+} from "./prisma/_userFunctions.mjs";
 
 import {
   IdTree
@@ -102,39 +101,32 @@ import {
 import { log } from 'console';
 
 async function clearDB(){
-  await clearAllRooms()
-  await clearAllUsers()
+  await deleteAllUsers()
 }
 
-var roomIds, userIds;
+var userIds;
 
 function start(){
   clearDB().then(result=>{
-    roomIds = new IdTree(5);
     userIds = new IdTree(6);
     var userId = userIds.getFreeId();
-    createUser(userId, 'DummyUser','dummy@dum.com','dumdum')
+    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'})
   })
 };
-  
 
 start()
 
-app.post('/createRoom',(req,res)=>{
+app.post('/createUser',(req,res)=>{
   requestNotifier(req);
-  if (checkReqBodyToContain(req, res, 'userId')){
-
-    var roomId = roomIds.getFreeId() // overflow
-    //var userId = req.body.userId // overflow
-    var userId = 'AAAAAA'
-    try{
-      createRoom(roomId,userId).then(result=>{
-      console.log("createRoom(): "+logJson(result));
+  if (/*(checkReqBodyToContain(req,res,'name','email','password')) && */(userIds instanceof IdTree)){
+    var userId = userIds.getFreeId();
+    if (userId) {
+      createUser(userId,req.body).then(result=>{
+        if (result) sendJson(res,{message: "User was created sucessfully"})
+        else sendJson(res,{message: new Error("failed to create user")})
       })
-    } catch (e) {
-      console.log(e);
-      sendJson(res,{message: "failed to create room"})
-    } 
-    sendJson(res,{message: "room created", id: roomId})
+    }else{
+      sendJson(res,{message: new Error("Failed to create user. Ran out of id's")})
+    }
   }
 })
