@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import './QuestionEdit.css'
 
 const QuestionEdit = ({childToParent}) => {
     const [cntAnsw, setCntAnsw] = useState(2)
     const [questionText, setQuestionText] = useState('')
     const [valid, setValid] = useState(1)
+    const [error, setError] = useState(false)
     let [answers, setAnswers] = useState([{}, {}, {}, {}])
 
     function setAnsw(text, ind) {
@@ -65,8 +66,11 @@ const QuestionEdit = ({childToParent}) => {
     const collectData = () => {
         answers = answers.filter(value => Object.keys(value).length !== 0)
         answers = answers.slice(0, cntAnsw)
-        if (questionText.length > 0 && checkAnswers()){return {text: questionText, answers: answers, validIndex: valid-1}}
-        else {return null}
+        if (questionText.length > 0 && checkAnswers()){
+          setError(false)
+          return {text: questionText, answers: answers, validIndex: valid-1}
+        }
+        else {setError(true)}
     }
 
   return (
@@ -88,6 +92,7 @@ const QuestionEdit = ({childToParent}) => {
              <div className='buttons_'>
                 {renderToggle()}
              </div>
+             {error ? <div className="errortext">Заполните все поля !</div> : ''}
             <button type="button"
             onClick={() => childToParent(collectData())}
             >Добавить вопрос</button>

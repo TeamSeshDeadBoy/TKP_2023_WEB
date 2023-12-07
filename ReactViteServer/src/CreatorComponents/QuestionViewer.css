@@ -14,3 +14,27 @@
     grid-template-columns: 100px 100px;
     gap: 5px;
 }
+
+.del_btn {
+    position: absolute;
+    right: 10px;
+    top: -50px;
+    padding: 10px;
+}
+
+.edit_btn {
+    position: absolute;
+    left: 10px;
+    top: -50px;
+    padding: 10px;
+}
+
+.btns_cntainer {
+    position: relative;
+    width: 300px;
+}
+
+.icon {
+    height: 15px;
+    width: 15px;
+}
