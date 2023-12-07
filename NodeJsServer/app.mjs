@@ -83,13 +83,6 @@ app.get('/getTest.html', (req, res) => {
 /////////////////////////
 // OPTIONAL
 
-
-// app.get('/createUser',(req,res)=>{
-//   requestNotifier(req)
-//   createUser('DummyUser','dummy@dum.com','dumdum')
-//   sendJson(res,{body:'user created'})
-// })
-
 // app.get('/deleteUser',(req,res)=>{
 //   requestNotifier(req)
 //   deleteUserByEmail('dummy@dum.com')
@@ -111,8 +104,10 @@ app.get('/getTest.html', (req, res) => {
 
 import {
   createUser,
-  deleteUserByEmail,
-  //createRoom
+  createRoom,
+  //addRoomToUser,
+  clearAllRooms,
+  clearAllUsers,
 } from "./prisma/prismaFunctions.mjs";
 
 import {
@@ -120,17 +115,39 @@ import {
 } from "./algorithms.mjs";
 
 var roomIds = new IdTree(5);
+var userIds = new IdTree(6);
+
+clearAllRooms()
+clearAllUsers()
+
+
+app.get('/createUser',(req,res)=>{
+  requestNotifier(req)
+  var userId = userIds.getFreeId();
+  createUser(userId, 'DummyUser','dummy@dum.com','dumdum')
+  sendJson(res,{message:'user created'})
+})
 
 app.post('/createRoom',(req,res)=>{
   requestNotifier(req);
   if (checkReqBodyToContain(req, res, 'userId')){
-    roomIds.getFreeId(true)
-    //createRoom()
-
+    var roomId = roomIds.getFreeId() // overflow
+    createRoom(roomId)
+    var userId = req.body.userId // overflow
     addRoomToUser(roomId, userId)
-    sendJson(res,{message: "room created", id: "123"})
+    sendJson(res,{message: "room created", id: roomId})
   }
-  
+})
+
+//
+
+app.get('/createRoom',(req,res)=>{
+  requestNotifier(req);
+  var roomId = roomIds.getFreeId() // overflow
+  var userId = 'AAAAAA' // overflow
+    createRoom(roomId,userId);
+    // addRoomToUser(roomId, userId)
+    sendJson(res,{message: "room created", id: roomId})
 })
 
 
