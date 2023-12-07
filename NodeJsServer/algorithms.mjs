@@ -154,7 +154,7 @@ export class IdTree{
     }
 }
 
-var idTree = new IdTree(3);
+// var idTree = new IdTree(3);
 // console.log(idTree.pushIdString("ABC"));
 // console.log(idTree.pushIdString("ABB"));
 // console.log(idTree.pushIdString("ACB"));
@@ -169,30 +169,30 @@ var idTree = new IdTree(3);
 // console.log(idTree.pushIdString("BAA"));
 // console.log(idTree.pushIdString("BA"));
 // idTree.visualize();
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
-console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
+// console.log(idTree.getFreeId());
 
-console.log(idTree.deleteId('CCC'));
-idTree.visualize();
+// console.log(idTree.deleteId('CCC'));
+// idTree.visualize();
 
-console.log(idTree.pushId("ABC"));
-console.log(idTree.pushId("BBC"));
-console.log(idTree.pushId("BAC"));
+// console.log(idTree.pushId("ABC"));
+// console.log(idTree.pushId("BBC"));
+// console.log(idTree.pushId("BAC"));
 
 
-idTree.visualize();
+// idTree.visualize();
 
-console.log(idTree.deleteId("ABC")); 
+// console.log(idTree.deleteId("ABC")); 
 
-idTree.visualize();
+// idTree.visualize();
