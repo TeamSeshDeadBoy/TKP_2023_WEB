@@ -118,7 +118,7 @@ start()
 
 app.post('/createUser',(req,res)=>{
   requestNotifier(req);
-  if (/*(checkReqBodyToContain(req,res,'name','email','password')) && */(userIds instanceof IdTree)){
+  if ((checkReqBodyToContain(req,res,'name','email','password')) && (userIds instanceof IdTree)){
     var userId = userIds.getFreeId();
     if (userId) {
       createUser(userId,req.body).then(result=>{
