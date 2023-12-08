@@ -10,18 +10,12 @@ const QuestionEdit = ({childToParent}) => {
     let [answers, setAnswers] = useState([{}, {}, {}, {}])
 
     function setAnsw(text, ind) {
-        answers[ind - 1] = {text: text, valid: false}
+        answers[ind - 1] = {text: text}
         setAnswers(answers)
         setVld(1)
     }
 
     function setVld(ind) {
-        for (let i = 1; i <= cntAnsw; i++) {
-            if (answers[i - 1].text)
-                answers[i - 1].valid = false
-          }
-        answers[ind - 1].valid = true
-        setAnswers(answers)
         setValid(ind)
     }
 
@@ -51,13 +45,10 @@ const QuestionEdit = ({childToParent}) => {
       }
 
     const checkAnswers = () => {
-        let flag = false
+        let flag = true
         for (let i = 0; i < cntAnsw; i++){
             if (!answers[i].text){
                 return false
-            }
-            if (answers[i].text && answers[i].valid == true) {
-                flag = true
             }
         }
         return flag

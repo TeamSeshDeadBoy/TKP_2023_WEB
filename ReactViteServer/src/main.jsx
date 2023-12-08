@@ -9,6 +9,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Room from './Room.jsx'
 
 const router = createBrowserRouter([
   {
@@ -19,11 +20,15 @@ const router = createBrowserRouter([
   {
     path: "/editor",
     element: <Editor />,
+  },
+  {
+    path: "/rooms",
+    element: <Room />,
     // loader: () => {
     //   return axios.post('http://localhost:3000/createRoom', {
-    //     id: '####'
+    //     userId: 'AAAAAA'
     //   })
-    // }
+    // }    
   },
   {
     path: "/debug",

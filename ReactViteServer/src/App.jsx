@@ -1,35 +1,29 @@
 import { useEffect, useState } from 'react'
-import axios from "axios";
-import { redirect} from "react-router-dom";
 import './App.css'
 
 function App() {
-  const [roomID, setroomID] = useState(null)
+  const [userID, setUserID] = useState(null)
   useEffect(() => {
-    redirect('/room')
-  }, [roomID])
+    let tempId = localStorage.getItem('userId')
+    if (tempId){
+      setUserID(tempId)
+    } else {
+      localStorage.setItem('userId', "AAAAAA");
+    }
+  }, [])
   
 
   return (
     <>
       <h1>Рубильник</h1>
       <div className="card">
-        <a className='button' href="/room"
-          onClick={() =>  axios.post('http://localhost:3000/getRooms', {
-            id: '####'
-          }).then(function (response) {setroomID(response)}).catch(function (error) {console.log(JSON.stringify(error));})}
-        >
-          Присоединиться к существующей викторине
+        <a className='button' href="/rooms">
+          Выбрать из созданных вами викторин
         </a>
-        <a className='button' href="/room"
-          onClick={() =>  axios.post('http://localhost:3000/createRoom', {
-            id: '####'
-          }).then(function (response) {setroomID(response.data.id)}).catch(function (error) {console.log(JSON.stringify(error));})}
-        >
+        <a className='button' href="/editor">
           Создать новую викторину
         </a>
       </div>
-      <p>{roomID}</p>
       <div className='footer'>
         Создано Монаховым Артемом, Лебедевым Степаном и Рыбалко Константином в рамках курсового проекта МосПолитеха 5 семестра в 2023 году.
       </div>

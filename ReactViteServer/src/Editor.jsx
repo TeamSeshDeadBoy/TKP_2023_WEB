@@ -5,10 +5,11 @@ import { useState } from "react";
 import QuestionWrapper from './CreatorComponents/QuestionWrapper.jsx';
 
 const Editor = () => {
-    // const roomID = useLoaderData().data.id;
-    const tempd = [{"text":"1","answers":[{"text":"true","valid":true},{"text":"false","valid":false}],"validIndex":0},{"text":"2","answers":[{"text":"false","valid":false},{"text":"true","valid":false}],"validIndex":1},{"text":"3","answers":[{"text":"false","valid":false},{"text":"false","valid":false},{"text":"true","valid":false}],"validIndex":2},{"text":"4","answers":[{"text":"false","valid":false},{"text":"false","valid":false},{"text":"false","valid":false},{"text":"true","valid":true}],"validIndex":3}]
+    const tempd = [{"text":"Test question #1","answers":[{"text":"true"},{"text":"false"}],"validIndex":0},{"text":"Test question #2","answers":[{"text":"false"},{"text":"true"}],"validIndex":1},{"text":"Test question #3","answers":[{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":2},{"text":"Test question #4","answers":[{"text":"false"},{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":3}]
     
     const [data, setData] = useState(tempd);
+    const [error, setError] = useState(false);
+    const [nameVar, setName] = useState("");
 
     const childToParent = (childdata) => {
       if (childdata) { 
@@ -22,6 +23,13 @@ const Editor = () => {
     };
 
 
+  const save = () => {
+    if (data.length == 0 || !nameVar) {setError(true)}
+    else {setError(false)
+    // FETCH DATA
+    }
+  }
+
   return (
   <>
     <div className="room">
@@ -33,6 +41,10 @@ const Editor = () => {
           </div>
           <div className="questionedit">
             <QuestionEdit childToParent={childToParent}/>
+            <p className='textName'>Введите название викторины:</p>
+            <input type="text" onChange={(e) => setName(e.target.value)}></input>
+            {error ? <div className='error_text'>Сначала заполните имя викторины, или увеличьте число вопросов (минимум - 2)</div> : ""}
+            <button type="button" className='button_save' onClick={() => save()}>Сохранить викторину</button>
           </div>
         </div>
     </div>
