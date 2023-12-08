@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.listen(3000, () => {
+    console.log('');
     console.log('Server started on port 3000');
 });
 
@@ -19,7 +20,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /////////////////////////
 // USEFULL
 
-function logJsonSeachResult(jsonResult){
+function logJson(jsonResult){
   if (Array.isArray(jsonResult)) {
     console.log("search result:");
     console.log('[');
@@ -32,13 +33,9 @@ function logJsonSeachResult(jsonResult){
   }  
 }
 function requestNotifier(req) {
+  console.log('');
   console.log(`${req.method} request received for: ${req.originalUrl}`);
   console.log(`request body: ${JSON.stringify(req.body)}`);
-}
-function respondJsonResult(res,jsonResult) {
-  logJsonSeachResult(jsonResult)
-  res.json(jsonResult)
-  console.log(`json responded\n`); 
 }
 
 
@@ -55,21 +52,12 @@ function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if
     }
   }
   if (missingProperties.length > 0) {
-    console.error(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
-    sendJson(res,{errorMessage: `Missing required properties in req.body: ${missingProperties.join(', ')}`})
+    console.log(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
+    sendJson(res,{msg: new Error(`Missing required properties in req.body: ${missingProperties.join(', ')}`)})
     return false;
   }
   return true;
 }
-
-
-
-// useful (old)
-
-// const sendJson = async (res, data) => { // ! old ! don't use JSON.stringify on "data"  // example: app.get('/json', (req, res) => sendJson(res,{id:2,name:"mom"}))
-//     res.set('Content-Type', 'application/json');
-//     res.json(data);
-// };
 
 // test
 
@@ -77,8 +65,6 @@ app.get('/getTest.html', (req, res) => {
   requestNotifier(req)
   res.sendFile(path.join(__dirname, 'getTest.html'));
 });
-
-
 
 /////////////////////////
 // OPTIONAL
@@ -103,51 +89,71 @@ app.get('/getTest.html', (req, res) => {
 // })
 
 import {
+  deleteAllUsers,
   createUser,
-  createRoom,
-  //addRoomToUser,
-  clearAllRooms,
-  clearAllUsers,
-} from "./prisma/prismaFunctions.mjs";
+  deleteUserByEmail,
+  deleteUserById
+} from "./prisma/_userFunctions.mjs";
 
 import {
   IdTree
 } from "./algorithms.mjs";
+import { log } from 'console';
+import { updateUsersQuizzes } from './prisma/_quizFunctions.mjs';
+import { type } from 'os';
 
-var roomIds = new IdTree(5);
-var userIds = new IdTree(6);
-
-clearAllRooms()
-clearAllUsers()
+async function clearDB(){
+  await deleteAllUsers()
+}
 
 
-app.get('/createUser',(req,res)=>{
-  requestNotifier(req)
-  var userId = userIds.getFreeId();
-  createUser(userId, 'DummyUser','dummy@dum.com','dumdum')
-  sendJson(res,{message:'user created'})
-})
+var userIds = new IdTree(6);;
 
-app.post('/createRoom',(req,res)=>{
+function start(){
+  clearDB().then(result=>{
+    var userId = userIds.getFreeId();
+    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'})
+    var quiz = {title: "testQuiz", Questions: [{text: "q1", isCorrect:false},{text:"q2",isCorrect:true}]}
+    var Quizzes = []
+    Quizzes.push(quiz,quiz,quiz)
+    updateUsersQuizzes(userId,Quizzes)
+  })
+};
+
+start()
+if (userIds instanceof IdTree)
+
+app.post('/createUser',(req,res)=>{
   requestNotifier(req);
-  if (checkReqBodyToContain(req, res, 'userId')){
-    var roomId = roomIds.getFreeId() // overflow
-    createRoom(roomId)
-    var userId = req.body.userId // overflow
-    addRoomToUser(roomId, userId)
-    sendJson(res,{message: "room created", id: roomId})
+  if (checkReqBodyToContain(req,res,'name','email','password')){
+    var userId = userIds.getFreeId();
+    if (userId) {
+      createUser(userId,req.body).then(result=>{
+        if (result) sendJson(res,{msg: "User created sucessfully"})
+        else sendJson(res,{msg: new Error("failed to create user")})
+      })
+    }else{
+      sendJson(res,{msg: new Error("Failed to create user. Ran out of id's")})
+    }
   }
 })
 
-//
-
-app.get('/createRoom',(req,res)=>{
+app.post('/deleteUserbyId',(req,res)=>{
   requestNotifier(req);
-  var roomId = roomIds.getFreeId() // overflow
-  var userId = 'AAAAAA' // overflow
-    createRoom(roomId,userId);
-    // addRoomToUser(roomId, userId)
-    sendJson(res,{message: "room created", id: roomId})
+  if (checkReqBodyToContain(req,res,'userId')){
+    deleteUserById(req.body.userId).then(result=>{
+      if (result) sendJson(res,{msg: "User deleted successfully"})
+      else sendJson(res,{msg:new Error("Failed to delete the user")})
+    })
+  }
 })
 
-
+app.post('/updateUsersQuizzes',(req,res)=>{
+  requestNotifier(req);
+  if (checkReqBodyToContain(req,res,'userId','quizzes')){
+    updateUsersQuizzes(req.body).then(result=>{
+      if (result) sendJson(res,{msg: "User's quizzes updated successfully"})
+      else sendJson(res,{msg: new Error("Failed to update the quizzes")})
+    })
+  }
+})

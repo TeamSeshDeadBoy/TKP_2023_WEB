@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "frontend": "cd ./ReactViteServer && npm run dev",
-    "backend": "cd ./NodeJsServer && node app.mjs"
+    "f": "cd ./ReactViteServer && npm run dev",
+    "b": "cd ./NodeJsServer && node app.mjs",
+    "i": "cd ./NodeJsServer && npm install && cd ../ && cd ./ReactViteServer && npm install",
+    "p": "cd ./NodeJsServer && npx prisma format && npx prisma generate && npx prisma db push"
   }
 }
