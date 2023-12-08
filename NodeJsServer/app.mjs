@@ -129,12 +129,22 @@ app.post('/createUser',(req,res)=>{
     var userId = userIds.getFreeId();
     if (userId) {
       createUser(userId,req.body).then(result=>{
-        if (result) sendJson(res,{msg: "User was created sucessfully"})
+        if (result) sendJson(res,{msg: "User created sucessfully"})
         else sendJson(res,{msg: new Error("failed to create user")})
       })
     }else{
       sendJson(res,{msg: new Error("Failed to create user. Ran out of id's")})
     }
+  }
+})
+
+app.post('/deleteUserbyId',(req,res)=>{
+  requestNotifier(req);
+  if (checkReqBodyToContain(req,res,'userId')){
+    deleteUserById(req.body.userId).then(result=>{
+      if (result) sendJson(res,{msg: "User deleted successfully"})
+      else sendJson(res,{msg:new Error("Failed to delete the user")})
+    })
   }
 })
 
