@@ -17,3 +17,14 @@
     display: flex;
     flex-direction: row-reverse;
 }
+
+.button_save{
+    margin-top: 10px;
+}
+.textName {
+    margin-top: 40px;
+}
+
+.error_text {
+    color: red;
+}

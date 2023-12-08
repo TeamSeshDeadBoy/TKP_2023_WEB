@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 
 import { useEffect, useState } from "react";
@@ -47,7 +48,7 @@ const EditingQuestion = ({question, dataToParent, ind}) => {
 
     const setAnsw = (text, ind) => {
         let temp = structuredClone(answers)
-        temp[ind] = {text: text, valid: false}
+        temp[ind] = {text: text}
         setAnswers(temp)
     }
 
