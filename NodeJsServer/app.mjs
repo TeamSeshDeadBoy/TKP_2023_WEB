@@ -53,7 +53,7 @@ function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if
   }
   if (missingProperties.length > 0) {
     console.log(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
-    sendJson(res,{errorMessage: `Missing required properties in req.body: ${missingProperties.join(', ')}`})
+    sendJson(res,{msg: new Error(`Missing required properties in req.body: ${missingProperties.join(', ')}`)})
     return false;
   }
   return true;
@@ -100,16 +100,17 @@ import {
 } from "./algorithms.mjs";
 import { log } from 'console';
 import { updateUsersQuizzes } from './prisma/_quizFunctions.mjs';
+import { type } from 'os';
 
 async function clearDB(){
   await deleteAllUsers()
 }
 
-var userIds;
+
+var userIds = new IdTree(6);;
 
 function start(){
   clearDB().then(result=>{
-    userIds = new IdTree(6);
     var userId = userIds.getFreeId();
     createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'})
     var quiz = {title: "testQuiz", Questions: [{text: "q1", isCorrect:false},{text:"q2",isCorrect:true}]}
@@ -120,18 +121,29 @@ function start(){
 };
 
 start()
+if (userIds instanceof IdTree)
 
 app.post('/createUser',(req,res)=>{
   requestNotifier(req);
-  if ((checkReqBodyToContain(req,res,'name','email','password')) && (userIds instanceof IdTree)){
+  if (checkReqBodyToContain(req,res,'name','email','password')){
     var userId = userIds.getFreeId();
     if (userId) {
       createUser(userId,req.body).then(result=>{
-        if (result) sendJson(res,{message: "User was created sucessfully"})
-        else sendJson(res,{message: new Error("failed to create user")})
+        if (result) sendJson(res,{msg: "User was created sucessfully"})
+        else sendJson(res,{msg: new Error("failed to create user")})
       })
     }else{
-      sendJson(res,{message: new Error("Failed to create user. Ran out of id's")})
+      sendJson(res,{msg: new Error("Failed to create user. Ran out of id's")})
     }
+  }
+})
+
+app.post('/updateUsersQuizzes',(req,res)=>{
+  requestNotifier(req);
+  if (checkReqBodyToContain(req,res,'userId','quizzes')){
+    updateUsersQuizzes(req.body).then(result=>{
+      if (result) sendJson(res,{msg: "User's quizzes updated successfully"})
+      else sendJson(res,{msg: new Error("Failed to update the quizzes")})
+    })
   }
 })

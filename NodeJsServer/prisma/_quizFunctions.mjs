@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-export async function updateUsersQuizzes(userId, Quizzes) {
+export async function updateUsersQuizzes(data) {
     return await prisma.user.update({
       where: {
-        id: userId,
+        id: data.userId,
       },
       data: {
-        Quizzes: Quizzes,
+        Quizzes: data.quizzes,
       },
     });
 }
