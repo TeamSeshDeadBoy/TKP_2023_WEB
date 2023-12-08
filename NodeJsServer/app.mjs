@@ -32,7 +32,7 @@ function logJson(jsonResult){
     console.log(`search result: ${JSON.stringify(jsonResult)}`);
   }  
 }
-function requestNotifier(req) {
+function reqNotifier(req) {
   console.log('');
   console.log(`${req.method} request received for: ${req.originalUrl}`);
   console.log(`request body: ${JSON.stringify(req.body)}`);
@@ -40,11 +40,13 @@ function requestNotifier(req) {
 
 
 async function sendJson(res,data){  // example: sendJson(res,{id:2,name:"mom"})
-  res.set('Content-Type', 'application/json');
-  res.json(data);
+  res.status(200).json(data)
+}
+async function sendError(res,data){
+  res.status(500).json(data)
 }
 
-function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
+function doesReqBodyHave(req, res, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
   const missingProperties = [];
   for (const prop of requiredProperties) {
     if (!(prop in req.body)) {
@@ -52,8 +54,7 @@ function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if
     }
   }
   if (missingProperties.length > 0) {
-    console.log(`Sent message to client: Missing required properties in req.body: ${missingProperties.join(', ')}`);
-    sendJson(res,{msg: new Error(`Missing required properties in req.body: ${missingProperties.join(', ')}`)})
+    sendError(res,{msg: `Missing required properties in req.body: ${missingProperties.join(', ')}`})
     return false;
   }
   return true;
@@ -62,7 +63,7 @@ function checkReqBodyToContain(req, res, ...requiredProperties) { // example: if
 // test
 
 app.get('/getTest.html', (req, res) => {
-  requestNotifier(req)
+  reqNotifier(req)
   res.sendFile(path.join(__dirname, 'getTest.html'));
 });
 
@@ -75,36 +76,20 @@ app.get('/getTest.html', (req, res) => {
 //   sendJson(res,{body:'user deleted'})
 // })
 
-// app.get('/test',(req,res)=>{
-//   requestNotifier(req);
-//   sendJson(res,{data: "here is data"})
-// })
-
-// app.get('/createRoom',(req,res)=>{
-//   requestNotifier(req);
-//   if (checkReqBodyToContain(req, res, 'name', 'email', 'password')){
-//     //createRoom()
-//     sendJson(res,{data: "room created", id: "123"})
-//   }
-// })
-
 import {
   deleteAllUsers,
   createUser,
-  deleteUserByEmail,
   deleteUserById
 } from "./prisma/_userFunctions.mjs";
 
 import {
   IdTree
 } from "./algorithms.mjs";
-import { log } from 'console';
+
 import { 
   updateUsersQuizzes, 
-  setUsersCurrentQuizInd,
-  getUsersCurrentQuizInd
 } from './prisma/_quizFunctions.mjs';
-import { type } from 'os';
+
 
 async function clearDB(){
   await deleteAllUsers()
@@ -116,16 +101,13 @@ var userIds = new IdTree(6);;
 function start(){
   clearDB().then(result=>{
     var userId = userIds.getFreeId();
-    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'},[],null)
-    var quiz = {title: "testQuiz", Questions: [{text: "q1", isCorrect:false},{text:"q2",isCorrect:true}]}
-    var Quizzes = []
-    Quizzes.push(quiz,quiz,quiz)
-    updateUsersQuizzes(userId,Quizzes)
-    setUsersCurrentQuizInd(userId,1).then(result=>{
-      getUsersCurrentQuizInd(userId).then(result=>{
-        console.log(result);
-      });
+    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'},[]).then(result=>{
+      var quiz = {title: "testQuiz", questions: [{text: "q1", choices:[{text:"choice1", isCorrect:false},{text:"choice2", isCorrect:false}]}]}
+      var Quizzes = []
+      Quizzes.push(quiz,quiz,quiz)
+      updateUsersQuizzes(userId,Quizzes)
     })
+    
   })
 };
 
@@ -133,36 +115,46 @@ start()
 if (userIds instanceof IdTree)
 
 app.post('/createUser',(req,res)=>{
-  requestNotifier(req);
-  if (checkReqBodyToContain(req,res,'name','email','password')){
+  reqNotifier(req);
+  if (doesReqBodyHave(req,res,'name','email','password')){
     var userId = userIds.getFreeId();
     if (userId) {
-      createUser(userId,{...req.body},[],null).then(result=>{
-        if (result) sendJson(res,{msg: "User created sucessfully"})
-        else sendJson(res,{msg: new Error("failed to create user")})
+      createUser(userId,{...req.body},[]).then(result=>{
+        if (result) sendJson(res,{msg: "Success"})
+        else sendError(res,{msg: "Failed to create"})
       })
     }else{
-      sendJson(res,{msg: new Error("Failed to create user. Ran out of id's")})
+      sendError(res,{msg: "Failed to create: ran out of id's"})
     }
   }
 })
 
 app.post('/deleteUserbyId',(req,res)=>{
-  requestNotifier(req);
-  if (checkReqBodyToContain(req,res,'userId')){
+  reqNotifier(req);
+  if (doesReqBodyHave(req,res,'userId')){
     deleteUserById(req.body.userId).then(result=>{
-      if (result) sendJson(res,{msg: "User deleted successfully"})
-      else sendJson(res,{msg:new Error("Failed to delete the user")})
+      if (result) sendJson(res,{msg: "Success"})
+      else sendError(res,{msg:"Failed to delete"})
     })
   }
 })
 
 app.post('/updateUsersQuizzes',(req,res)=>{
-  requestNotifier(req);
-  if (checkReqBodyToContain(req,res,'userId','quizzes')){
+  reqNotifier(req);
+  if (doesReqBodyHave(req,res,'userId','quizzes')){
     updateUsersQuizzes(req.body.userId,req.body.quizzes).then(result=>{
-      if (result) sendJson(res,{msg: "User's quizzes updated successfully"})
-      else sendJson(res,{msg: new Error("Failed to update the quizzes")})
+      if (result) sendJson(res,{msg: "Success"})
+      else sendError(res,{msg: "Failed to update"})
+    })
+  }
+})
+
+app.post('/setUsersCurrentQuizInd',(req,res)=>{
+  reqNotifier(req);
+  if (doesReqBodyHave(req,res,'userId','quizId')){
+    setUsersCurrentQuizInd(req.body.userId,req.body.quizInd).then(result=>{
+      if (result) sendJson(res,{msg: "Success"})
+      else sendError(res,{msg: "Failed to set"})
     })
   }
 })

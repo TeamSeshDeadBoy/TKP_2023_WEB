@@ -8,20 +8,24 @@ datasource db {
 }
 
 model User {
-  id             String @id @map("_id")
-  email          String @unique
-  name           String
-  password       String
-  quizzes        Quiz[]
-  currentQuizInd Int?
+  id       String @id @map("_id")
+  email    String @unique
+  name     String
+  password String
+  quizzes  Quiz[]
 }
 
 type Quiz {
   title     String
-  Questions Question[]
+  questions Question[]
 }
 
 type Question {
+  text    String
+  choices Choice[]
+}
+
+type Choice {
   text      String
   isCorrect Boolean
 }
