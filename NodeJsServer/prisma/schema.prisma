@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id          String @id @map("_id")
-  email       String @unique
-  name        String
-  password    String
-  Quizzes     Quiz[]
-  currentQuiz Quiz?
+  id             String @id @map("_id")
+  email          String @unique
+  name           String
+  password       String
+  quizzes        Quiz[]
+  currentQuizInd Int?
 }
 
 type Quiz {

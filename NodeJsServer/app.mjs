@@ -99,7 +99,11 @@ import {
   IdTree
 } from "./algorithms.mjs";
 import { log } from 'console';
-import { updateUsersQuizzes } from './prisma/_quizFunctions.mjs';
+import { 
+  updateUsersQuizzes, 
+  setUsersCurrentQuizInd,
+  getUsersCurrentQuizInd
+} from './prisma/_quizFunctions.mjs';
 import { type } from 'os';
 
 async function clearDB(){
@@ -112,11 +116,15 @@ var userIds = new IdTree(6);;
 function start(){
   clearDB().then(result=>{
     var userId = userIds.getFreeId();
-    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'})
+    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'},[],null)
     var quiz = {title: "testQuiz", Questions: [{text: "q1", isCorrect:false},{text:"q2",isCorrect:true}]}
     var Quizzes = []
     Quizzes.push(quiz,quiz,quiz)
     updateUsersQuizzes(userId,Quizzes)
+    setUsersCurrentQuizInd(userId,1);
+    getUsersCurrentQuizInd(userId).then(result=>{
+      console.log(result);
+    });
   })
 };
 
@@ -128,7 +136,7 @@ app.post('/createUser',(req,res)=>{
   if (checkReqBodyToContain(req,res,'name','email','password')){
     var userId = userIds.getFreeId();
     if (userId) {
-      createUser(userId,req.body).then(result=>{
+      createUser(userId,{...req.body},[],null).then(result=>{
         if (result) sendJson(res,{msg: "User created sucessfully"})
         else sendJson(res,{msg: new Error("failed to create user")})
       })
@@ -151,7 +159,7 @@ app.post('/deleteUserbyId',(req,res)=>{
 app.post('/updateUsersQuizzes',(req,res)=>{
   requestNotifier(req);
   if (checkReqBodyToContain(req,res,'userId','quizzes')){
-    updateUsersQuizzes(req.body).then(result=>{
+    updateUsersQuizzes(req.body.userId,req.body.quizzes).then(result=>{
       if (result) sendJson(res,{msg: "User's quizzes updated successfully"})
       else sendJson(res,{msg: new Error("Failed to update the quizzes")})
     })

@@ -4,10 +4,16 @@ const prisma = new PrismaClient();
 export async function deleteAllUsers() {
   return await prisma.user.deleteMany();
 }
-export async function createUser(id,data) {
-  data.id = id;
+export async function createUser(id,{name,email,password},quizzes,currentQuizInd) {
   return await prisma.user.create({
-    data: data,
+    data: {
+      id,     
+      email,    
+      name,        
+      password,
+      quizzes,
+      currentQuizInd,
+    },
   });
 }
 export async function deleteUserById(id) {
