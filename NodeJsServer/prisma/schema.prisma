@@ -19,7 +19,6 @@ model User {
 type Quiz {
   title     String
   Questions Question[]
-  userId    String?
 }
 
 type Question {

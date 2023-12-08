@@ -99,6 +99,7 @@ import {
   IdTree
 } from "./algorithms.mjs";
 import { log } from 'console';
+import { updateUsersQuizzes } from './prisma/_quizFunctions.mjs';
 
 async function clearDB(){
   await deleteAllUsers()
@@ -111,6 +112,10 @@ function start(){
     userIds = new IdTree(6);
     var userId = userIds.getFreeId();
     createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdum'})
+    var quiz = {title: "testQuiz", Questions: [{text: "q1", isCorrect:false},{text:"q2",isCorrect:true}]}
+    var Quizzes = []
+    Quizzes.push(quiz,quiz,quiz)
+    updateUsersQuizzes(userId,Quizzes)
   })
 };
 
