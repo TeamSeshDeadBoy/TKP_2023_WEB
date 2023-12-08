@@ -121,10 +121,11 @@ function start(){
     var Quizzes = []
     Quizzes.push(quiz,quiz,quiz)
     updateUsersQuizzes(userId,Quizzes)
-    setUsersCurrentQuizInd(userId,1);
-    getUsersCurrentQuizInd(userId).then(result=>{
-      console.log(result);
-    });
+    setUsersCurrentQuizInd(userId,1).then(result=>{
+      getUsersCurrentQuizInd(userId).then(result=>{
+        console.log(result);
+      });
+    })
   })
 };
 
