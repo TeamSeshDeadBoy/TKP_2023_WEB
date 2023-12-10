@@ -147,9 +147,9 @@ app.post('/user',(req,res)=>{
 
 app.post('/deleteUser',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req,handleMissingProperties,'userId')){
+  if (doesReqBodyHave(req,handleMissingProperties,'id')){
     try {
-      deleteUserById(req.body.userId).then(result=>{
+      deleteUserById(req.body.id).then(result=>{
         if (result) res.status(200).json({msg: 'Success'})
         else res.status(400).json({msg:'Failed to delete'})
       })

@@ -10,7 +10,9 @@ const Login = () => {
     const [logged, setLogged] = useState(false)
     useEffect(() => {
         if (!email || !pass){
-        setError("Заполните все поля !")
+            setError("Заполните все поля !")
+        } else if (pass.length < 8){
+            setError("Минимальная длина пароля - 8 символов")
         } else {
             setError(false)
         }
@@ -24,11 +26,13 @@ const Login = () => {
     
 
     const postUser = () => {
-        axios.post('http://localhost:3000/guser', {email: email, password: pass}).then((response) => {
-            localStorage.setItem('userId', response.data.id)
-            localStorage.setItem('userQuizzes', response.data.quizzes)
-            setLogged(true)
-        }).catch((error) => {setError(error.response.data.msg)})
+        if (!error) {
+            axios.post('http://localhost:3000/getUser', {email: email, password: pass}).then((response) => {
+                localStorage.setItem('userId', response.data.id)
+                localStorage.setItem('userQuizzes', response.data.quizzes)
+                setLogged(true)
+            }).catch((error) => {setError(error.response.data.msg)})
+        }
     }
   return (
     <>
