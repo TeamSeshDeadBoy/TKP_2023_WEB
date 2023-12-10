@@ -5,17 +5,25 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
 
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 // const socket = new WebSocket("ws://localhost:8080");
 
-const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.listen(3000, () => {
-    console.log('');
-    console.log('Server started on port 3000');
+// app.listen(3000, () => {
+//     console.log('');
+//     console.log('Server started on port 3000');
+// });
+
+server.listen(3000, () => {
+  console.log('Server listening on http://localhost:3000');
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
