@@ -110,7 +110,7 @@ function start(){
 start()
 if (userIds instanceof IdTree)
 
-app.post('/gUser',(req,res)=>{
+app.post('/getUser',(req,res)=>{
   reqNotifier(req);
   if (doesReqBodyHave(req, handleMissingProperties, 'email', 'password')){
     try {
@@ -145,7 +145,7 @@ app.post('/user',(req,res)=>{
   }
 })
 
-app.delete('/user',(req,res)=>{
+app.post('/deleteUser',(req,res)=>{
   reqNotifier(req);
   if (doesReqBodyHave(req,handleMissingProperties,'userId')){
     try {
