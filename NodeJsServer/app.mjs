@@ -159,7 +159,7 @@ app.post('/deleteUser',(req,res)=>{
   }
 })
 
-app.post('/updateUsersQuizzes',(req,res)=>{
+app.post('/usersQuizzes',(req,res)=>{
   reqNotifier(req);
   if (doesReqBodyHave(req,handleMissingProperties,'userId','quizzes')){
     updateUsersQuizzes(req.body.userId,req.body.quizzes).then(result=>{
