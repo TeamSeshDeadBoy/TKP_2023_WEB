@@ -22,10 +22,10 @@ type Quiz {
 
 type Question {
   text    String
-  choices Choice[]
+  answers Choice[]
+  validIndex Int
 }
 
 type Choice {
   text      String
-  isCorrect Boolean
 }
