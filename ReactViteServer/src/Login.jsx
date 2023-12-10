@@ -1,24 +1,33 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState(null)
     const [pass, setPass] = useState(null)
     const [error, setError] = useState(false)
+    const [logged, setLogged] = useState(false)
     useEffect(() => {
         if (!email || !pass){
         setError("Заполните все поля !")
+        } else {
+            setError(false)
         }
-        // } else {
-        //     setError(false)
-        // }
-    })
+    }, [email,pass])
+
+    useEffect(() => {
+        if (logged){
+            navigate("/rooms")
+        }
+     },[logged, navigate]);
     
 
     const postUser = () => {
         axios.post('http://localhost:3000/guser', {email: email, password: pass}).then((response) => {
             localStorage.setItem('userId', response.data.id)
             localStorage.setItem('userQuizzes', response.data.quizzes)
+            setLogged(true)
         }).catch((error) => {setError(error.response.data.msg)})
     }
   return (

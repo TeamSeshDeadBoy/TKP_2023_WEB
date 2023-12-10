@@ -1,7 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState(null)
     const [name, setName] = useState(null)
     const [pass, setPass] = useState(null)
@@ -19,15 +21,16 @@ const Register = () => {
         } else {
             setError(false)
         }
-    })
+    }, [email, name, pass, pass2])
 
     const postUser = () => {
-        if (email && pass){
+        if (email && pass && pass2 && !error){
             setError(false)
             axios.post('http://localhost:3000/user', {name: name, email: email, password: pass2}).then((response) => {
                 console.log(response)
                 localStorage.setItem('userId', response.data.id)
                 localStorage.setItem('userQuizzes', [])
+                navigate("/rooms")
             }).catch((error) => {setError(error.response.data.msg)})
         } else {
             setError("Заполните все поля!")

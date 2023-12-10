@@ -4,7 +4,6 @@ import App from './App.jsx'
 import Debug from './Debug.jsx'
 import Editor from './Editor.jsx'
 import './index.css'
-// import axios from 'axios'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,7 +11,6 @@ import {
 import Rooms from './Rooms.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
-import axios from 'axios'
 
 const router = createBrowserRouter([
   {
