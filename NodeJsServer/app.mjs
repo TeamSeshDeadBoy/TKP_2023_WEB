@@ -110,7 +110,7 @@ function start(){
 start()
 if (userIds instanceof IdTree)
 
-app.get('/user',(req,res)=>{
+app.post('/gUser',(req,res)=>{
   reqNotifier(req);
   if (doesReqBodyHave(req, handleMissingProperties, 'email', 'password')){
     try {
