@@ -6,6 +6,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 
+
+// const socket = new WebSocket("ws://localhost:8080");
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -38,30 +41,27 @@ function reqNotifier(req) {
   console.log(`request body: ${JSON.stringify(req.body)}`);
 }
 
-
-async function sendJson(res,data){  // example: sendJson(res,{id:2,name:"mom"})
-  res.status(200).json(data)
-}
-async function sendError(res,data){
-  res.status(500).json(data)
+function handleMissingProperties(missingProperties){
+  if (Array.isArray(missingProperties)){
+    res.status(400).json({msg:`Missing required properties in req.body: ${missingProperties.join(', ')}`})
+  }
 }
 
-function doesReqBodyHave(req, res, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
-  const missingProperties = [];
+function doesReqBodyHave(req, fHandleMissingProperties, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
+  var missingProperties = [];
   for (const prop of requiredProperties) {
     if (!(prop in req.body)) {
       missingProperties.push(prop);
     }
   }
   if (missingProperties.length > 0) {
-    sendError(res,{msg: `Missing required properties in req.body: ${missingProperties.join(', ')}`})
+    fHandleMissingProperties(missingProperties);
     return false;
   }
   return true;
 }
 
 // test
-
 app.get('/getTest.html', (req, res) => {
   reqNotifier(req)
   res.sendFile(path.join(__dirname, 'getTest.html'));
@@ -70,16 +70,12 @@ app.get('/getTest.html', (req, res) => {
 /////////////////////////
 // OPTIONAL
 
-// app.get('/deleteUser',(req,res)=>{
-//   requestNotifier(req)
-//   deleteUserByEmail('dummy@dum.com')
-//   sendJson(res,{body:'user deleted'})
-// })
 
 import {
   deleteAllUsers,
   createUser,
-  deleteUserById
+  deleteUserById,
+  getUser
 } from "./prisma/_userFunctions.mjs";
 
 import {
@@ -96,7 +92,7 @@ async function clearDB(){
 }
 
 
-var userIds = new IdTree(6);;
+var userIds = new IdTree(4);;
 
 function start(){
   clearDB().then(result=>{
@@ -114,47 +110,61 @@ function start(){
 start()
 if (userIds instanceof IdTree)
 
-app.post('/createUser',(req,res)=>{
+app.get('/user',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req,res,'name','email','password')){
-    var userId = userIds.getFreeId();
-    if (userId) {
-      createUser(userId,{...req.body},[]).then(result=>{
-        if (result) sendJson(res,{msg: "Success"})
-        else sendError(res,{msg: "Failed to create"})
+  if (doesReqBodyHave(req, handleMissingProperties, 'email', 'password')){
+    try {
+      getUser(req.body.email).then(result=>{
+        if (result){
+          if (result.password==req.body.password) res.status(200).json(result)
+          else res.status(400).json({msg: 'Wrong password'})
+        }else res.status(400).json({msg:'Failed to get'})
       })
-    }else{
-      sendError(res,{msg: "Failed to create: ran out of id's"})
+    } catch (error) {
+      res.status(500).json({msg:"Server error"})
     }
   }
 })
 
-app.post('/deleteUserbyId',(req,res)=>{
+app.post('/user',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req,res,'userId')){
-    deleteUserById(req.body.userId).then(result=>{
-      if (result) sendJson(res,{msg: "Success"})
-      else sendError(res,{msg:"Failed to delete"})
-    })
+  if (doesReqBodyHave(req, handleMissingProperties, 'name','email','password')){
+    try {
+      var userId = userIds.getFreeId();
+      if (userId) {
+        createUser(userId,{...req.body},[]).then(result=>{
+          if (result) res.status(200).json({msg: 'Success'})
+          else res.status(400).json({msg:'Failed to create'})
+        })
+      }else{
+        res.status(500).json({msg:"Failed to create: ran out of id's"})
+      }
+    } catch (error) {
+      res.status(500).json({msg:"Server error"})
+    }
+  }
+})
+
+app.delete('/user',(req,res)=>{
+  reqNotifier(req);
+  if (doesReqBodyHave(req,handleMissingProperties,'userId')){
+    try {
+      deleteUserById(req.body.userId).then(result=>{
+        if (result) res.status(200).json({msg: 'Success'})
+        else res.status(400).json({msg:'Failed to delete'})
+      })
+    } catch (error) {
+      res.status(500).json({msg: 'Internal error'})
+    }
   }
 })
 
 app.post('/updateUsersQuizzes',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req,res,'userId','quizzes')){
+  if (doesReqBodyHave(req,handleMissingProperties,'userId','quizzes')){
     updateUsersQuizzes(req.body.userId,req.body.quizzes).then(result=>{
-      if (result) sendJson(res,{msg: "Success"})
-      else sendError(res,{msg: "Failed to update"})
-    })
-  }
-})
-
-app.post('/setUsersCurrentQuizInd',(req,res)=>{
-  reqNotifier(req);
-  if (doesReqBodyHave(req,res,'userId','quizId')){
-    setUsersCurrentQuizInd(req.body.userId,req.body.quizInd).then(result=>{
-      if (result) sendJson(res,{msg: "Success"})
-      else sendError(res,{msg: "Failed to set"})
+      if (result) res.status(200).json({msg:'Success'})
+      else res.status(400).json({msg: "Failed to update"})
     })
   }
 })
