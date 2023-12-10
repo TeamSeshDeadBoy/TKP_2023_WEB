@@ -24,7 +24,6 @@ const QuestionWrapper = ({data, change}) => {
 
 
     function renderQuestions() {
-        console.log("rerendering data array")
         let temp = []
         for (let i = 0; i < questions.length; i++) {
           temp.push(<QuestionViewer key={questions[i].text + questions[i].validIndex} ind={i + 1} data={questions[i]} deleteQuestion={deleteQuestion} passQuestion={changeQuestion}/>)
