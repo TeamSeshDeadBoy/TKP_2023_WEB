@@ -133,7 +133,7 @@ app.post('/user',(req,res)=>{
       var userId = userIds.getFreeId();
       if (userId) {
         createUser(userId,{...req.body},[]).then(result=>{
-          if (result) res.status(200).json({msg: 'Success'})
+          if (result) res.status(200).json({id: userId ,msg: 'Success'}) 
           else res.status(400).json({msg:'Failed to create'})
         })
       }else{
