@@ -1,0 +1,22 @@
+.card_wrapper {
+    width: 250px;
+    height: 350px;
+    border: 2px white solid;
+    border-radius: 20px;
+    margin: 10px;
+}
+
+.card_button {
+    margin-top: 7px;
+    margin: 7px;
+}
+
+.button_wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}

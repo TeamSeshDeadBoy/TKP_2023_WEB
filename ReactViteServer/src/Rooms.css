@@ -1,0 +1,16 @@
+.buttons_wrapper{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper_cards{
+    display: flex;
+    flex-direction: row;
+}
+
+.button_del {
+    margin-top: 10px;
+}

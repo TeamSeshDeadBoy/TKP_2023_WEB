@@ -29,7 +29,7 @@ const Login = () => {
         if (!error) {
             axios.post('http://localhost:3000/getUser', {email: email, password: pass}).then((response) => {
                 localStorage.setItem('userId', response.data.id)
-                localStorage.setItem('userQuizzes', response.data.quizzes)
+                localStorage.setItem('userQuizzes', [JSON.stringify(response.data.quizzes)])
                 setLogged(true)
             }).catch((error) => {setError(error.response.data.msg)})
         }
