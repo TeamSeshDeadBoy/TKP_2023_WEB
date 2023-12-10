@@ -1,27 +1,29 @@
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [userID, setUserID] = useState(null)
-  useEffect(() => {
-    let tempId = localStorage.getItem('userId')
-    if (tempId){
-      setUserID(tempId)
-    } else {
-      localStorage.setItem('userId', "AAAAAA");
-    }
-  }, [])
+  // const [userID, setUserID] = useState(null)
+  // useEffect(() => {
+  //   let tempId = localStorage.getItem('userId')
+  //   if (tempId){
+  //     setUserID(tempId)
+  //   }
+  // }, [])
   
 
   return (
     <>
-      <h1>Рубильник</h1>
-      <div className="card">
+    <h1>Рубильник</h1>
+    {localStorage.getItem('userId') ? 
         <a className='button' href="/rooms">
-          Выбрать из созданных вами викторин
+          Продолжить как предыдущий вход
+        </a> : ""}
+      <div className="card">
+        <a className='button' href="/register">
+          Зарегистрировать новый аккаунт
         </a>
-        <a className='button' href="/editor">
-          Создать новую викторину
+        <a className='button' href="/login">
+          Войти в существующий аккаунт
         </a>
       </div>
       <div className='footer'>

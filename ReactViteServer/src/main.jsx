@@ -9,7 +9,10 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Room from './Room.jsx'
+import Rooms from './Rooms.jsx'
+import Login from './Login.jsx'
+import Register from './Register.jsx'
+import axios from 'axios'
 
 const router = createBrowserRouter([
   {
@@ -23,12 +26,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/rooms",
-    element: <Room />,
-    // loader: () => {
-    //   return axios.post('http://localhost:3000/createRoom', {
-    //     userId: 'AAAAAA'
-    //   })
-    // }    
+    element: <Rooms />,
+  },
+  {
+    path: "/login",
+    element: <Login />,   
+  },
+  {
+    path: "/register",
+    element: <Register />,   
   },
   {
     path: "/debug",

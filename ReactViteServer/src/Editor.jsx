@@ -26,7 +26,13 @@ const Editor = () => {
   const save = () => {
     if (data.length == 0 || !nameVar) {setError(true)}
     else {setError(false)
-    // FETCH DATA
+    let quizzes = localStorage.getItem('userQuizzes');
+    if (quizzes.length == 0) {
+      quizzes.append({title: nameVar, questions: data})
+      localStorage.setItem('userQuizzes', [JSON.stringify({title: nameVar, questions: data})]);
+    } else{
+      localStorage.setItem('userQuizzes', [JSON.stringify({title: nameVar, questions: data})]);
+    }
     }
   }
 
