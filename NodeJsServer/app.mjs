@@ -101,20 +101,20 @@ async function clearDB(){
 
 var userIds = new IdTree(4);;
 
-// function start(){
-//   clearDB().then(result=>{
-//     var userId = userIds.getFreeId();
-//     createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
-//       var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
-//       var Quizzes = []
-//       Quizzes.push(quiz,quiz,quiz)
-//       updateUsersQuizzes(userId,Quizzes)
-//     })
+function start(){
+  clearDB().then(result=>{
+    var userId = userIds.getFreeId();
+    // createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
+    //   var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
+    //   var Quizzes = []
+    //   Quizzes.push(quiz,quiz,quiz)
+    //   updateUsersQuizzes(userId,Quizzes)
+    // })
     
-//   })
-// };
+  })
+};
 
-// start()
+start()
 if (userIds instanceof IdTree)
 
 
@@ -190,13 +190,18 @@ io.on('connection', (socket) => {
     }
   }
 
+  socket.on('msg', (data) => {
+    console.log('Message from client:', data.userId, data.message);
+    io.to(data.userId).emit('message', {userId: data.userId, message: data.message});
+  });
+
   socket.on('message', (data) => {
     console.log('Message from client:', data.userName, data.message);
     io.emit('message', {userName: data.userName, message: data.message});
   });
 
   socket.on('join', (data) => {
-    console.log(`join received user ${data.userName}`);
+    console.log(`join received user ${data.userName} roomId: ${data.roomId}`);
     socket.join(data.roomId)
     io.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
   });

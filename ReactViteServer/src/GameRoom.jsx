@@ -17,10 +17,16 @@ const GameRoom = () => {
     const [joined, setJoined] = useState([]);
     const [message, setMessage] = useState("");
 
-    const joinTest = () => {
-      console.log("pressing msg")
+    const messageToAllTest = () => {
+      console.log("messagein all")
       socket.emit('message', {userName: userName, message: "woof"})
     }
+
+    const messageToRoomTest = () => {
+      console.log("messaging room")
+      socket.emit('msg', {userId: UID, message: "woof"})
+    }
+
 
     useEffect(() => {
         socket.connect();
@@ -69,7 +75,8 @@ const GameRoom = () => {
         <br />
         <code>Подключенные пользователи: {joined}</code>
         <br />
-        <button onClick={() => joinTest()}>join</button>
+        <button onClick={() => messageToAllTest()}>bark on ALL</button>
+        <button onClick={() => messageToRoomTest()}>bark in ROOM</button>
     </div>
   )
 }
