@@ -194,6 +194,15 @@ io.on('connection', (socket) => {
     console.log('Message from client:', data.userName, data.message);
     io.emit('message', {userName: data.userName, message: data.message});
   });
+
+  socket.on('join', (data) => {
+    if (doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
+      socket.join(data.roomId)
+      socket.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined`})
+    }
+  });
+
+
   
   // socket.on('join', (data) => {
   //   console.log(`joined user ${data.username}`);
@@ -224,6 +233,7 @@ io.on('connection', (socket) => {
 
   // Listen for disconnection
   socket.on('disconnect', () => {
+     
     console.log('User disconnected');
   });
 });
