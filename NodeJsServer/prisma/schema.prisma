@@ -21,11 +21,11 @@ type Quiz {
 }
 
 type Question {
-  text    String
-  answers Choice[]
+  text       String
+  answers    Choice[]
   validIndex Int
 }
 
 type Choice {
-  text      String
+  text String
 }

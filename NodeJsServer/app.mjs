@@ -31,16 +31,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /////////////////////////
 // USEFULL
 
-function logJson(jsonResult){
-  if (Array.isArray(jsonResult)) {
-    console.log("search result:");
+function logJson(json) {
+  if (Array.isArray(json)) {
     console.log('[');
-    jsonResult.forEach((element) => {
+    json.forEach((element) => {
       console.log(`${JSON.stringify(element)},`);
     });
     console.log(']');
   } else {
-    console.log(`search result: ${JSON.stringify(jsonResult)}`);
+    console.log(JSON.stringify(json));
   }  
 }
 function reqNotifier(req) {
@@ -55,10 +54,10 @@ function handleMissingProperties(missingProperties){
   }
 }
 
-function doesReqBodyHave(req, fHandleMissingProperties, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
+function doesJsonHave(json, fHandleMissingProperties, ...requiredProperties) { // example: if (checkReqBodyToContain(req, res, 'name', 'email', 'password'))
   var missingProperties = [];
   for (const prop of requiredProperties) {
-    if (!(prop in req.body)) {
+    if (!(prop in json)) {
       missingProperties.push(prop);
     }
   }
@@ -99,28 +98,31 @@ async function clearDB(){
   await deleteAllUsers()
 }
 
-
 var userIds = new IdTree(4);;
 
-function start(){
-  clearDB().then(result=>{
-    var userId = userIds.getFreeId();
-    createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
-      var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
-      var Quizzes = []
-      Quizzes.push(quiz,quiz,quiz)
-      updateUsersQuizzes(userId,Quizzes)
-    })
+// function start(){
+//   clearDB().then(result=>{
+//     var userId = userIds.getFreeId();
+//     createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
+//       var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
+//       var Quizzes = []
+//       Quizzes.push(quiz,quiz,quiz)
+//       updateUsersQuizzes(userId,Quizzes)
+//     })
     
-  })
-};
+//   })
+// };
 
-start()
+// start()
 if (userIds instanceof IdTree)
+
+
+
+
 
 app.post('/getUser',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req, handleMissingProperties, 'email', 'password')){
+  if (doesJsonHave(req, handleMissingProperties, 'email', 'password')){
     try {
       getUser(req.body.email).then(result=>{
         if (result){
@@ -136,7 +138,7 @@ app.post('/getUser',(req,res)=>{
 
 app.post('/user',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req, handleMissingProperties, 'name','email','password')){
+  if (doesJsonHave(req, handleMissingProperties, 'name','email','password')){
     try {
       var userId = userIds.getFreeId();
       if (userId) {
@@ -155,7 +157,7 @@ app.post('/user',(req,res)=>{
 
 app.post('/deleteUser',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req,handleMissingProperties,'id')){
+  if (doesJsonHave(req,handleMissingProperties,'id')){
     try {
       deleteUserById(req.body.id).then(result=>{
         if (result) res.status(200).json({msg: 'Success'})
@@ -169,10 +171,47 @@ app.post('/deleteUser',(req,res)=>{
 
 app.post('/usersQuizzes',(req,res)=>{
   reqNotifier(req);
-  if (doesReqBodyHave(req,handleMissingProperties,'userId','quizzes')){
+  if (doesJsonHave(req,handleMissingProperties,'userId','quizzes')){
     updateUsersQuizzes(req.body.userId,req.body.quizzes).then(result=>{
       if (result) res.status(200).json({msg:'Success'})
       else res.status(400).json({msg: "Failed to update"})
     })
   }
 })
+
+
+io.on('connection', (socket) => {
+  console.log(`A user connected with ID: ${socket.id}`);
+
+  function handleSocketMissingProperties(missingProperties){
+    if (Array.isArray(missingProperties)){
+      socket.emit('missingProperties', {msg:`Missing required properties in socket.body: ${missingProperties.join(', ')}`})
+    }
+  }
+  
+  socket.on('join', (data) => {
+    logJson(data);
+    doesJsonHave(data, handleSocketMissingProperties, 'id')
+    socket.join(data.id);
+  })
+  socket.on('leave', (data) => {
+    logJson(data);
+    doesJsonHave(data, handleSocketMissingProperties, 'id');
+    socket.leave(data.id);
+  });
+
+  // Listen for messages from the client
+  // socket.on('message', (data) => {
+    
+  //   console.log('Message from client:', data);
+
+  //   // Broadcast the received message to all clients
+  //   io.emit('message', `Server says: ${data}`);
+  // });
+
+
+  // Listen for disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
