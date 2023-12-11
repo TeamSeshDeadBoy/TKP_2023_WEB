@@ -192,7 +192,7 @@ io.on('connection', (socket) => {
   
   socket.on('join', (data) => {
     logJson(data);
-    doesJsonHave(data, handleSocketMissingProperties, 'id')
+    doesJsonHave(data, handleSocketMissingProperties, 'roomId')
     socket.join(data.roomId).then(result=>{
       if (result) {
         console.log(data.roomId,'joined');
