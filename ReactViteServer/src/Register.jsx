@@ -30,6 +30,7 @@ const Register = () => {
                 console.log(response)
                 localStorage.setItem('userId', response.data.id)
                 localStorage.setItem('userQuizzes', '[]')
+                localStorage.setItem('userName', name)
                 navigate("/rooms")
             }).catch((error) => {setError(error.response.data.msg)})
         } else {

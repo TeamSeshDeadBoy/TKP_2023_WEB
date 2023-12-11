@@ -3,7 +3,7 @@
 import { useLocation } from "react-router-dom";
 import { socket } from './socket';
 import { useEffect, useState } from "react";
-// import './GameRoom.css'
+import './GameRoom.css'
 
 
 const GameRoom = () => {
@@ -25,6 +25,11 @@ const GameRoom = () => {
     const messageToRoomTest = () => {
       console.log("messaging room")
       socket.emit('msg', {userId: UID, message: "woof"})
+    }
+
+    const messageToSingleRoomTest = () => {
+      console.log("messaging room")
+      socket.emit('msg', {userId: "BAAA", message: "woof"})
     }
 
 
@@ -77,6 +82,7 @@ const GameRoom = () => {
         <br />
         <button onClick={() => messageToAllTest()}>bark on ALL</button>
         <button onClick={() => messageToRoomTest()}>bark in ROOM</button>
+        <button onClick={() => messageToSingleRoomTest()}>bark in BAAA</button>
     </div>
   )
 }

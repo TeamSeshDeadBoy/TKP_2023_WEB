@@ -101,20 +101,20 @@ async function clearDB(){
 
 var userIds = new IdTree(4);;
 
-function start(){
-  clearDB().then(result=>{
-    var userId = userIds.getFreeId();
-    // createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
-    //   var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
-    //   var Quizzes = []
-    //   Quizzes.push(quiz,quiz,quiz)
-    //   updateUsersQuizzes(userId,Quizzes)
-    // })
+// function start(){
+//   clearDB().then(result=>{
+//     var userId = userIds.getFreeId();
+//     // createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
+//     //   var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
+//     //   var Quizzes = []
+//     //   Quizzes.push(quiz,quiz,quiz)
+//     //   updateUsersQuizzes(userId,Quizzes)
+//     // })
     
-  })
-};
+//   })
+// };
 
-start()
+// start()
 if (userIds instanceof IdTree)
 
 
