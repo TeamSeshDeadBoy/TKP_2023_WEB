@@ -123,7 +123,7 @@ if (userIds instanceof IdTree)
 
 app.post('/getUser',(req,res)=>{
   reqNotifier(req);
-  if (doesJsonHave(req, handleMissingProperties, 'email', 'password')){
+  if (doesJsonHave(req.body, handleMissingProperties, 'email', 'password')){
     try {
       getUser(req.body.email).then(result=>{
         if (result){
@@ -139,7 +139,7 @@ app.post('/getUser',(req,res)=>{
 
 app.post('/user',(req,res)=>{
   reqNotifier(req);
-  if (doesJsonHave(req, handleMissingProperties, 'name','email','password')){
+  if (doesJsonHave(req.body, handleMissingProperties, 'name','email','password')){
     try {
       var userId = userIds.getFreeId();
       if (userId) {
@@ -158,7 +158,7 @@ app.post('/user',(req,res)=>{
 
 app.post('/deleteUser',(req,res)=>{
   reqNotifier(req);
-  if (doesJsonHave(req,handleMissingProperties,'id')){
+  if (doesJsonHave(req.body,handleMissingProperties,'id')){
     try {
       deleteUserById(req.body.id).then(result=>{
         if (result) res.status(200).json({msg: 'Success'})
@@ -172,7 +172,7 @@ app.post('/deleteUser',(req,res)=>{
 
 app.post('/usersQuizzes',(req,res)=>{
   reqNotifier(req);
-  if (doesJsonHave(req,handleMissingProperties,'userId','quizzes')){
+  if (doesJsonHave(req.body,handleMissingProperties,'userId','quizzes')){
     updateUsersQuizzes(req.body.userId,req.body.quizzes).then(result=>{
       if (result) res.status(200).json({msg:'Success'})
       else res.status(400).json({msg: "Failed to update"})
