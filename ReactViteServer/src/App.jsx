@@ -1,14 +1,6 @@
-// import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  // const [userID, setUserID] = useState(null)
-  // useEffect(() => {
-  //   let tempId = localStorage.getItem('userId')
-  //   if (tempId){
-  //     setUserID(tempId)
-  //   }
-  // }, [])
   
 
   return (

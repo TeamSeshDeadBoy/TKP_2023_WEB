@@ -39,7 +39,6 @@ const Register = () => {
   return (
     <>
     <h2>Регистрация нового аккаунта</h2>
-    {name + " " + email + '\n' + pass}
         <form className='form'>
             <label>Введите имя: </label>
             <input name="name"  onChange={(e) => setName(e.target.value)}/>

@@ -37,7 +37,6 @@ const Login = () => {
   return (
     <>
     <h2>Выполните вход в ваш профиль</h2>
-    {email + '\n' + pass}
         <form className='form'>
             <label>Введите e-mail: </label>
             <input name="email"  onChange={(e) => setEmail(e.target.value)}/>

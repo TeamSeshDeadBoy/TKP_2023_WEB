@@ -11,6 +11,7 @@ import {
 import Rooms from './Rooms.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
+import GameRoom from './GameRoom.jsx'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/debug",
     element: <Debug />,
+  },
+  {
+    path: "/play",
+    element: <GameRoom />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
