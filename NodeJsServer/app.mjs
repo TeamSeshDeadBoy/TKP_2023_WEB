@@ -193,7 +193,13 @@ io.on('connection', (socket) => {
   socket.on('join', (data) => {
     logJson(data);
     doesJsonHave(data, handleSocketMissingProperties, 'id')
-    socket.join(data.roomId);
+    socket.join(data.roomId).then(result=>{
+      if (result) {
+        console.log(data.roomId,'joined');
+      } else {
+        console.log(data.roomId,'failed to join');
+      }
+    });
   })
   socket.on('leave', (data) => {
     logJson(data);
