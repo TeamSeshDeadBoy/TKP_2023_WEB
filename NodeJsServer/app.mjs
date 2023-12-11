@@ -193,12 +193,12 @@ io.on('connection', (socket) => {
   socket.on('join', (data) => {
     logJson(data);
     doesJsonHave(data, handleSocketMissingProperties, 'id')
-    socket.join(data.id);
+    socket.join(data.userId);
   })
   socket.on('leave', (data) => {
     logJson(data);
     doesJsonHave(data, handleSocketMissingProperties, 'id');
-    socket.leave(data.id);
+    socket.leave(data.userId);
   });
 
   // Listen for messages from the client
