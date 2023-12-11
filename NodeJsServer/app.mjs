@@ -194,7 +194,7 @@ io.on('connection', (socket) => {
     logJson(data);
     doesJsonHave(data, handleSocketMissingProperties, 'roomId')
     socket.join(data.roomId)
-    socket.to(data.roomId).emit('userJoined',{msg: 'user joined'})
+    socket.to(data.roomId).emit('message',{msg: 'user joined'})
   });
 
   socket.on('leave', (data) => {
