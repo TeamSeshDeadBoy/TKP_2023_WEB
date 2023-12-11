@@ -189,18 +189,21 @@ io.on('connection', (socket) => {
       socket.emit('missingProperties', {msg:`Missing required properties in socket.body: ${missingProperties.join(', ')}`})
     }
   }
+
+  
   
   socket.on('join', (data) => {
-    logJson(data);
-    doesJsonHave(data, handleSocketMissingProperties, 'roomId')
-    socket.join(data.roomId)
-    socket.to(data.roomId).emit('message',{msg: 'user joined'})
+    if(doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
+      socket.join(data.roomId)
+      socket.to(data.roomId).emit('message',{msg: 'user joined'})
+    }
   });
 
   socket.on('leave', (data) => {
-    logJson(data);
-    doesJsonHave(data, handleSocketMissingProperties, 'id');
-    socket.leave(data.roomId);
+    if(doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
+      socket.leave(data.roomId)
+      socket.to(data.id).emit('message',{msg: 'user left'})
+    }
   });
 
   // Listen for messages from the client
