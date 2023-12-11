@@ -191,42 +191,27 @@ io.on('connection', (socket) => {
     console.log(`join received user ${data.userName} roomId: ${data.roomId}`);
     socket.join(data.roomId)
     io.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
+    io.to(data.roomId).emit('join',{userName: data.userName ,msg: `user ${data.userName} joined room ${data.roomId}`})
   });
 
   socket.on('bark', (data) => {
     socket.rooms.forEach((room) => {
-      io.to(room).emit('bark',{msg: `user ${data.userName} barked`})
+      io.to(room).emit('bark',{msg: `user ${data.userName} barked in room ${room}`})
     });
   })
 
+
+  socket.on('leave', (data) => {
+    if(doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
+      socket.leave(data.roomId)
+      socket.to(data.id).emit('message',{msg: 'user left'})
+    }
+  });
   
-  // socket.on('join', (data) => {
-  //   console.log(`joined user ${data.username}`);
-  //   if(doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
-  //     socket.join(data.roomId)
-  //     socket.to(data.roomId).emit('message',{msg: `user ${data.username} joined`})
-  //   } else {
-  //     socket.emit('message',{msg: `user ${data.username} failed to join to room ${data.roomId}`})
-  //   }
-  // });
-
-  // socket.on('leave', (data) => {
-  //   if(doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
-  //     socket.leave(data.roomId)
-  //     socket.to(data.id).emit('message',{msg: 'user left'})
-  //   }
-  // });
-
-  // Listen for messages from the client
-  // socket.on('message', (data) => {
-    
-  //   console.log('Message from client:', data);
-
-  //   // Broadcast the received message to all clients
-  //   io.emit('message', `Server says: ${data}`);
-  // });
 
 
+
+  
   // Listen for disconnection
   socket.on('disconnect', () => {
      

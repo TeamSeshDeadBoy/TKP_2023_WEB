@@ -18,6 +18,9 @@
   <script>
     const socket = io();
 
+    var userNames = [];
+    
+
     function join() {
       const name = document.getElementById('nameInput').value;
       const roomId = document.getElementById('roomId').value;
@@ -30,7 +33,7 @@
     }
 
     socket.on('bark', (data) => {
-      console.log(data.msg);
+      alert(data.msg);
     })
 
     socket.on('join', (data) => {
