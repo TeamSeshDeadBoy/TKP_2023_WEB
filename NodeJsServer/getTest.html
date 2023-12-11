@@ -14,6 +14,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
   <script>
+
+
+
     const socket = io();
 
     // Listen for messages from the server
@@ -24,6 +27,7 @@
       messages.appendChild(li);
     });
 
+    
 
     function join(){
         const userdata = {username: 'Dummy'}

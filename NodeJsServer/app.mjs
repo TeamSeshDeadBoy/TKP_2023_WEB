@@ -48,9 +48,9 @@ function reqNotifier(req) {
   console.log(`request body: ${JSON.stringify(req.body)}`);
 }
 
-function handleMissingProperties(missingProperties){
+function handleMissingProperties(res,missingProperties){
   if (Array.isArray(missingProperties)){
-    res.status(400).json({msg:`Missing required properties in req.body: ${missingProperties.join(', ')}`})
+    // res.status(400).json({msg:`Missing required properties in req.body: ${missingProperties.join(', ')}`})
   }
 }
 
@@ -67,6 +67,7 @@ function doesJsonHave(json, fHandleMissingProperties, ...requiredProperties) { /
   }
   return true;
 }
+
 
 // test
 app.get('/getTest.html', (req, res) => {
