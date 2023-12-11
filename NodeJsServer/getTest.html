@@ -8,32 +8,42 @@
 <body>
   <h1>Socket.IO Example</h1>
   <input type="text" id="nameInput" placeholder="Type a name">
-  <input type="text" id="messageInput" placeholder="Type a message">
-  <button onclick="sendMessage()">Send Message</button>
-  <ul id="messages"></ul>
+  <input type="text" id="roomId" placeholder="RoomId">
+  <button onclick="join()">Join</button>
+  <button onclick="bark()">Bark</button>
+  <button onclick="alert('alert')">_alerttest</button>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
   <script>
     const socket = io();
 
-    // Listen for messages from the server
-    socket.on('message', (data) => {
-      const messages = document.getElementById('messages');
-      const li = document.createElement('li');
-      const message = data.userName + ': ' + data.message;
-      li.appendChild(document.createTextNode(message));
-      messages.appendChild(li);
+    function join() {
+      const name = document.getElementById('nameInput').value;
+      const roomId = document.getElementById('roomId').value;
+      socket.emit('join', { userName:name, roomId:roomId });
+    }
+
+    function bark() {
+      const name = document.getElementById('nameInput').value;
+      socket.emit('bark',{userName:name});
+    }
+
+    socket.on('bark', (data) => {
+      console.log(data.msg);
+    })
+
+    socket.on('join', (data) => {
+      alert(data.msg)
     });
 
-    // Function to send a message to the server
-    function sendMessage() {
-      const messageInput = document.getElementById('messageInput');
-      const message = messageInput.value;
-      const nameInput = document.getElementById('nameInput');
-      const name = nameInput.value;
-      socket.emit('message', {userName: name, message: message});
-      messageInput.value = '';
-    }
+  </script>
+
+
+
+
+
+
   </script>
 </body>
 </html>

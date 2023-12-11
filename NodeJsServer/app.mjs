@@ -101,25 +101,12 @@ async function clearDB(){
 
 var userIds = new IdTree(4);;
 
-// function start(){
-//   clearDB().then(result=>{
-//     var userId = userIds.getFreeId();
-//     // createUser(userId, {name:'DummyUser',email:'dummy@dum.com',password:'dumdumdum'},[]).then(result=>{
-//     //   var quiz = {title: "testQuiz", questions: [{text: "q1", answers:[{text:"choice1"},{text:"choice2"}], validIndex: 0}]}
-//     //   var Quizzes = []
-//     //   Quizzes.push(quiz,quiz,quiz)
-//     //   updateUsersQuizzes(userId,Quizzes)
-//     // })
-    
-//   })
-// };
+function start(){
+  clearDB()
+};
 
-// start()
+start()
 if (userIds instanceof IdTree)
-
-
-
-
 
 app.post('/getUser',(req,res)=>{
   reqNotifier(req);
@@ -206,6 +193,11 @@ io.on('connection', (socket) => {
     io.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
   });
 
+  socket.on('bark', (data) => {
+    socket.rooms.forEach((room) => {
+      io.to(room).emit('bark',{msg: `user ${data.userName} barked`})
+    });
+  })
 
   
   // socket.on('join', (data) => {
