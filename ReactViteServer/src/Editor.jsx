@@ -7,15 +7,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const Editor = () => {
   let tempd = [{"text":"Test question #1","answers":[{"text":"true"},{"text":"false"}],"validIndex":0},{"text":"Test question #2","answers":[{"text":"false"},{"text":"true"}],"validIndex":1},{"text":"Test question #3","answers":[{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":2},{"text":"Test question #4","answers":[{"text":"false"},{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":3}]
-  const {state} = useLocation();
-  let {question, index} = state;
-  console.log(question, index)
+  const {state} = useLocation(); // {}
+  let question, index
   
-
   
   const [error, setError] = useState(false);
   const [nameVar, setName] = useState("");
   if (state) {
+    question = state.question
+    index = state.index
     tempd = question
   }
   const [data, setData] = useState(tempd);
