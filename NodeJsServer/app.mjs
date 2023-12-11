@@ -193,11 +193,14 @@ io.on('connection', (socket) => {
   socket.on('join', (data) => {
     logJson(data);
     doesJsonHave(data, handleSocketMissingProperties, 'roomId')
-    socket.join(data.roomId).then(result=>{
-      if (result) {
-        console.log(data.roomId,'joined');
+    socket.join(data.roomId, (err) => {
+      if (err) {
+        // Handle the error
+        console.error(`Error joining room ${data.roomId}: ${err.message}`);
+        console.log(`${data.roomId} failed to join`);
       } else {
-        console.log(data.roomId,'failed to join');
+        // Room joined successfully
+        console.log(`${data.roomId} joined`);
       }
     });
   })
