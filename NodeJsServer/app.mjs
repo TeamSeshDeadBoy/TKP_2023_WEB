@@ -200,9 +200,8 @@ io.on('connection', (socket) => {
     if (doesJsonHave(data, handleSocketMissingProperties, 'roomId','userName')){
       socket.join(data.roomId)
       socket.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
-    } else {
-      socket.emit('msg',{msg: `user ${data.userName} failed to join to room ${data.roomId}`})
     }
+    socket.emit('msg',{msg: `user ${data.userName} failed to join to room ${data.roomId}`})
   });
 
 
