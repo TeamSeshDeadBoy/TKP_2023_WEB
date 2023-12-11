@@ -198,8 +198,7 @@ io.on('connection', (socket) => {
   socket.on('join', (data) => {
     console.log(`join received user ${data.userName}`);
     socket.join(data.roomId)
-    socket.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
-
+    io.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
   });
 
 

@@ -28,7 +28,6 @@ const Editor = () => {
     }
 
     const changeFromChild = (childdata) => {
-      console.log('changing from child')
       setData([...childdata]);
     };
 

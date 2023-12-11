@@ -10,9 +10,6 @@ const QuestionWrapper = ({data, change}) => {
     const [components, setComponents] = useState([])
 
     const deleteQuestion = (ind) => {
-        if (ind) {
-          console.log("deleting", ind - 1)
-        }
         setQuestions([...questions.slice(0, ind -1), ...questions.slice(ind)]);
       }
 
