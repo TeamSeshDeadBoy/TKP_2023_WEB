@@ -196,7 +196,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('join', (data) => {
-    if (doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
+    if (doesJsonHave(data, handleSocketMissingProperties, 'roomId','userName')){
       socket.join(data.roomId)
       socket.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
     }
