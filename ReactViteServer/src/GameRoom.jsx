@@ -14,8 +14,9 @@ const GameRoom = () => {
     const userName = localStorage.getItem('userName')
 
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [joined, setJoined] = useState([]);
+    const [joined, setJoined] = useState(new Set());
     const [message, setMessage] = useState("");
+    const [bark, setBark] = useState("");
 
     const messageToAllTest = () => {
       console.log("messagein all")
@@ -31,6 +32,13 @@ const GameRoom = () => {
       console.log("messaging room")
       socket.emit('msg', {userId: "BAAA", message: "woof"})
     }
+    useEffect(() => {
+      let temp = joined
+      console.log("temp", temp.keys().toArray())
+      temp.add(message.split(' ')[1])
+      setJoined(temp)
+    }, [message])
+    
 
 
     useEffect(() => {
@@ -60,10 +68,11 @@ const GameRoom = () => {
         }
     
         socket.on('connect', onConnect);
+        socket.on('bark', (msg) => {setBark(msg.msg)});
         socket.on('disconnect', onDisconnect);
-        socket.on('join', onJoinEvent);
+        socket.on('join', (obj) => {setJoined([...joined, obj.userName])});
         socket.on('message', onMessageEvent);
-        socket.on('msg', (msg) => {console.log("r"); setMessage(msg.msg)});
+        socket.on('msg', (msg) => {setMessage(msg.msg)});
     
         return () => {
           socket.off();
@@ -78,7 +87,9 @@ const GameRoom = () => {
         <h3> Подключенные пользователи</h3>
         <code>Подключение к сокету: {isConnected ? "true" : "false"}</code>
         <br />
-        <code>Подключенные пользователи: {joined}</code>
+        <code>Подключенные пользователи: {joined.values().toArray()}</code>
+        <br />
+        <code>{bark}</code>
         <br />
         <button onClick={() => messageToAllTest()}>bark on ALL</button>
         <button onClick={() => messageToRoomTest()}>bark in ROOM</button>
