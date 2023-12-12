@@ -19,17 +19,14 @@ const GameRoom = () => {
     const [bark, setBark] = useState("");
 
     const messageToAllTest = () => {
-      console.log("messagein all")
       socket.emit('message', {userName: userName, message: "woof"})
     }
 
     const messageToRoomTest = () => {
-      console.log("messaging room")
       socket.emit('msg', {userId: UID, message: "woof"})
     }
 
     const messageToSingleRoomTest = () => {
-      console.log("messaging room")
       socket.emit('msg', {userId: "BAAA", message: "woof"})
     }
     useEffect(() => {
@@ -44,32 +41,13 @@ const GameRoom = () => {
     useEffect(() => {
         socket.connect();
         socket.emit('join', {roomId: localStorage.getItem('userId'), userName: localStorage.getItem('userName')})
-
-        function onConnect() {
-          setIsConnected(true);
-        }
     
-        function onDisconnect() {
-          setIsConnected(false);
-        }
-    
-        function onJoinEvent(value) {
-            if (value.roomId == UID) {
-                setJoined([...joined, value.userName]);
-            }
-        }
-
-        function onMsgEvent(value) {
-          setMessage(value.msg)
-        }
 
         function onMessageEvent(value) {
           console.log(value)
         }
     
-        socket.on('connect', onConnect);
         socket.on('bark', (msg) => {setBark(msg.msg)});
-        socket.on('disconnect', onDisconnect);
         socket.on('join', (obj) => {setJoined([...joined, obj.userName])});
         socket.on('message', onMessageEvent);
         socket.on('msg', (msg) => {setMessage(msg.msg)});
@@ -87,7 +65,7 @@ const GameRoom = () => {
         <h3> Подключенные пользователи</h3>
         <code>Подключение к сокету: {isConnected ? "true" : "false"}</code>
         <br />
-        <code>Подключенные пользователи: {joined.values().toArray()}</code>
+        <code>Подключенные пользователи: {joined.keys().toArray()}</code>
         <br />
         <code>{bark}</code>
         <br />
