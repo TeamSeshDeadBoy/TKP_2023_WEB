@@ -213,7 +213,7 @@ io.on('connection', (socket) => {
 
   socket.on('end', (data) => {
     console.log(`end received for room: ${data.roomId}`);
-    var scores = {};
+    var scores = [];
     io.to(data.roomId).emit('end',{scores:scores})
   })
 
@@ -225,7 +225,7 @@ io.on('connection', (socket) => {
 
 
 
-  
+
   // Listen for disconnection
   socket.on('disconnect', () => {
     socket.rooms.forEach((room) => {
