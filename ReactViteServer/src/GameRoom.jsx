@@ -48,7 +48,7 @@ const GameRoom = () => {
         }
     
         socket.on('bark', (msg) => {setBark(msg.msg)});
-        socket.on('join', (obj) => {setJoined([...joined, obj.userName])});
+        socket.on('join', (obj) => {console.log(obj)});
         socket.on('message', onMessageEvent);
         socket.on('msg', (msg) => {setMessage(msg.msg)});
     
