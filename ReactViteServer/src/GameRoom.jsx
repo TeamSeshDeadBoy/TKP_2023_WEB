@@ -65,7 +65,7 @@ const GameRoom = () => {
         <h3> Подключенные пользователи</h3>
         <code>Подключение к сокету: {isConnected ? "true" : "false"}</code>
         <br />
-        <code>Подключенные пользователи: {joined.keys().toArray()}</code>
+        <code>Подключенные пользователи: joined.keys().toArray() IS NOT A FUNCTION)))))))) XDDDD</code>
         <br />
         <code>{bark}</code>
         <br />
