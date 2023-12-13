@@ -5,21 +5,12 @@ function App() {
 
   return (
     <>
-    <h1>Рубильник</h1>
-    {localStorage.getItem('userId') ? 
-        <a className='button' href="/rooms">
-          Продолжить как предыдущий вход
-        </a> : ""}
-      <div className="card">
-        <a className='button' href="/register">
-          Зарегистрировать новый аккаунт
-        </a>
-        <a className='button' href="/login">
-          Войти в существующий аккаунт
-        </a>
-      </div>
+    <h1>РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
+      <a className='button_login' href="/login">
+        ВОЙТИ
+      </a>
       <div className='footer'>
-        Создано Монаховым Артемом, Лебедевым Степаном и Рыбалко Константином в рамках курсового проекта МосПолитеха 5 семестра в 2023 году.
+      СОЗДАНО РЫБАЛКО К., ЛЕБЕДЕВЫМ С., МОНАХОВЫМ А.
       </div>
     </>
   )

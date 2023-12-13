@@ -3,7 +3,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import './Rooms.css'
 import QuizCard from "./QuizCard";
 
 
@@ -53,16 +52,17 @@ const Rooms = () => {
   
   return (
     <>
-      <div>Room list for {UID}</div>
+      <h1 className="logo_corner">РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
+      <h1 className="absolute_t">ВИКТОРИНЫ</h1>
       {error}
-      <div className="wrapper_cards">
+      <div className="grid">
         {parsed}
+        <a href="/editor" className='button_plus pointer'>+</a>
       </div>
-      <div className="buttons_wrapper">
-        <button className="button_log" onClick = {() => logOut()}>Выйти из аккаунта</button>
-        <button className="button_del" onClick = {() => delAccount()}>Удалить свой аккаунт</button>
+      <div className="flex_col absolute_tr">
+        <button className="a_to_normal blue" onClick = {() => logOut()}>ВЫЙТИ</button>
+        <button className="a_to_normal blue" onClick = {() => delAccount()}>УДАЛИТЬ АККАУНТ</button>
       </div>
-      <a href="/editor" className='button'>Создать новую викторину</a>
     </>
   )
 }
