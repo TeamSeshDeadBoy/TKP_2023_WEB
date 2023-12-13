@@ -177,28 +177,20 @@ io.on('connection', (socket) => {
     }
   }
 
-  socket.on('msg', (data) => {
-    console.log('Message from client:', data.userId, data.message);
-    io.to(data.userId).emit('message', {userId: data.userId, message: data.message});
-  });
-
-  socket.on('message', (data) => {
-    console.log('Message from client:', data.userName, data.message);
-    io.emit('message', {userName: data.userName, message: data.message});
-  });
-
-  socket.on('join', (data) => {
-    console.log(`join received user ${data.userName} roomId: ${data.roomId}`);
-    socket.join(data.roomId)
-    io.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
-    io.to(data.roomId).emit('join',{userName: data.userName ,msg: `user ${data.userName} joined room ${data.roomId}`})
-  });
-
   socket.on('bark', (data) => {
     socket.rooms.forEach((room) => {
       io.to(room).emit('bark',{msg: `user ${data.userName} barked in room ${room}`})
     });
   })
+
+  socket.on('join', (data) => {
+    console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
+    socket.rooms
+    socket.join(data.roomId)
+    io.to(data.roomId).emit('msg',{msg: `user ${data.userName} joined room ${data.roomId}`})
+    io.to(data.roomId).emit('join',{userName: data.userName ,msg: `user ${data.userName} joined room ${data.roomId}`})
+  });
+
 
 
   socket.on('leave', (data) => {
