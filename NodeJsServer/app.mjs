@@ -93,6 +93,7 @@ import {
 import { 
   updateUsersQuizzes, 
 } from './prisma/_quizFunctions.mjs';
+import { log } from 'console';
 
 
 async function clearDB(){
@@ -186,25 +187,51 @@ io.on('connection', (socket) => {
   socket.on('join', (data) => {
     console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
     socket.join(data.roomId)
-    io.to(data.roomId).emit('join',{userName: data.userName})
+    io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
   });
 
+  socket.on('create', (data) => {
+    console.log(`create received for room ${data.id} ${data.userName} with quiz: ${data.quiz}`);
+    io.to(data.roomId).emit('create',{})
+  })
 
+  socket.on('start', (data) => {
+    console.log(`start received for room: ${data.roomId}`)
+    io.to(data.roomId).emit('start',{})
+  })
 
-  socket.on('leave', (data) => {
-    if(doesJsonHave(data, handleSocketMissingProperties, 'roomId')){
-      socket.leave(data.roomId)
-      socket.to(data.id).emit('message',{msg: 'user left'})
-    }
-  });
-  
+  socket.on('choice', (data) => {
+    console.log(`choice received for room: ${data.roomId} from user ${data.userId} on question ${data.questionInd} with choice: ${data.choiceInd}`)
+    io.to(data.roomId).emit('choice',{userId: data.userId, questionInd: data.questionInd, choiceInd: data.choiceInd})
+  })
+
+  socket.on('next', (data) => {
+    console.log(`next received for room: ${data.roomId}`)
+    var question;
+    io.to(data.roomId).emit('next',{question:question})
+  })
+
+  socket.on('end', (data) => {
+    console.log(`end received for room: ${data.roomId}`);
+    var scores = {};
+    io.to(data.roomId).emit('end',{scores:scores})
+  })
+
+  socket.on('reveal', (data) => {
+    console.log(`reveal received for room: ${data.roomId} question: ${data.questionInd}`);
+    var choiceInd;
+    io.to(data.roomId).emit('reveal',{choiceInd:choiceInd})
+  })
 
 
 
   
   // Listen for disconnection
   socket.on('disconnect', () => {
-     
+    socket.rooms.forEach((room) => {
+      io.to(room).emit('leave',{userId: data.userName})
+      socket.leave(room)
+    });
     console.log('User disconnected');
   });
 });
