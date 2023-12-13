@@ -31,7 +31,7 @@ const GameRoom = () => {
     }
     useEffect(() => {
       let temp = joined
-      console.log("temp", temp.keys().toArray())
+      console.log("temp",)
       temp.add(message.split(' ')[1])
       setJoined(temp)
     }, [message])
@@ -65,7 +65,7 @@ const GameRoom = () => {
         <h3> Подключенные пользователи</h3>
         <code>Подключение к сокету: {isConnected ? "true" : "false"}</code>
         <br />
-        <code>Подключенные пользователи: joined.keys().toArray() IS NOT A FUNCTION)))))))) XDDDD</code>
+        <code>Подключенные пользователи: {joined} joined.keys().toArray() IS NOT A FUNCTION)))))))) XDDDD</code>
         <br />
         <code>{bark}</code>
         <br />

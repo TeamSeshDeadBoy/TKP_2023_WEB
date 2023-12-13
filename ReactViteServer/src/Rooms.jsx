@@ -63,6 +63,7 @@ const Rooms = () => {
         <button className="a_to_normal blue" onClick = {() => logOut()}>ВЫЙТИ</button>
         <button className="a_to_normal blue" onClick = {() => delAccount()}>УДАЛИТЬ АККАУНТ</button>
       </div>
+      <div className='footer'>СОЗДАНО РЫБАЛКО К., ЛЕБЕДЕВЫМ С., МОНАХОВЫМ А.</div>
     </>
   )
 }
