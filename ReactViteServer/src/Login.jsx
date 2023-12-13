@@ -10,9 +10,9 @@ const Login = () => {
     const [logged, setLogged] = useState(false)
     useEffect(() => {
         if (!email || !pass){
-            setError("Заполните все поля !")
+            setError("ЗАПОЛНИТЕ ВСЕ ПОЛЯ")
         } else if (pass.length < 8){
-            setError("Минимальная длина пароля - 8 символов")
+            setError("МИНИМУМ 8 СИМВОЛОВ")
         } else {
             setError(false)
         }
@@ -37,18 +37,17 @@ const Login = () => {
     }
   return (
     <>
-    <h2>Выполните вход в ваш профиль</h2>
+    <h1>ВОЙТИ</h1>
         <form className='form'>
-            <label>Введите e-mail: </label>
-            <input name="email"  onChange={(e) => setEmail(e.target.value)}/>
-            <label>Введите пароль: </label>
-            <input name="password" type="password"  onChange={(e) => setPass(e.target.value)}/>
-            {error ? <div className="errortext">{error}</div> : ''}
-            <button type="button"
+            <input name="email" placeholder="ПОЧТА" onChange={(e) => setEmail(e.target.value)}/>
+            <input name="password" placeholder="E-MAIL" type="password"  onChange={(e) => setPass(e.target.value)}/>
+            <div className="errortext" style={error ? {visibility: "visible"} : {}}>{error}</div>
+            <button type="button" className="a"
             onClick={() => postUser()}
-            >Вход</button>
+            >ВХОД</button>
+            <a href="/register" className="a_to_normal">РЕГИСТРАЦИЯ</a>
         </form>
-        <a href="/register">Регистрация нового аккаунта</a>
+        <div className='footer'>СОЗДАНО РЫБАЛКО К., ЛЕБЕДЕВЫМ С., МОНАХОВЫМ А.</div>
     </>
   )
 }

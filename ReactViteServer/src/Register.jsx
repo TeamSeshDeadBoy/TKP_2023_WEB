@@ -11,12 +11,12 @@ const Register = () => {
     const [error, setError] = useState(false)
     useEffect(() => {
         if (!email || !name || !pass){
-            setError("Заполните все поля!")
+            setError("ЗАПОЛНИТЕ ВСЕ ПОЛЯ")
         }
         else if (pass != pass2) {
-            setError("Пароли не совпадают!")
+            setError("ПАРОЛИ НЕ СОВПАДАЮТ")
             if (pass.length < 8){
-                setError("Минимальная длина пароля - 8 символов")
+                setError("МИНИМУМ 8 СИМВОЛОВ")
             }
         } else {
             setError(false)
@@ -39,24 +39,21 @@ const Register = () => {
     }
   return (
     <>
-    <h2>Регистрация нового аккаунта</h2>
+    <h1>РЕГИСТРАЦИЯ</h1>
         <form className='form'>
-            <label>Введите имя: </label>
-            <input name="name"  onChange={(e) => setName(e.target.value)}/>
-            <label>Введите e-mail: </label>
-            <input name="email" type="email"  onChange={(e) => setEmail(e.target.value)}/>
-            <label>Введите пароль: </label>
-            <input name="password" type="password"  onChange={(e) => setPass(e.target.value)}/>
+            <input name="name" placeholder="ИМЯ" onChange={(e) => setName(e.target.value)}/>
+            <input name="email" placeholder="E-MAIL" type="email"  onChange={(e) => setEmail(e.target.value)}/>
+            <input name="password" placeholder="ПАРОЛЬ" type="password"  onChange={(e) => setPass(e.target.value)}/>
             {pass && pass.length >= 8 ? <>
-                <label>Повторите пароль: </label>
-                <input name="password2" type="password"  onChange={(e) => setPass2(e.target.value)}/>
+                <input name="password2" type="password" placeholder="ПАРОЛЬ"  onChange={(e) => setPass2(e.target.value)}/>
             </> : ""}
             {error ? <div className="errortext">{error}</div> : ''}
             <button type="button"
             onClick={() => postUser()}
-            >Регистрация</button>
+            >РЕГИСТРАЦИЯ</button>
+            <a href="/login" className="a_to_normal">ВХОД</a>
         </form>
-        <a href="/login">Вход в существующий аккаунт</a>
+        <div className='footer'>СОЗДАНО РЫБАЛКО К., ЛЕБЕДЕВЫМ С., МОНАХОВЫМ А.</div>
     </>
   )
 }
