@@ -3,7 +3,6 @@
 import { FaTrash } from "react-icons/fa";
 import { TiPencil } from "react-icons/ti";
 import {useEffect, useState} from 'react'
-import './QuestionViewer.css'
 import EditingQuestion from "./EditingQuestion";
 
 const QuestionViewer = ({ind, data, deleteQuestion, passQuestion}) => {
