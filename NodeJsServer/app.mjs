@@ -171,7 +171,7 @@ app.post('/usersQuizzes',(req,res)=>{
 
 
 var playerIds = new IdTree(5);
-var socketsToPlayerIds = {};
+var socketsData = {};
 io.on('connection', (socket) => {
   console.log(`A user connected with ID: ${socket.id}`);
 
@@ -197,7 +197,11 @@ io.on('connection', (socket) => {
       var playerId = playerIds.getFreeId();
       
       if (playerId) {
-        socketsToPlayerIds[socket] = playerId;
+        socketsData[socket] = {};
+        socketsData[socket].playerId = playerId;
+        socketsData[socket].userName = data.userName;
+        socketsData[socket].roomId = data.roomId;
+
         console.log(`player's id assigned ${playerId} ${data.userName}`);
         socket.join(data.roomId)
         socket.emit('joined',{userId: playerId})
@@ -246,12 +250,10 @@ io.on('connection', (socket) => {
 
   // Listen for disconnection
   socket.on('disconnect', () => {
-    socket.rooms.forEach((room) => {
-      io.to(room).emit('leave',{userId: userId})
-      // socket.leave(room)
-    });
-    playerIds.deleteId(socketsToPlayerIds[socket]);
-    console.log(`${socketsToPlayerIds[socket]} disconnected`);
-    delete socketsToPlayerIds[socket];
+    io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
+
+    playerIds.deleteId(socketsData[socket]);
+    console.log(`${socketsData[socket]} disconnected`);
+    delete socketsData[socket];
   });
 });
