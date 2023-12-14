@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
 import QuestionViewer from "./QuestionViewer"
-import './QuestionWrapper.css'
 
 
 const QuestionWrapper = ({data, change}) => {

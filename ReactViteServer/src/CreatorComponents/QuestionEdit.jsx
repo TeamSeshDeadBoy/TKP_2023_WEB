@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react'
-import './QuestionEdit.css'
 
 const QuestionEdit = ({childToParent}) => {
     const [cntAnsw, setCntAnsw] = useState(2)
