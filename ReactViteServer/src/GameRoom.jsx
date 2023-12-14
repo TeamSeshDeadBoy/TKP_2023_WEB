@@ -1,14 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useLocation } from "react-router-dom";
-import { socket } from './socket';
 import { useEffect, useState } from "react";
 import './GameRoom.css'
 
 
-const GameRoom = () => {
-    const {state} = useLocation();
-    const { quiz, ind } = state;
+const GameRoom = ({quiz, socket}) => {
 
     const UID = localStorage.getItem('userId')
     const userName = localStorage.getItem('userName')

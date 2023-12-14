@@ -11,7 +11,7 @@ import {
 import Rooms from './Rooms.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
-import GameRoom from './GameRoom.jsx'
+import SockerWrapper from './SockerWrapper.jsx'
 
 const router = createBrowserRouter([
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/play",
-    element: <GameRoom />,
+    element: <SockerWrapper />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(

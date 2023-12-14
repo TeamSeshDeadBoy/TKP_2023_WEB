@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
+#root {
+  padding: 0px;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
 :root {
   font-family: 'Russo One', sans-serif;
   line-height: 1.5;
