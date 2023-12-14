@@ -39,7 +39,10 @@ const SockerWrapper = () => {
         socket.connect();
         socket.emit('create', {id: userId, quiz: JSON.stringify(quiz), userName: userName})
 
-        socket.on('join', (obj) => {console.log(obj)});
+        function onJoin(obj) {
+            console.log(obj);
+          }
+        socket.on('join', onJoin);
         socket.on('bark', (obj) => {console.log(obj)});
 
     
@@ -49,6 +52,10 @@ const SockerWrapper = () => {
         };
       }, []);
 
+      const sendJoin = () => {
+        socket.emit('join', {id: userId, quiz: JSON.stringify(quiz), userName: userName})
+      }
+
 
 
   return (
@@ -56,6 +63,7 @@ const SockerWrapper = () => {
         {start}
         <div className="timer">ВИКТОРИНА {quiz.title.toUpperCase()}</div>
         <Lobby users={[1,2,3,4,3,3,3,]} passStartFlag={getStartFlag}/>
+        <button className="absolute_tr" onClick={() => {sendJoin()}}>jointest</button>
     </div>
   )
 }
