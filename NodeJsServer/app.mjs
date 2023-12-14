@@ -250,10 +250,13 @@ io.on('connection', (socket) => {
 
   // Listen for disconnection
   socket.on('disconnect', () => {
-    io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
-
-    playerIds.deleteId(socketsData[socket]);
-    console.log(`${socketsData[socket]} disconnected`);
-    delete socketsData[socket];
+    if (socketsData[socket]){
+      if (socketsData[socket].roomId){
+        io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
+        playerIds.deleteId(socketsData[socket]);
+      }
+      console.log(`${socketsData[socket]} disconnected`);
+      delete socketsData[socket];
+    }
   });
 });
