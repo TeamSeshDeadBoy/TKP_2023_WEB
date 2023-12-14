@@ -100,7 +100,8 @@ async function clearDB(){
   await deleteAllUsers()
 }
 
-var userIds = new IdTree(4);;
+var userIds = new IdTree(4);
+
 
 function start(){
   clearDB()
@@ -169,6 +170,8 @@ app.post('/usersQuizzes',(req,res)=>{
 })
 
 
+var playerIds = new IdTree(5);
+var socketsToPlayerIds = {};
 io.on('connection', (socket) => {
   console.log(`A user connected with ID: ${socket.id}`);
 
@@ -185,9 +188,26 @@ io.on('connection', (socket) => {
   })
 
   socket.on('join', (data) => {
-    console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
-    socket.join(data.roomId)
-    io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
+    if (data.userId) {
+      console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
+      socket.join(data.roomId)
+      io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
+    } else {
+      console.log(`join received from player ${data.userName} to room: ${data.roomId}`);
+      var playerId = playerIds.getFreeId();
+      
+      if (playerId) {
+        socketsToPlayerIds[socket] = playerId;
+        console.log(`player's id assigned ${playerId} ${data.userName}`);
+        socket.join(data.roomId)
+        socket.emit('joined',{userId: playerId})
+        io.to(data.roomId).emit('join',{userName: data.userName, userId: playerId})
+      } else {
+        console.log('failed');
+      }
+    }
+    
+    
   });
 
   socket.on('create', (data) => {
@@ -224,14 +244,14 @@ io.on('connection', (socket) => {
   })
 
 
-
-
   // Listen for disconnection
   socket.on('disconnect', () => {
     socket.rooms.forEach((room) => {
-      io.to(room).emit('leave',{userId: data.userName})
-      socket.leave(room)
+      io.to(room).emit('leave',{userId: userId})
+      // socket.leave(room)
     });
-    console.log('User disconnected');
+    playerIds.deleteId(socketsToPlayerIds[socket]);
+    console.log(`${socketsToPlayerIds[socket]} disconnected`);
+    delete socketsToPlayerIds[socket];
   });
 });

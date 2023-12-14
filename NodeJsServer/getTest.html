@@ -3,27 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Socket.IO Example</title>
+  <title>Mobile</title>
 </head>
 <body>
-  <h1>Socket.IO Example</h1>
+  <h1>Mobile</h1>
+  <h2 id="idDisplay"></h2>
   <input type="text" id="nameInput" placeholder="Type a name">
-  <input type="text" id="roomId" placeholder="RoomId">
+  <input type="text" id="roomIdInput" placeholder="RoomId">
+  <h6>...</h6>
   <button onclick="join()">Join</button>
   <button onclick="bark()">Bark</button>
-  <button onclick="alert('alert')">_alerttest</button>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
-  <script>
+  <script defer>
     const socket = io();
 
     var userNames = [];
+    var myId;
+    updId(myId)
+
+    var myIdDisplay = document.getElementById("idDisplay")
+    var nameInput = document.getElementById("nameInput");
+    var roomIdInput = document.getElementById("roomIdInput");
     
 
+    function updId(id) {
+      if (myIdDisplay){
+        myId = id;
+        myIdDisplay.innerText = id
+      }
+    }
+
     function join() {
-      const name = document.getElementById('nameInput').value;
-      const roomId = document.getElementById('roomId').value;
+      const name = nameInput.value;
+      const roomId = roomIdInput.value;
       socket.emit('join', { userName:name, roomId:roomId });
     }
 
@@ -32,21 +46,25 @@
       socket.emit('bark',{userName:name});
     }
 
+
+    socket.on('joined', (data) => {
+      updId(data.userId);
+      alert(`got player id ${data.userId}`)
+    })
+
     socket.on('bark', (data) => {
       alert(data.msg);
     })
 
     socket.on('join', (data) => {
-      alert(data.msg)
+      alert(`${data.userId} ${data.userName} joined this room`);
     });
 
-  </script>
+    socket.on('leave', (data) => {
+      alert(`${data.userId} ${data.userName} left this room`);
+    });
 
-
-
-
-
-
+    
   </script>
 </body>
 </html>
