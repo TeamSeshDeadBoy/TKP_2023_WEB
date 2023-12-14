@@ -46,7 +46,7 @@
       socket.emit('bark',{userName:name});
     }
 
-
+    // Для мобил
     socket.on('joined', (data) => {
       updId(data.userId);
       alert(`got player id ${data.userId}`)
