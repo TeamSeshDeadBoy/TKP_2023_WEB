@@ -103,9 +103,9 @@ const SockerWrapper = () => {
 
 
         function onChoice(obj) {
-          if (!revealed) {
+          if (!revealed && currIndex !== -1) {
             console.log(obj)
-            console.log("Current index:", currIndex + 1)
+            console.log("Current index:", currIndex)
             let currentScores = JSON.parse(localStorage.getItem('currentScores'));
             currentScores[currIndex + 1].answers.push({userId: obj.userId, choice: obj.choiceInd})
             localStorage.setItem('currentScores', JSON.stringify(currentScores));
