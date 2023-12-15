@@ -171,7 +171,7 @@ app.post('/usersQuizzes',(req,res)=>{
 
 
 var playerIds = new IdTree(5);
-var socketsData = {};
+var playerSocketsData = {};
 io.on('connection', (socket) => {
   console.log(`A user connected with ID: ${socket.id}`);
 
@@ -197,10 +197,10 @@ io.on('connection', (socket) => {
       var playerId = playerIds.getFreeId();
       
       if (playerId) {
-        socketsData[socket] = {};
-        socketsData[socket].playerId = playerId;
-        socketsData[socket].userName = data.userName;
-        socketsData[socket].roomId = data.roomId;
+        playerSocketsData[socket] = {};
+        playerSocketsData[socket].playerId = playerId;
+        playerSocketsData[socket].userName = data.userName;
+        playerSocketsData[socket].roomId = data.roomId;
 
         console.log(`player's id assigned ${playerId} ${data.userName}`);
         socket.join(data.roomId)
@@ -210,8 +210,6 @@ io.on('connection', (socket) => {
         console.log('failed');
       }
     }
-    
-    
   });
 
   socket.on('create', (data) => {
@@ -251,13 +249,15 @@ io.on('connection', (socket) => {
 
   // Listen for disconnection
   socket.on('disconnect', () => {
-    if (socketsData[socket]){
-      if (socketsData[socket].roomId){
-        io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
-        playerIds.deleteId(socketsData[socket]);
+    if (playerSocketsData[socket]){
+      if (playerSocketsData[socket].roomId){
+        io.to(playerSocketsData[socket].roomId).emit('leave',{userId: playerSocketsData[socket].playerId, userName: playerSocketsData[socket].userName})
+        playerIds.deleteId(playerSocketsData[socket]);
       }
-      console.log(`${socketsData[socket]} disconnected`);
-      delete socketsData[socket];
+      console.log(`${playerSocketsData[socket]} disconnected`);
+      delete playerSocketsData[socket];
+    } else {
+      
     }
   });
 });
