@@ -59,7 +59,7 @@ const SockerWrapper = () => {
 
       useEffect(() => {
         if (currIndex !== -1) {
-            socket.emit('next', {roomId: userId}) 
+            socket.emit('next', {roomId: userId, question: quiz.questions[currIndex]}) 
         }
       }, [currIndex])
       
@@ -67,7 +67,7 @@ const SockerWrapper = () => {
 
     useEffect(() => {
         socket.connect();
-        socket.emit('create', {id: userId, quiz: JSON.stringify(quiz), userName: userName})
+        socket.emit('create', {id: userId, userName: userName})
 
         function onJoin(obj) {
             console.log(obj)
