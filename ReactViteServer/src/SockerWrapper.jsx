@@ -19,18 +19,18 @@ const SockerWrapper = () => {
     for (let i = 0; i < quiz.questions.length; i++) {
         result_placeholder.push({correct: quiz.questions[i].validIndex, answers: []})
     }
+    
+    // const [answerLog, setAnswerLog] = useState(result_placeholder)
+    
+    const [start, setStart] = useState(false)
+    const getStartFlag = (bool) => {
+      setStart(bool)
+      socket.emit('start', {roomId: userId})
+      setCurrIndex(0)
+    }
     if (!start){
       console.log("setting local storage")
       localStorage.setItem('currentScores', JSON.stringify(result_placeholder))
-    }
-
-    // const [answerLog, setAnswerLog] = useState(result_placeholder)
-
-    const [start, setStart] = useState(false)
-    const getStartFlag = (bool) => {
-        setStart(bool)
-        socket.emit('start', {roomId: userId})
-        setCurrIndex(0)
     }
     const [end, setEnd] = useState(false)
 
