@@ -24,6 +24,7 @@ const SockerWrapper = () => {
     const [start, setStart] = useState(false)
     const getStartFlag = (bool) => {
         setStart(bool)
+        socket.emit('start', {roomId: userId})
         setCurrIndex(0)
     }
     const [end, setEnd] = useState(false)
