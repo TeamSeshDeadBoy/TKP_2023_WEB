@@ -346,3 +346,7 @@
   justify-content: center;
   align-items: center;
 }
+
+.space_top {
+  margin-top: 75px;
+}
