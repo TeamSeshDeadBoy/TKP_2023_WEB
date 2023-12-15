@@ -93,6 +93,7 @@
   grid-gap: 20px;
   max-height: 620px;
   overflow-y: scroll;
+  overflow-x: hidden;
   padding: 20px;
 }
 
