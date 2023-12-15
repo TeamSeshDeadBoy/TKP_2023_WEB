@@ -221,9 +221,9 @@ io.on('connection', (socket) => {
     console.log(`create received for room ${data.id} ${data.userName} with quiz: ${data.quiz}`);
 
     socketsData[socket] = {};
-    socketsData[socket].playerId = id;
+    socketsData[socket].playerId = data.id;
     socketsData[socket].userName = data.userName;
-    socketsData[socket].roomId = id;
+    socketsData[socket].roomId = data.id;
 
     socket.join(data.id);
     io.to(data.id).emit('create',{})
