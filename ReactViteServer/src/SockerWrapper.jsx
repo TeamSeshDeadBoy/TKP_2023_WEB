@@ -55,6 +55,17 @@ const SockerWrapper = () => {
       }
     }
 
+    function onChoice(obj, index) {
+      if (!revealed && index !== -1) {
+        console.log(obj)
+        console.log("Current index:", index)
+        let currentScores = JSON.parse(localStorage.getItem('currentScores'));
+        currentScores[index + 1].answers.push({userId: obj.userId, choice: obj.choiceInd})
+        localStorage.setItem('currentScores', JSON.stringify(currentScores));
+      }
+    }
+    socket.on('choice', (obj) => onChoice(obj, currIndex));
+
     const black_bg = {
         backgroundImage: `url(${bg_b})`,
         backgroundPosition: 'center',
@@ -100,18 +111,6 @@ const SockerWrapper = () => {
           setConnect(oldArray => [...oldArray.filter(obj => obj.userId !== left.userId)]);
         }
       socket.on('leave', onLeave);
-
-
-        function onChoice(obj, index) {
-          if (!revealed && index !== -1) {
-            console.log(obj)
-            console.log("Current index:", index)
-            let currentScores = JSON.parse(localStorage.getItem('currentScores'));
-            currentScores[index + 1].answers.push({userId: obj.userId, choice: obj.choiceInd})
-            localStorage.setItem('currentScores', JSON.stringify(currentScores));
-          }
-        }
-        socket.on('choice', (obj) => onChoice(obj, currIndex));
 
 
         socket.on('bark', (obj) => {console.log(obj)});
