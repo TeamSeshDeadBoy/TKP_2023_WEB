@@ -19,7 +19,8 @@ const SockerWrapper = () => {
     for (let i = 0; i < quiz.questions.length; i++) {
         result_placeholder.push({correct: quiz.questions[i].validIndex, answers: []})
     }
-    if (start){
+    if (!start){
+      console.log("setting local storage")
       localStorage.setItem('currentScores', JSON.stringify(result_placeholder))
     }
 
