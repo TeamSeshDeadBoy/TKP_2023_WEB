@@ -102,16 +102,16 @@ const SockerWrapper = () => {
       socket.on('leave', onLeave);
 
 
-        function onChoice(obj) {
-          if (!revealed && currIndex !== -1) {
+        function onChoice(obj, index) {
+          if (!revealed && index !== -1) {
             console.log(obj)
-            console.log("Current index:", currIndex)
+            console.log("Current index:", index)
             let currentScores = JSON.parse(localStorage.getItem('currentScores'));
-            currentScores[currIndex + 1].answers.push({userId: obj.userId, choice: obj.choiceInd})
+            currentScores[index + 1].answers.push({userId: obj.userId, choice: obj.choiceInd})
             localStorage.setItem('currentScores', JSON.stringify(currentScores));
           }
         }
-        socket.on('choice', onChoice);
+        socket.on('choice', (obj) => onChoice(obj, currIndex));
 
 
         socket.on('bark', (obj) => {console.log(obj)});
