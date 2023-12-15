@@ -241,20 +241,17 @@ io.on('connection', (socket) => {
 
   socket.on('next', (data) => {
     console.log(`next received for room: ${data.roomId}`)
-    var question;
-    io.to(data.roomId).emit('next',{question:question})
+    io.to(data.roomId).emit('next',{question:data.question})
   })
 
   socket.on('end', (data) => {
-    console.log(`end received for room: ${data.roomId}`);
-    var scores = [];
-    io.to(data.roomId).emit('end',{scores:scores})
+    console.log(`end received for room: ${data.roomId} with scores: ${data.scores}`);
+    io.to(data.roomId).emit('end',{scores:data.scores})
   })
 
   socket.on('reveal', (data) => {
-    console.log(`reveal received for room: ${data.roomId} question: ${data.questionInd}`);
-    var choiceInd;
-    io.to(data.roomId).emit('reveal',{choiceInd:choiceInd})
+    console.log(`reveal received for room: ${data.roomId} choiceInd: ${data.choiceInd}`);
+    io.to(data.roomId).emit('reveal',{choiceInd:data.choiceInd})
   })
 
 
