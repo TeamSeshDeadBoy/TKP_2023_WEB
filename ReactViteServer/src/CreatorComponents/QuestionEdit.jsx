@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react'
 
-const QuestionEdit = ({childToParent}) => {
+const QuestionEdit = ({data, childToParent}) => {
     const [cntAnsw, setCntAnsw] = useState(2)
     const [questionText, setQuestionText] = useState('')
     const [valid, setValid] = useState(1)
     const [error, setError] = useState(false)
     let [answers, setAnswers] = useState([{}, {}, {}, {}])
+    const [cnt, setCnt] = useState(data.length)
 
     function setAnsw(text, ind) {
         answers[ind - 1] = {text: text}
@@ -22,21 +23,9 @@ const QuestionEdit = ({childToParent}) => {
         const buttons = [];
         for (let i = 1; i <= cntAnsw; i++) {
           buttons.push(
-            <div key={i}>
-                <label>Вариант ответа № {i}:</label>
-                <input name={`Answer${i}`} onChange={(e) => setAnsw(e.target.value, i)}/>
-            </div>
-          );
-        }
-        return buttons;
-      }
-
-      const renderToggle = () => {
-        const buttons = [];
-        for (let i = 1; i <= cntAnsw; i++) {
-          buttons.push(
-            <div key={i}>
-                <button style = {{backgroundColor: valid == i ? 'green' : ''}} onClick = {() => setVld(i)} type='button'>{i}</button>
+            <div key={i} className="flex_row">
+                <input placeholder="ВАРИАНТ ОТВЕТА" name={`Answer${i}`} onChange={(e) => setAnsw(e.target.value, i)} className='long_input'/>
+                <button style = {{backgroundColor: valid == i ? '#D6BF81' : ''}} onClick = {() => setVld(i)} type='button' className="small"></button>
             </div>
           );
         }
@@ -64,26 +53,21 @@ const QuestionEdit = ({childToParent}) => {
     }
 
   return (
-    <div className='question'>
-        <p>Конструктор Вопроса</p>
+    <div className='adder relative'>
+      <p className='text_question unset space_bottom'>ДОБАВИТЬ ВОПРОС</p>
         <form className='form'>
-            <label>Текст вопроса: </label>
-            <textarea name="text"  onChange={(e) => setQuestionText(e.target.value)}/>
+            <input placeholder='ТЕКСТ ВОПРОСА' className='long_input' name="text"  onChange={(e) => setQuestionText(e.target.value)}/>
+                {renderButtons()}
+             {error ? <div className="errortext">Заполните все поля !</div> : ''}
             <div className='counter'>
-                <button type="button" className='counter_button'
+                <button type="button" className='unset counter_button'
                  onClick = {() => {cntAnsw == 4 ? setCntAnsw(cntAnsw) : setCntAnsw(cntAnsw + 1)}}
                 >+</button>
-                <p className='counter_p'>{cntAnsw}</p>
-                <button type="button" className='counter_button'
+                <button type="button" className='unset counter_button'
                  onClick = {() => {cntAnsw == 2 ? setCntAnsw(cntAnsw) : setCntAnsw(cntAnsw - 1)}}
                 >-</button>
              </div>
-                {renderButtons()}
-             <div className='buttons_'>
-                {renderToggle()}
-             </div>
-             {error ? <div className="errortext">Заполните все поля !</div> : ''}
-            <button type="button"
+            <button type="button" className='width_to_fit'
             onClick={() => childToParent(collectData())}
             >Добавить вопрос</button>
         </form>

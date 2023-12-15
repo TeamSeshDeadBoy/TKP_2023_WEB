@@ -350,3 +350,158 @@
 .space_top {
   margin-top: 75px;
 }
+
+.answer_tag{
+  height: 50px;
+  width: 50px;
+}
+
+.flex_row{
+  display: flex;
+}
+
+.input_area{
+  margin-bottom: 20px;
+  background-color: #B0B0B0;
+  border-radius: 5px;
+  min-width: 310px;
+  min-height: 70px;
+  text-align: left;
+  border: 0px;
+  font-family: inherit;
+  font-size: 26px;
+  color: #242424;
+  padding-left: 20px;
+  resize: none;
+}
+
+.small {
+  all: unset;
+  box-sizing: border-box;
+  width: 30px !important;
+  max-height: 70px;
+  margin-left: 5px;
+  border: 2px solid;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.small_input{
+  all: unset;
+  margin-bottom: 20px;
+  background-color: #B0B0B0;
+  border-radius: 5px;
+  width: 190px;
+  min-height: 70px;
+  text-align: left;
+  border: 0px;
+  font-family: inherit;
+  font-size: 26px;
+  color: #242424;
+  padding-left: 20px;
+}
+
+.small_a_to_normal {
+  all: unset;
+}
+.small_a_to_normal:hover {
+  all: unset;
+}
+
+.constraint{
+  max-height: 170px;
+  overflow: scroll;
+  scrollbar-width: none !important;
+  overflow-x: hidden;
+}
+
+.constraint::-webkit-scrollbar {
+  width: 12px;
+}
+
+.constraint::-webkit-scrollbar-track {
+  border: 2px solid;
+  border-radius: 5px;
+  }
+
+.constraint::-webkit-scrollbar-thumb {
+  background-color: #D6BF81;
+  border-radius: 5px;
+}
+
+.small_textarea{
+  all: unset;
+  margin-bottom: 20px;
+  background-color: #B0B0B0;
+  border-radius: 5px;
+  width: 250px;
+  min-height: 70px;
+  text-align: left;
+  border: 0px;
+  font-family: inherit;
+  font-size: 26px;
+  color: #242424;
+  padding-left: 20px;
+}
+
+.adder {
+  width: 490px;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 20px;
+  padding-right: 10px;
+  margin-top: 20px;
+}
+
+.text_question{
+  font-size: 26px;
+  text-align: start;
+  padding: 0px !important;
+}
+
+.long_input{
+  min-width: 420px !important;
+  max-width: 420px !important;
+}
+
+.width_to_fit{
+  min-width: 475px !important;
+  max-width: 440px !important;
+}
+
+.space_bottom{
+  margin-bottom: 30px;
+}
+
+.blue {
+  color: #0FD4CD;
+}
+
+.absolute_br{
+  position: absolute;
+  right: 0px;
+  bottom: -60px;
+}
+
+.counter{
+  position: absolute;
+  left: -70px;
+  top: 170px;
+  display: flex;
+  flex-direction: column;
+}
+
+.counter_button{
+  box-sizing: border-box;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 10px;
+  width: 40px;
+  height: 72px;
+  margin: 10px;
+}
+
+.counter_button:hover{
+  border: 4px solid;
+  box-sizing: border-box;
+}

@@ -26,9 +26,9 @@ const EditingQuestion = ({question, dataToParent, ind}) => {
         const buttons = [];
         for (let i = 0; i < question.answers.length; i++) {
           buttons.push(
-            <div key={i}>
-                <input autoFocus name="textarea" key={answers[i].text} value={answers[i].text} onChange={(e) => setAnsw(e.target.value, i)}/>
-                <button style={{background: valid == i ? "green" : ""}} onClick={() => setValid(i)}>{i + 1}</button>
+            <div key={i} className="flex_row">
+                <input autoFocus name="textarea" key={answers[i].text} value={answers[i].text} onChange={(e) => setAnsw(e.target.value, i)} className="small_input"/>
+                <button style={{background: valid == i ? "#D6BF81" : ""}} onClick={() => setValid(i)} className="small"></button>
             </div>
           );
         }
@@ -54,14 +54,12 @@ const EditingQuestion = ({question, dataToParent, ind}) => {
 
 
   return (
-    <div>
-        {questionText}
-        {JSON.stringify(answers)}
-        {valid}
-        <textarea id="noter-text-area" name="textarea" value={questionText} onChange={(e) => setQuestionText(e.target.value)}/>
-        {renderAnswers()}
+    <div className="pointer relative">
+        <textarea id="noter-text-area" className="small_textarea" name="textarea" value={questionText} onChange={(e) => setQuestionText(e.target.value)}/>
+        <div className="constraint">{renderAnswers()}
+          <button type="button" className="small_a_to_normal" onClick={() => {error ? " " : dataToParent(collectData(), ind)}}>Сохранить</button>
+        </div>
         {error ? <div className="errortext">Заполните все поля !</div> : ''}
-        <button type="button" onClick={() => {error ? " " : dataToParent(collectData(), ind)}}>Сохранить</button>
     </div>
   )
 }

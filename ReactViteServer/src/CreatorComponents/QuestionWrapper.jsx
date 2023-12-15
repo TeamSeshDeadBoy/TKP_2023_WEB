@@ -34,9 +34,7 @@ const QuestionWrapper = ({data, change}) => {
     
 
   return (
-    <div>
-        <div className="questions">{components}</div>
-    </div>
+    <div className="questions grid">{components}</div>
   )
 }
 

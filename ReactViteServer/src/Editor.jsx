@@ -1,5 +1,4 @@
 // import { useLoaderData } from "react-router-dom"
-import './Editor.css'
 import QuestionEdit from './CreatorComponents/QuestionEdit.jsx'
 import { useState } from "react";
 import QuestionWrapper from './CreatorComponents/QuestionWrapper.jsx';
@@ -56,20 +55,15 @@ const Editor = () => {
 
   return (
   <>
-    <div className="room">
-        <h2>{state ? `Редактор викторины` : "Создайте новую викторину" }</h2>
-        <div className='main'>
-          <div className="questions">
-            <QuestionWrapper data={data} key={data} change={changeFromChild}/>
-          </div>
+        {/* <h1>{state ? `РЕДАКТОР ВИКТОРИНЫ` : "СОЗДАНИЕ ВИКТОРИНЫ" }</h1> */}
+        <input placeholder='ВИКТОРИНА' type="text" onChange={(e) => setName(e.target.value)}></input>
+    <div className='flex_row relative'>
           <div className="questionedit">
-            <QuestionEdit childToParent={childToParent}/>
-            <p className='textName'>Введите название викторины:</p>
-            <input type="text" onChange={(e) => setName(e.target.value)}></input>
-            {error ? <div className='error_text'>Сначала заполните имя викторины, или увеличьте число вопросов (минимум - 2)</div> : ""}
-            <button type="button" className='button_save' onClick={() => save()}>Сохранить викторину</button>
+            <QuestionEdit childToParent={childToParent} data={data}/>
+            {error ? <div className='errortext'>ПРОВЕРЬТЕ: ИМЯ ВИКТОРИНЫ, ВОПРОСЫ</div> : ""}
           </div>
-        </div>
+            <QuestionWrapper data={data} key={data} change={changeFromChild}/>
+            <button type="button" className='a_to_normal absolute_br blue' onClick={() => save()}>СОХРАНИТЬ ВИКТОРИНУ</button>
     </div>
   </>
   )
