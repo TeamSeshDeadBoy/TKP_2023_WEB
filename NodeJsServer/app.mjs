@@ -108,7 +108,6 @@ function start(){
 };
 
 start()
-if (userIds instanceof IdTree)
 
 app.post('/getUser',(req,res)=>{
   reqNotifier(req);
@@ -171,7 +170,7 @@ app.post('/usersQuizzes',(req,res)=>{
 
 
 var playerIds = new IdTree(5);
-var playerSocketsData = {};
+var socketsData = {};
 io.on('connection', (socket) => {
   console.log(`A user connected with ID: ${socket.id}`);
 
@@ -188,32 +187,44 @@ io.on('connection', (socket) => {
   })
 
   socket.on('join', (data) => {
-    if (data.userId) {
-      console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
-      socket.join(data.roomId)
-      io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
-    } else {
-      console.log(`join received from player ${data.userName} to room: ${data.roomId}`);
-      var playerId = playerIds.getFreeId();
-      
-      if (playerId) {
-        playerSocketsData[socket] = {};
-        playerSocketsData[socket].playerId = playerId;
-        playerSocketsData[socket].userName = data.userName;
-        playerSocketsData[socket].roomId = data.roomId;
-
-        console.log(`player's id assigned ${playerId} ${data.userName}`);
+    if (io.sockets.adapter.rooms.has(data.roomId)){
+      if (data.userId) {
+        console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
         socket.join(data.roomId)
-        socket.emit('joined',{userId: playerId})
-        io.to(data.roomId).emit('join',{userName: data.userName, userId: playerId})
+        io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
       } else {
-        console.log('failed');
+        console.log(`join received from player ${data.userName} to room: ${data.roomId}`);
+        var playerId = playerIds.getFreeId();
+        
+        if (playerId) {
+          socketsData[socket] = {};
+          socketsData[socket].playerId = playerId;
+          socketsData[socket].userName = data.userName;
+          socketsData[socket].roomId = data.roomId;
+  
+          console.log(`player's id assigned ${playerId} ${data.userName}`);
+          socket.join(data.roomId)
+          socket.emit('joined',{userId: playerId})
+          io.to(data.roomId).emit('join',{userName: data.userName, userId: playerId})
+        } else {
+          console.log('failed');
+        }
       }
+    } else {
+      console.log('Failed to join. Room does not exist');
+      socket.emit('joined',{msg: 'Room does not exist'})
     }
+    
   });
 
   socket.on('create', (data) => {
     console.log(`create received for room ${data.id} ${data.userName} with quiz: ${data.quiz}`);
+
+    socketsData[socket] = {};
+    socketsData[socket].playerId = id;
+    socketsData[socket].userName = data.userName;
+    socketsData[socket].roomId = id;
+
     socket.join(data.id);
     io.to(data.id).emit('create',{})
   })
@@ -249,13 +260,13 @@ io.on('connection', (socket) => {
 
   // Listen for disconnection
   socket.on('disconnect', () => {
-    if (playerSocketsData[socket]){
-      if (playerSocketsData[socket].roomId){
-        io.to(playerSocketsData[socket].roomId).emit('leave',{userId: playerSocketsData[socket].playerId, userName: playerSocketsData[socket].userName})
-        playerIds.deleteId(playerSocketsData[socket]);
+    if (socketsData[socket]){
+      if (socketsData[socket].roomId){
+        io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
+        playerIds.deleteId(socketsData[socket]);
       }
-      console.log(`${playerSocketsData[socket]} disconnected`);
-      delete playerSocketsData[socket];
+      console.log(`${socketsData[socket]} disconnected`);
+      delete socketsData[socket];
     } else {
       
     }
