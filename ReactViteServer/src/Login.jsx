@@ -39,8 +39,8 @@ const Login = () => {
     <>
     <h1>ВОЙТИ</h1>
         <form className='form'>
-            <input name="email" placeholder="ПОЧТА" onChange={(e) => setEmail(e.target.value)}/>
-            <input name="password" placeholder="E-MAIL" type="password"  onChange={(e) => setPass(e.target.value)}/>
+            <input name="email" placeholder="E-MAIL" onChange={(e) => setEmail(e.target.value)}/>
+            <input name="password" placeholder="ПАРОЛЬ" type="password"  onChange={(e) => setPass(e.target.value)}/>
             <div className="errortext" style={error ? {visibility: "visible"} : {}}>{error}</div>
             <button type="button" className="a"
             onClick={() => postUser()}
