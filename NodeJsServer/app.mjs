@@ -204,21 +204,21 @@ io.on('connection', (socket) => {
   
           console.log(`player's id assigned ${playerId} ${data.userName}`);
           socket.join(data.roomId)
-          socket.emit('joined',{userId: playerId})
+          socket.emit('joined',{playerId: playerId})
           io.to(data.roomId).emit('join',{userName: data.userName, userId: playerId})
         } else {
           console.log('failed');
         }
       }
     } else {
-      console.log('Failed to join. Room does not exist');
+      console.log(`${data.userName} failed to join. Room ${data.roomId} does not exist`);
       socket.emit('joined',{msg: 'Room does not exist'})
     }
     
   });
 
   socket.on('create', (data) => {
-    console.log(`create received for room ${data.id} ${data.userName} with quiz: ${data.quiz}`);
+    console.log(`create received for room ${data.id} ${data.userName}`);
 
     socketsData[socket] = {};
     socketsData[socket].playerId = data.id;
@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('next', (data) => {
-    console.log(`next received for room: ${data.roomId}`)
+    console.log(`next received for room: ${data.roomId} with question: ${data.question.text}  with choices: ${data.choices}`)
     io.to(data.roomId).emit('next',{question:data.question})
   })
 
@@ -262,7 +262,7 @@ io.on('connection', (socket) => {
         io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
         playerIds.deleteId(socketsData[socket]);
       }
-      console.log(`${socketsData[socket]} disconnected`);
+      console.log(`${socketsData[socket].userId} ${socketsData[socket].userName} disconnected`);
       delete socketsData[socket];
     } else {
       
