@@ -101,6 +101,7 @@ const SockerWrapper = () => {
           if (!revealed) {
             console.log(obj)
             let temp = structuredClone(answerLog)
+            console.log("Current index:", currIndex)
             console.log("Temp obj:", temp[currIndex])
             temp[currIndex].answers.push({userId: obj.userId, choice: obj.choiceInd})
             setAnswerLog(temp)
