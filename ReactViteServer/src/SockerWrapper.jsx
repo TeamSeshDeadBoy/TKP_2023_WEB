@@ -29,8 +29,8 @@ const SockerWrapper = () => {
     }
     const [end, setEnd] = useState(false)
 
-    const [connected, setConnect] = useState([{userId: userId, userName: "ВЫ"}])
-    const [currIndex, setCurrIndex] = useState(0)
+    const [connected, setConnect] = useState([])
+    const [currIndex, setCurrIndex] = useState(-1)
     const next = (bool) => {
         if (bool && currIndex < quiz.questions.length - 1) {
             setRevealed(false)
