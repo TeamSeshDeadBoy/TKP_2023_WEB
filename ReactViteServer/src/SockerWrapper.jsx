@@ -33,11 +33,21 @@ const SockerWrapper = () => {
     const [currIndex, setCurrIndex] = useState(-1)
     const next = (bool) => {
         if (bool && currIndex < quiz.questions.length - 1) {
+            setRevealed(false)
             setCurrIndex(currIndex + 1)
         } else if (currIndex == quiz.questions.length - 1) {
+            setRevealed(false)
             setEnd(true)
             socket.emit('end', {roomId: userId})
         }
+    }
+
+    const [revealed, setRevealed] = useState(false)
+    const reveal = (bool) => {
+      if (bool) {
+        setRevealed(true)
+        socket.emit('reveal', {roomId: userId, choiceInd:  quiz.questions[currIndex].validIndex})
+      }
     }
 
     const black_bg = {
@@ -60,7 +70,12 @@ const SockerWrapper = () => {
 
       useEffect(() => {
         if (currIndex !== -1) {
-            socket.emit('next', {roomId: userId, question: quiz.questions[currIndex]}) 
+          let tempobj = {
+            text: quiz.questions[currIndex].text,
+            choices: quiz.questions[currIndex].answers
+          }
+          console.log(tempobj)
+            socket.emit('next', {roomId: userId, question: tempobj}) 
         }
       }, [currIndex])
       
@@ -76,13 +91,20 @@ const SockerWrapper = () => {
           }
         socket.on('join', onJoin);
 
+        function onLeave(left) {
+          setConnect(oldArray => [...oldArray.filter(obj => obj.userId !== left.userId)]);
+        }
+      socket.on('leave', onLeave);
+
 
         function onChoice(obj) {
+          if (!revealed) {
             console.log(obj)
             let temp = structuredClone(answerLog)
             temp[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
             setAnswerLog(temp)
           }
+        }
         socket.on('choice', onChoice);
 
 
@@ -101,7 +123,7 @@ const SockerWrapper = () => {
   return (
     <div style={start ? end ? {} : white_bg : black_bg} className="flex_center">
         <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
-        {start ?  end ? <Endgame /> : <Game answers={quiz.questions[currIndex]} passNext={next}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
+        {start ?  end ? <Endgame /> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
         <h1 className="debug_string">{JSON.stringify(answerLog)}</h1>
     </div>
   )
