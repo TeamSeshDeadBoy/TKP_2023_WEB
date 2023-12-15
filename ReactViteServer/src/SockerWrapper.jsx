@@ -100,8 +100,8 @@ const SockerWrapper = () => {
         function onChoice(obj) {
           if (!revealed) {
             console.log(obj)
-            console.log("Current index:", currIndex)
-            setAnswerLog(log => log[currIndex].answers.push({userId: obj.userId, choice: obj.choiceInd}))
+            console.log("Current index:", currIndex + 1)
+            setAnswerLog(log => log[currIndex + 1].answers.push({userId: obj.userId, choice: obj.choiceInd}))
           }
         }
         socket.on('choice', onChoice);
