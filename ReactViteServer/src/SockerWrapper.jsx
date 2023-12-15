@@ -19,7 +19,9 @@ const SockerWrapper = () => {
     for (let i = 0; i < quiz.questions.length; i++) {
         result_placeholder.push({correct: quiz.questions[i].validIndex, answers: []})
     }
-    const [answerLog, setAnswerLog] = useState(result_placeholder)
+    localStorage.setItem('currentScores', JSON.stringify(result_placeholder))
+
+    // const [answerLog, setAnswerLog] = useState(result_placeholder)
 
     const [start, setStart] = useState(false)
     const getStartFlag = (bool) => {
@@ -101,7 +103,9 @@ const SockerWrapper = () => {
           if (!revealed) {
             console.log(obj)
             console.log("Current index:", currIndex + 1)
-            setAnswerLog(log => log[currIndex + 1].answers.push({userId: obj.userId, choice: obj.choiceInd}))
+            let currentScores = JSON.parse(localStorage.getItem('currentScores'));
+            currentScores[currIndex + 1].answers.push({userId: obj.userId, choice: obj.choiceInd})
+            localStorage.setItem('currentScores', JSON.stringify(currentScores));
           }
         }
         socket.on('choice', onChoice);
@@ -123,7 +127,7 @@ const SockerWrapper = () => {
     <div style={start ? end ? {} : white_bg : black_bg} className="flex_center">
         <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
         {start ?  end ? <Endgame /> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
-        <h1 className="debug_string">{JSON.stringify(answerLog)}{currIndex}</h1>
+        <h1 className="debug_string">{currIndex}</h1>
     </div>
   )
 }
