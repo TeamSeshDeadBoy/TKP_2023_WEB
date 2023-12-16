@@ -25,6 +25,8 @@ const SockerWrapper = () => {
 
     const calculateChoice = (id, choiceInd, questInd) => {
       console.log("Choice received:", id, choiceInd, questInd)
+      console.log("Current index:", currIndex)
+      console.log("Current valid:", quiz.questions[currIndex].validIndex)
       if (revealed){
         console.log("Revealed, no scores calculating")
       } else {
