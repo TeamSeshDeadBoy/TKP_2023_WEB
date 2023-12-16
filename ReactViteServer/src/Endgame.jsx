@@ -12,12 +12,16 @@ const Endgame = ({scores}) => {
     console.log("Objecy filtration:", connected.filter(a => a.userId == object.userId))
     return {userId: object.userId, userName: connected.filter(a => a.userId == object.userId)[0].userName, scores: object.scores}
   }
-  scores.map((obj) => modifiedObj(obj))
+
+  let modifiedScores = []
+  for (let i = 0; i < scores.length; i++){
+    modifiedScores.push(modifiedObj(scores[i]))
+  }
 
   return (
     <div className="game_geometry white_bg">
         Endgame! Hooray!
-        {JSON.stringify(scores)}
+        {JSON.stringify(modifiedScores)}
     </div>
   )
 }
