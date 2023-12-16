@@ -5,7 +5,7 @@ import { useState } from "react"
 
 const Endgame = ({scores, connected}) => {
   const modifiedObj = (object) => {
-    return {userId: object.userId, userName: connected.filter(a => a.userId === obj.userId)[0].name, scores: object.scores}
+    return {userId: object.userId, userName: connected.filter(a => a.userId === object.userId)[0].name, scores: object.scores}
   }
   scores.map((obj) => modifiedObj(obj))
 
