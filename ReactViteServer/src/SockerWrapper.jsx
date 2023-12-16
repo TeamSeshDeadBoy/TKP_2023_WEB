@@ -19,7 +19,25 @@ const SockerWrapper = () => {
     for (let i = 0; i < quiz.questions.length; i++) {
         result_placeholder.push({correct: quiz.questions[i].validIndex, answers: []})
     }
+
+    const[scores, setScores] = useState([])
     
+
+    const calculateChoice = (id, choiceInd, questInd) => {
+      if (revealed){
+        ""
+      } else {
+        if (questInd == currIndex && choiceInd == quiz.questions[currIndex].validIndex) {
+          if (scores.find(obj => obj.userId === id)){
+            setScores(obj => [...obj.filter(user => user.userId !== id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50}])
+          } else {
+            setScores(obj => [...obj, {userId: id, coins: 50}])
+          }
+        }
+      }
+   }
+
+
     // const [answerLog, setAnswerLog] = useState(result_placeholder)
     
     const [start, setStart] = useState(false)
@@ -109,6 +127,7 @@ const SockerWrapper = () => {
             currentScores[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
             localStorage.setItem('currentScores', JSON.stringify(currentScores));
           }
+          calculateChoice(obj.userId, obj.choiceInd, obj.questionInd)
         }
         socket.on('choice', onChoice);
 

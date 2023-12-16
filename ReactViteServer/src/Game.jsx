@@ -35,8 +35,8 @@ const Game = ({answers, passNext, passReveal}) => {
         <div className="question_title">{answers.text}</div>
         <div className="question">{renderAnswers()}</div>
         <div className="clock">120</div>
-        <button className="absolute_tr" onClick={() => {toPass()}}>СЛЕДУЮЩИЙ</button>
-        <button className="absolute_tr space_top" onClick={() => {toPassReveal()}}>ПОКАЗАТЬ</button>
+        <button className="absolute_tr a_to_normal black" onClick={() => {toPass()}}>СЛЕДУЮЩИЙ</button>
+        <button className="absolute_tr space_top a_to_normal black" onClick={() => {toPassReveal()}}>ПОКАЗАТЬ</button>
     </div>
   )
 }
