@@ -190,6 +190,7 @@ io.on('connection', (socket) => {
     if (io.sockets.adapter.rooms.has(data.roomId)){
       if (data.userId) {
         console.log(`join received from user ${data.userId} ${data.userName} to room: ${data.roomId}`);
+
         socket.join(data.roomId)
         io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
       } else {
@@ -246,7 +247,8 @@ io.on('connection', (socket) => {
 
   socket.on('end', (data) => {
     console.log(`end received for room: ${data.roomId} with scores: ${data.scores}`);
-    io.to(data.roomId).emit('end',{scores:data.scores})
+    io.to(data.roomId).emit('end',data.scores)
+    //io.to(data.roomId).emit('end',{scores:[{id:"TEST",name:"Test",score: 5},{id:"TEST1",name:"Test1",score: 2},{id:"TEST2",name:"Test2",score: 4}]})//
   })
 
   socket.on('reveal', (data) => {
