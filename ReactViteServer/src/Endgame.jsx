@@ -14,8 +14,10 @@ const Endgame = ({scores, socket}) => {
   }
 
   let modifiedScores = []
-  for (let i = 0; i < scores.length; i++){
-    modifiedScores.push(modifiedObj(scores[i]))
+  if (scores.length > 0){
+    for (let i = 0; i < scores.length; i++){
+      modifiedScores.push(modifiedObj(scores[i]))
+    }
   }
 
   let notZeros = []
