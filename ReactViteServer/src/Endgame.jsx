@@ -10,7 +10,7 @@ const Endgame = ({scores, socket}) => {
   const modifiedObj = (object) => {
     console.log("Object before mutating:", object)
     console.log("Objecy filtration:", connected.filter(a => a.userId == object.userId))
-    return {userId: object.userId, userName: connected.filter(a => a.userId == object.userId)[0].userName, scores: object.coins}
+    return {userId: object.userId, userName: connected.filter(a => a.userId == object.userId)[0].userName, score: object.coins}
   }
 
   let modifiedScores = []
