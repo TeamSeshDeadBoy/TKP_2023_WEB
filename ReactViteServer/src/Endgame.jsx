@@ -17,7 +17,7 @@ const Endgame = ({scores, socket}) => {
   for (let i = 0; i < scores.length; i++){
     modifiedScores.push(modifiedObj(scores[i]))
   }
-  socket.emit('end', {scores: modifiedScores})
+  socket.emit('end', {roomId: localStorage.getItem('userId'),scores: modifiedScores})
 
   return (
     <div className="game_geometry white_bg">
