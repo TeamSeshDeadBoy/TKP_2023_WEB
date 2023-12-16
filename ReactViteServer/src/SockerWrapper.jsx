@@ -30,18 +30,22 @@ const SockerWrapper = () => {
         console.log("Revealed, no scores calculating")
       } else {
         if (choiceInd == quiz.questions[questInd].validIndex) {
-          if (scores.find(obj => obj.userId === id)){
-            if (scores.find(obj => obj.userId === id && obj.answers.indexOf(questInd) == -1)) {
-              setScores(obj => [...obj.filter(user => user.userId !== id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId === id).answers, questInd] }])
+          if (scores.find(obj => obj.userId == id)){
+            if (scores.find(obj => obj.userId ===id && obj.answers.indexOf(questInd) == -1)) {
+              setScores(obj => [...obj.filter(user => user.userId != id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId == id).answers, questInd] }])
               console.log("Scoring", scores)
             }
           } else {
             setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
-            console.log("Scroing + creating", {userId: id, coins: 50, answers: [questInd]})
+            console.log("Scoring + creating", {userId: id, coins: 50, answers: [questInd]})
           }
         }
       }
    }
+   useEffect(() => {
+     console.log("scores:", scores)
+   }, [scores])
+   
 
 
     // const [answerLog, setAnswerLog] = useState(result_placeholder)
