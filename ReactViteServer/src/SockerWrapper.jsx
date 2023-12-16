@@ -62,10 +62,6 @@ const SockerWrapper = () => {
       socket.emit('start', {roomId: userId})
       setCurrIndex(0)
     }
-    if (!start){
-      console.log("setting local storage")
-      localStorage.setItem('currentScores', JSON.stringify(result_placeholder))
-    }
     const [end, setEnd] = useState(false)
     // useEffect(() => {
     //   scoresState
@@ -144,9 +140,6 @@ const SockerWrapper = () => {
         function onChoice(obj) {
           if (!revealed) {
             console.log(obj)
-            // let currentScores = JSON.parse(localStorage.getItem('currentScores'));
-            // currentScores[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
-            // localStorage.setItem('currentScores', JSON.stringify(currentScores));
             calculateChoice(obj.userId, obj.choiceInd, obj.questionInd)
           }
         }
