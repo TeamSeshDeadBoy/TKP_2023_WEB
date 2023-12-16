@@ -19,7 +19,27 @@ const SockerWrapper = () => {
     for (let i = 0; i < quiz.questions.length; i++) {
         result_placeholder.push({correct: quiz.questions[i].validIndex, answers: []})
     }
+
+    const[scores, setScores] = useState([])
     
+
+    const calculateChoice = (id, choiceInd, questInd) => {
+      if (revealed){
+        console.log("Revealed, no scores calculating")
+      } else {
+        if (questInd == currIndex && choiceInd == quiz.questions[currIndex].validIndex) {
+          if (scores.find(obj => obj.userId === id)){
+            if (scores.find(obj => obj.answers.indexOf(questInd) == -1)) {
+              setScores(obj => [...obj.filter(user => user.userId !== id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId === id).answers, questInd] }])
+            }
+          } else {
+            setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
+          }
+        }
+      }
+   }
+
+
     // const [answerLog, setAnswerLog] = useState(result_placeholder)
     
     const [start, setStart] = useState(false)
@@ -109,6 +129,7 @@ const SockerWrapper = () => {
             currentScores[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
             localStorage.setItem('currentScores', JSON.stringify(currentScores));
           }
+          calculateChoice(obj.userId, obj.choiceInd, obj.questionInd)
         }
         socket.on('choice', onChoice);
 
@@ -128,7 +149,7 @@ const SockerWrapper = () => {
   return (
     <div style={start ? end ? {} : white_bg : black_bg} className="flex_center">
         <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
-        {start ?  end ? <Endgame /> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
+        {start ?  end ? <Endgame scores={scores}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
         <h1 className="debug_string">{currIndex}</h1>
     </div>
   )
