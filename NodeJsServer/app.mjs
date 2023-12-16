@@ -248,7 +248,7 @@ io.on('connection', (socket) => {
   socket.on('end', (data) => {
     console.log(`end received for room: ${data.roomId} with scores: ${data.scores}`);
     io.to(data.roomId).emit('end',data.scores)
-    //io.to(data.roomId).emit('end',{scores:[{id:"TEST",name:"Test",score: 5},{id:"TEST1",name:"Test1",score: 2},{id:"TEST2",name:"Test2",score: 4}]})//
+    //io.to(data.roomId).emit('end',{scores:[{userId:"TEST",userName:"Test",score: 5},{},{}]})//
   })
 
   socket.on('reveal', (data) => {
