@@ -248,7 +248,7 @@ io.on('connection', (socket) => {
   socket.on('end', (data) => {
     console.log(`end received for room: ${data.roomId} with scores: ${data.scores}`);
     logJson(data.scores)
-    io.to(data.roomId).emit('end',data.scores)
+    io.to(data.roomId).emit('end',data)
     //io.to(data.roomId).emit('end',{scores:[{userId:"TEST",userName:"Test",score: 5},{},{}]})//
   })
 
