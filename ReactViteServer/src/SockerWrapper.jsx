@@ -21,7 +21,7 @@ const SockerWrapper = () => {
     }
 
     let scores = []
-    // const[scores, setScores] = useState([])
+    const[scoresState, setScoresState] = useState([])
     
 
     const calculateChoice = (id, choiceInd, questInd) => {
@@ -36,10 +36,12 @@ const SockerWrapper = () => {
               console.log("Coins of user:",scores.filter(obj => obj.userId == id)[0].coins)
               scores = [...scores.filter(user => user.userId != id), {userId: id, coins: scores.filter(obj => obj.userId == id)[0].coins + 50, answers: [...  scores.find(aa => aa.userId == id).answers, questInd]}]
               // setScores(obj => [...obj.filter(user => user.userId != id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId == id).answers, questInd] }])
+              setScoresState(scores)
               console.log("Scoring", scores)
             }
           } else {
             scores = [...scores, {userId: id, coins: 50, answers: [questInd]}]
+            setScoresState(scores)
             // setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
             console.log("Scoring + creating", {userId: id, coins: 50, answers: [questInd]})
           }
@@ -137,9 +139,9 @@ const SockerWrapper = () => {
         function onChoice(obj) {
           if (!revealed) {
             console.log(obj)
-            let currentScores = JSON.parse(localStorage.getItem('currentScores'));
-            currentScores[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
-            localStorage.setItem('currentScores', JSON.stringify(currentScores));
+            // let currentScores = JSON.parse(localStorage.getItem('currentScores'));
+            // currentScores[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
+            // localStorage.setItem('currentScores', JSON.stringify(currentScores));
             calculateChoice(obj.userId, obj.choiceInd, obj.questionInd)
           }
         }
@@ -161,7 +163,7 @@ const SockerWrapper = () => {
   return (
     <div style={start ? end ? {} : white_bg : black_bg} className="flex_center">
         <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
-        {start ?  end ? <Endgame scores={scores}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
+        {start ?  end ? <Endgame scores={scoresState}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
         <h1 className="debug_string">{currIndex}</h1>
     </div>
   )
