@@ -6,7 +6,7 @@ import { useState } from "react"
 const Endgame = ({scores}) => {
   const connected = localStorage.getItem('connections')
   console.log("Received scores :", scores)
-  console.log("Connected people:", connected)
+  console.log("Connected people:", JSON.parse(connected))
   const modifiedObj = (object) => {
     console.log("Object before mutating:", object)
     console.log("Objecy filtration:", connected.filter(a => a.userId == object.userId))
