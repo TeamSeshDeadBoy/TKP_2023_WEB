@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 
-const Endgame = ({scores}) => {
+const Endgame = ({scores, socket}) => {
   const connected =JSON.parse(localStorage.getItem('connections'))
   console.log("Received scores :", scores)
   console.log("Connected people:", connected)
@@ -17,6 +17,7 @@ const Endgame = ({scores}) => {
   for (let i = 0; i < scores.length; i++){
     modifiedScores.push(modifiedObj(scores[i]))
   }
+  socket.emit('end', {scores: modifiedScores})
 
   return (
     <div className="game_geometry white_bg">
