@@ -67,6 +67,10 @@ const SockerWrapper = () => {
       localStorage.setItem('currentScores', JSON.stringify(result_placeholder))
     }
     const [end, setEnd] = useState(false)
+    // useEffect(() => {
+    //   scoresState
+    // }, [end])
+    
 
     const [connected, setConnect] = useState([])
     const [currIndex, setCurrIndex] = useState(-1)
@@ -163,7 +167,7 @@ const SockerWrapper = () => {
   return (
     <div style={start ? end ? {} : white_bg : black_bg} className="flex_center">
         <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
-        {start ?  end ? <Endgame scores={scoresState}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
+        {start ?  end ? <Endgame scores={scoresState} connected={connected}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
         <h1 className="debug_string">{currIndex}</h1>
     </div>
   )
