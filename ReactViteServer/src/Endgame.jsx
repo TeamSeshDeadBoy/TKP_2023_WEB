@@ -4,7 +4,7 @@ import { useState } from "react"
 
 
 const Endgame = ({scores}) => {
-  const connected = localStorage.getItem('connections')
+  const connected = JSON.parse(localStorage.getItem('connections'))
   console.log("Received scores :", scores)
   console.log("Connected people:", JSON.parse(connected))
   const modifiedObj = (object) => {
