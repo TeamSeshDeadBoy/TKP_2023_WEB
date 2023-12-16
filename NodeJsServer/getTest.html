@@ -11,8 +11,11 @@
   <input type="text" id="nameInput" placeholder="Type a name">
   <input type="text" id="roomIdInput" placeholder="RoomId">
   <h6>...</h6>
+  <input type="text" id="questionIdInput" placeholder="Question index">
+  <input type="text" id="choiceIdInput" placeholder="Choice index">
   <button onclick="join()">Join</button>
   <button onclick="bark()">Bark</button>
+  <button onclick="choice()">Bark</button>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
@@ -26,6 +29,8 @@
     var myIdDisplay = document.getElementById("idDisplay")
     var nameInput = document.getElementById("nameInput");
     var roomIdInput = document.getElementById("roomIdInput");
+    var choiceIdInput = document.getElementById("choiceIdInput");
+    var questionIdInput = document.getElementById("questionIdInput");
     
 
     function updId(id) {
@@ -44,6 +49,14 @@
     function bark() {
       const name = document.getElementById('nameInput').value;
       socket.emit('bark',{userName:name});
+    }
+
+    function choice() {
+      const name = nameInput.value;
+      const roomId = roomIdInput.value;
+      const questionInd = questionIdInput.value;
+      const choiceInd = choiceIdInput.value;
+      socket.emit('choice',{roomId: roomId, userId: 'BBBBB', questionInd: questionInd, choiceInd: choiceInd});
     }
 
     // Для мобил
