@@ -17,6 +17,15 @@ const Endgame = ({scores, socket}) => {
   for (let i = 0; i < scores.length; i++){
     modifiedScores.push(modifiedObj(scores[i]))
   }
+
+  let notZeros = []
+  for (var k in modifiedScores) notZeros.push(k.userId);
+
+  let zeros = connected.filter(usr => notZeros.indexOf(usr.userId) == -1);
+  for (let i = 0; i < zeros.length; i++){
+    modifiedScores.push({userId: zeros[i], userName: connected.filter(a => a.userId == zeros[i])[0].userName, score: 0})
+  }
+
   socket.emit('end', {roomId: localStorage.getItem('userId'), scores: modifiedScores})
 
   return (
