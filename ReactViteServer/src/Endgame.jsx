@@ -22,8 +22,11 @@ const Endgame = ({scores, socket}) => {
 
   let notZeros = []
   for (var k in modifiedScores) notZeros.push(k.userId);
+  console.log("Not zeros (people with scores):", notZeros)
 
   let zeros = connected.filter(usr => notZeros.indexOf(usr.userId) == -1);
+  console.log("Zeros (people with scores):", zeros)
+  
   for (let i = 0; i < zeros.length; i++){
     modifiedScores.push({userId: zeros[i], userName: connected.filter(a => a.userId == zeros[i])[0].userName, score: 0})
   }
