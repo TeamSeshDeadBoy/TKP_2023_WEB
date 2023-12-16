@@ -25,6 +25,8 @@ export async function createUser(id,{name,email,password},quizzes) {
     return result
   }
 }
+ var s = ['a','b','c','d','e','f','g','h','i','j','k'];
+s.indexOf('a')
 export async function deleteUserById(id) {
   return await prisma.user.delete({
     where: {
