@@ -20,7 +20,8 @@ const SockerWrapper = () => {
         result_placeholder.push({correct: quiz.questions[i].validIndex, answers: []})
     }
 
-    const[scores, setScores] = useState([])
+    let scores = []
+    // const[scores, setScores] = useState([])
     
 
     const calculateChoice = (id, choiceInd, questInd) => {
@@ -32,11 +33,13 @@ const SockerWrapper = () => {
         if (choiceInd == quiz.questions[questInd].validIndex) {
           if (scores.find(obj => obj.userId == id)){
             if (scores.find(obj => obj.userId ===id && obj.answers.indexOf(questInd) == -1)) {
-              setScores(obj => [...obj.filter(user => user.userId != id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId == id).answers, questInd] }])
+              scores = [...scores.filter(user => user.userId != id), {userId: id, coins: scores.find(aa => aa.userId === id).scores + 50, answers: [...  scores.find(aa => aa.userId == id).answers, questInd]}]
+              // setScores(obj => [...obj.filter(user => user.userId != id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId == id).answers, questInd] }])
               console.log("Scoring", scores)
             }
           } else {
-            setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
+            scores = [...scores, {userId: id, coins: 50, answers: [questInd]}]
+            // setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
             console.log("Scoring + creating", {userId: id, coins: 50, answers: [questInd]})
           }
         }
