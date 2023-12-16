@@ -25,13 +25,15 @@ const SockerWrapper = () => {
 
     const calculateChoice = (id, choiceInd, questInd) => {
       if (revealed){
-        ""
+        console.log("Revealed, no scores calculating")
       } else {
         if (questInd == currIndex && choiceInd == quiz.questions[currIndex].validIndex) {
           if (scores.find(obj => obj.userId === id)){
-            setScores(obj => [...obj.filter(user => user.userId !== id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50}])
+            if (scores.find(obj => obj.answers.indexOf(questInd) == -1)) {
+              setScores(obj => [...obj.filter(user => user.userId !== id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId === id).answers, questInd] }])
+            }
           } else {
-            setScores(obj => [...obj, {userId: id, coins: 50}])
+            setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
           }
         }
       }
