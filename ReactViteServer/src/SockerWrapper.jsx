@@ -81,6 +81,7 @@ const SockerWrapper = () => {
         } else if (currIndex == quiz.questions.length - 1) {
             setRevealed(false)
             setEnd(true)
+            localStorage.setItem('connections', connected)
             socket.emit('end', {roomId: userId})
         }
     }
