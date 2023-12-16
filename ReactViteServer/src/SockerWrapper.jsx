@@ -37,7 +37,7 @@ const SockerWrapper = () => {
             }
           } else {
             setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
-            console.log("Scroing + creating", scores)
+            console.log("Scroing + creating", {userId: id, coins: 50, answers: [questInd]})
           }
         }
       }
