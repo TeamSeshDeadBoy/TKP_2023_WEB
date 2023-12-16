@@ -24,6 +24,7 @@ const SockerWrapper = () => {
     
 
     const calculateChoice = (id, choiceInd, questInd) => {
+      console.log("Choice received:", id, choiceInd, questInd)
       if (revealed){
         console.log("Revealed, no scores calculating")
       } else {
@@ -31,9 +32,11 @@ const SockerWrapper = () => {
           if (scores.find(obj => obj.userId === id)){
             if (scores.find(obj => obj.answers.indexOf(questInd) == -1)) {
               setScores(obj => [...obj.filter(user => user.userId !== id), {userId: id, coins: obj.find(aa => aa.userId === id).scores + 50, answers: [...  obj.find(aa => aa.userId === id).answers, questInd] }])
+              console.log("Scoring", scores)
             }
           } else {
             setScores(obj => [...obj, {userId: id, coins: 50, answers: [questInd]}])
+            console.log("Scroing + creating", scores)
           }
         }
       }
@@ -128,8 +131,8 @@ const SockerWrapper = () => {
             let currentScores = JSON.parse(localStorage.getItem('currentScores'));
             currentScores[obj.questionInd].answers.push({userId: obj.userId, choice: obj.choiceInd})
             localStorage.setItem('currentScores', JSON.stringify(currentScores));
+            calculateChoice(obj.userId, obj.choiceInd, obj.questionInd)
           }
-          calculateChoice(obj.userId, obj.choiceInd, obj.questionInd)
         }
         socket.on('choice', onChoice);
 
