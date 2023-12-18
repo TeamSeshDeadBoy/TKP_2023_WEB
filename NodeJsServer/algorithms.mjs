@@ -154,7 +154,13 @@ export class IdTree{
     }
 }
 
-// var idTree = new IdTree(3);
+// var idTree = new IdTree(6);
+// console.log(idTree.pushId("AAAAAA"));
+// console.log(idTree.pushId("BAAAAA"));
+// console.log(idTree.deleteId("BAAAAA"));
+// console.log(idTree.getFreeId());
+
+
 // console.log(idTree.pushIdString("ABC"));
 // console.log(idTree.pushIdString("ABB"));
 // console.log(idTree.pushIdString("ACB"));

@@ -43,9 +43,9 @@ function logJson(json) {
   }  
 }
 function reqNotifier(req) {
-  console.log('');
-  console.log(`${req.method} request received for: ${req.originalUrl}`);
-  console.log(`request body: ${JSON.stringify(req.body)}`);
+  // console.log('');
+  // console.log(`${req.method} request received for: ${req.originalUrl}`);
+  // console.log(`request body: ${JSON.stringify(req.body)}`);
 }
 
 function handleMissingProperties(missingProperties){
@@ -172,7 +172,7 @@ app.post('/usersQuizzes',(req,res)=>{
 var playerIds = new IdTree(5);
 var socketsData = {};
 io.on('connection', (socket) => {
-  console.log(`A user connected with ID: ${socket.id}`);
+  console.log(`socket connect recieved: ${socket.id}`);
 
   function handleSocketMissingProperties(missingProperties){
     if (Array.isArray(missingProperties)){
@@ -195,13 +195,14 @@ io.on('connection', (socket) => {
         io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
       } else {
         console.log(`join received from player ${data.userName} to room: ${data.roomId}`);
+        
         var playerId = playerIds.getFreeId();
         
         if (playerId) {
-          socketsData[socket] = {};
-          socketsData[socket].playerId = playerId;
-          socketsData[socket].userName = data.userName;
-          socketsData[socket].roomId = data.roomId;
+          socketsData[socket.id] = {};
+          socketsData[socket.id].userId = playerId;
+          socketsData[socket.id].userName = data.userName;
+          socketsData[socket.id].roomId = data.roomId;
   
           console.log(`player's id assigned ${playerId} ${data.userName}`);
           socket.join(data.roomId)
@@ -213,7 +214,7 @@ io.on('connection', (socket) => {
       }
     } else {
       console.log(`${data.userName} failed to join. Room ${data.roomId} does not exist`);
-      socket.emit('joined',{msg: 'Room does not exist'})
+      socket.emit('joined',{})
     }
     
   });
@@ -221,10 +222,10 @@ io.on('connection', (socket) => {
   socket.on('create', (data) => {
     console.log(`create received for room ${data.id} ${data.userName}`);
 
-    socketsData[socket] = {};
-    socketsData[socket].playerId = data.id;
-    socketsData[socket].userName = data.userName;
-    socketsData[socket].roomId = data.id;
+    socketsData[socket.id] = {};
+    socketsData[socket.id].userId = data.id;
+    socketsData[socket.id].userName = data.userName;
+    socketsData[socket.id].roomId = data.id;
 
     socket.join(data.id);
     io.to(data.id).emit('create',{})
@@ -242,14 +243,13 @@ io.on('connection', (socket) => {
 
   socket.on('next', (data) => {
     console.log(`next received for room: ${data.roomId} with question (# ${data.questionInd}): ${data.question.text}  with choices: ${data.choices}`)
-    io.to(data.roomId).emit('next',{question:data.question})
+    io.to(data.roomId).emit('next',{question:data.question, questionInd: data.questionInd})
   })
 
   socket.on('end', (data) => {
     console.log(`end received for room: ${data.roomId} with scores: ${data.scores}`);
     logJson(data.scores)
     io.to(data.roomId).emit('end',data)
-    //io.to(data.roomId).emit('end',{scores:[{userId:"TEST",userName:"Test",score: 5},{},{}]})//
   })
 
   socket.on('reveal', (data) => {
@@ -257,18 +257,25 @@ io.on('connection', (socket) => {
     io.to(data.roomId).emit('reveal',{choiceInd:data.choiceInd})
   })
 
-
   // Listen for disconnection
   socket.on('disconnect', () => {
-    if (socketsData[socket]){
-      if (socketsData[socket].roomId){
-        io.to(socketsData[socket].roomId).emit('leave',{userId: socketsData[socket].playerId, userName: socketsData[socket].userName})
-        playerIds.deleteId(socketsData[socket]);
-      }
-      console.log(`${socketsData[socket].userId} ${socketsData[socket].userName} disconnected`);
-      delete socketsData[socket];
+    console.log(`socket disconnect recieved: ${socket.id}`);
+    if (socketsData[socket.id]){
+      console.log("socket was found");
+      if (socketsData[socket.id].roomId){
+        console.log("socket room was found");
+        io.to(socketsData[socket.id].roomId).emit('leave',{userId: socketsData[socket.id].playerId, userName: socketsData[socket.id].userName})
+        console.log("leave event emitted");
+      } else {console.log("didn't find socket's room");}
+      playerIds.deleteId(socketsData[socket.id]);
+
+      console.log("Id was freed");
+      userIds.visualize();
+      console.log(`${socketsData[socket.id].userId} ${socketsData[socket.id].userName} disconnected`);
+      delete socketsData[socket.id];
+      console.log("socketsData deleted");
     } else {
-      
+      console.log("socket wasnt found in socketsData");
     }
   });
 });
