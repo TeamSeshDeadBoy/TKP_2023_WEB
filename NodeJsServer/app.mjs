@@ -241,7 +241,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('next', (data) => {
-    console.log(`next received for room: ${data.roomId} with question: ${data.question.text}  with choices: ${data.choices}`)
+    console.log(`next received for room: ${data.roomId} with question (# ${data.questionInd}): ${data.question.text}  with choices: ${data.choices}`)
     io.to(data.roomId).emit('next',{question:data.question})
   })
 
