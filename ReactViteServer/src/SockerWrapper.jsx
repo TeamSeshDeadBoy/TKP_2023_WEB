@@ -80,7 +80,7 @@ const SockerWrapper = () => {
             setRevealed(false)
             setEnd(true)
             localStorage.setItem('connections', JSON.stringify(connected))
-            socket.emit('end', {roomId: userId})
+            // socket.emit('end', {roomId: userId})
         }
     }
 
@@ -159,7 +159,7 @@ const SockerWrapper = () => {
 
       const getScores = (obj) => {
         console.log("emitting:", obj)
-        socket.emit('end', obj)
+        socket.emit('end', {roomId: userId, scores:obj})
       }
 
 
