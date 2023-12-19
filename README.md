@@ -3,4 +3,7 @@
 
 
 Frontend stack: React + React-router + Axios
-Backend stack: node + prisma + MongoDB
+Backend stack: 
+    NodeJS <-> Prisma <-> MongoDB
+    <-> http <->
+    <-> SocketIO <->

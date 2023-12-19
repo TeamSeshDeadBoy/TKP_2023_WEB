@@ -38,7 +38,6 @@ import {
 import { 
   updateUsersQuizzes, 
 } from './prisma/_quizFunctions.mjs';
-import { log } from 'console';
 
 
 import {
