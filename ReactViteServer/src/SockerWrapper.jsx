@@ -14,6 +14,7 @@ const SockerWrapper = () => {
     const userName = localStorage.getItem('userName')
     const {state} = useLocation();
     const { quiz } = state;
+    const length = quiz.questions.length
 
     let result_placeholder = []
     for (let i = 0; i < quiz.questions.length; i++) {
@@ -27,6 +28,7 @@ const SockerWrapper = () => {
     const calculateChoice = (id, choiceInd, questInd) => {
       console.log("Choice received:", id, choiceInd, questInd)
       console.log("Current valid:", quiz.questions[questInd].validIndex)
+      
       if (revealed){
         console.log("Revealed, no scores calculating")
       } else {
@@ -164,10 +166,15 @@ const SockerWrapper = () => {
 
 
   return (
-    <div style={start ? end ? {} : white_bg : black_bg} className="flex_center">
-        <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
-        {start ?  end ? <Endgame scores={scoresState} scoresToParent={getScores} connected={connected} socket={socket}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal}/> : <Lobby users={connected} passStartFlag={getStartFlag}/>}
-        <h1 className="debug_string">{JSON.stringify(connected)}</h1>
+    <div className="flex_col" style={start ? end ? {} : white_bg : black_bg}>
+      {end ? <div className="spacer"></div> : ""}
+      <div className="flex_center">
+          <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
+          {start ?  end ? <Endgame scores={scoresState} scoresToParent={getScores} connected={connected} socket={socket}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal} length={length}/> : <Lobby users={connected} passStartFlag={getStartFlag} roomId={userId}/>}
+      </div>
+      <div className="logo_wrap">
+        {start ? <h1 className="logo_down">РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1> : ""}
+      </div>
     </div>
   )
 }

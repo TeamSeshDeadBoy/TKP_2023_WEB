@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 
 
-const Lobby = ({users, passStartFlag}) => {
+const Lobby = ({users, passStartFlag, roomId}) => {
   const [usersState, setUsersState] = useState(users)
   useEffect(() => {
     setUsersState(users)
@@ -19,9 +19,9 @@ const Lobby = ({users, passStartFlag}) => {
   
   return (
     <div className="lobby game_geometry">
-        <p className="user_count">{usersState.length}</p>
-        <div className="user_card_wrapper">{renderUsers()}</div>
-        <button onClick={() => passStartFlag(true)}>СТАРТ</button>
+        <p className="user_count">{usersState.length} <span className="room_id">{roomId}</span><span className="room_helptext"> - код подключения</span></p>
+        <div className="user_card_wrapper gray_scroll">{renderUsers()}</div>
+        <button className="start_button" onClick={() => passStartFlag(true)}>СТАРТ</button>
     </div>
   )
 }
