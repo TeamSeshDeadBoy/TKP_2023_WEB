@@ -12,8 +12,8 @@ class IdNode{
 export class IdTree{
     root
     idLength
-    idChars = ['A','B','C']
-    //idChars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    //idChars = ['A','B','C'] // testArray
+    idChars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     constructor(idLength){
         this.root=new IdNode(null);
         this.idLength = idLength;
@@ -52,7 +52,6 @@ export class IdTree{
                         }
                     } else return new Error("error1")
                 }
-
                 if (doCreateNode){
                     var newIdNode = new IdNode(value);
                     newIdNode.parent = visitor;
@@ -134,12 +133,9 @@ export class IdTree{
             else {return new Error("failed: ID wasn't found")}
         }
     }
-
-
     visualize() {
         this._visualizeNode(this.root, 0);
     }
-
     _visualizeNode(node, depth) {
         const indentation = '  '.repeat(depth);
         console.log(`${indentation}${node.val}`);
@@ -153,6 +149,9 @@ export class IdTree{
         }
     }
 }
+
+
+// TESTS:
 
 // var idTree = new IdTree(6);
 // console.log(idTree.pushId("AAAAAA"));
