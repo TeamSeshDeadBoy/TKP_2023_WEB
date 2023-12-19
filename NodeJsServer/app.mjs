@@ -195,7 +195,7 @@ io.on('connection', (socket) => {
         io.to(data.roomId).emit('join',{userName: data.userName, userId: data.userId})
       } else {
         console.log(`join received from player ${data.userName} to room: ${data.roomId}`);
-        
+
         var playerId = playerIds.getFreeId();
         
         if (playerId) {
@@ -267,10 +267,8 @@ io.on('connection', (socket) => {
         io.to(socketsData[socket.id].roomId).emit('leave',{userId: socketsData[socket.id].playerId, userName: socketsData[socket.id].userName})
         console.log("leave event emitted");
       } else {console.log("didn't find socket's room");}
-      playerIds.deleteId(socketsData[socket.id]);
-
-      console.log("Id was freed");
-      userIds.visualize();
+      console.log(playerIds.deleteId(socketsData[socket.id].userId));
+      playerIds.visualize();
       console.log(`${socketsData[socket.id].userId} ${socketsData[socket.id].userName} disconnected`);
       delete socketsData[socket.id];
       console.log("socketsData deleted");
