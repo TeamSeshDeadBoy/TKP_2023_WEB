@@ -11,7 +11,7 @@ const Editor = () => {
   
   
   const [error, setError] = useState(false);
-  const [nameVar, setName] = useState("");
+  const [nameVar, setName] = useState("БЕЗ НАЗВАНИЯ");
   if (state) {
     question = state.question
     index = state.index
@@ -23,7 +23,9 @@ const Editor = () => {
     const childToParent = (childdata) => {
       if (childdata) { 
         setData([...data, childdata]);
+        setSavePus(false)
       }
+      setSavePus(false)
     }
 
     const changeFromChild = (childdata) => {
@@ -53,18 +55,24 @@ const Editor = () => {
     }
   }
 
+  const [savePus, setSavePus] = useState(false)
+
+  const savePushed = (bool) => {
+    setSavePus(bool)
+  }
+
   return (
   <>
-        {/* <h1>{state ? `РЕДАКТОР ВИКТОРИНЫ` : "СОЗДАНИЕ ВИКТОРИНЫ" }</h1> */}
-        <input placeholder='ВИКТОРИНА' type="text" onChange={(e) => setName(e.target.value)}></input>
+        <input placeholder='НАЗВАНИЕ' value={nameVar} type="text" onChange={(e) => setName(e.target.value)}></input>
     <div className='flex_row relative'>
           <div className="questionedit">
-            <QuestionEdit childToParent={childToParent} data={data}/>
+            <QuestionEdit childToParent={childToParent} data={data} saveState={savePus}/>
             {error ? <div className='errortext'>ПРОВЕРЬТЕ: ИМЯ ВИКТОРИНЫ, ВОПРОСЫ</div> : ""}
           </div>
-            <QuestionWrapper data={data} key={data} change={changeFromChild}/>
+            <QuestionWrapper data={data} key={data} change={changeFromChild} trigger={savePushed} />
             <button type="button" className='a_to_normal absolute_br blue' onClick={() => save()}>СОХРАНИТЬ ВИКТОРИНУ</button>
     </div>
+    <div className='footer'>СОЗДАНО РЫБАЛКО К., ЛЕБЕДЕВЫМ С., МОНАХОВЫМ А.</div>
   </>
   )
 }

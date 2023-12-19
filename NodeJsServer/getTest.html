@@ -56,7 +56,7 @@
       const roomId = roomIdInput.value;
       const questionInd = questionIdInput.value;
       const choiceInd = choiceIdInput.value;
-      socket.emit('choice',{roomId: roomId, userId: 'BBBBB', questionInd: questionInd, choiceInd: choiceInd});
+      socket.emit('choice',{roomId: roomId, userId: myId, questionInd: questionInd, choiceInd: choiceInd});
     }
 
     // Для мобил

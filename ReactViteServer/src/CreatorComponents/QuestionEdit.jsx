@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
-const QuestionEdit = ({data, childToParent}) => {
+const QuestionEdit = ({data, childToParent, saveState}) => {
     const [cntAnsw, setCntAnsw] = useState(2)
     const [questionText, setQuestionText] = useState('')
     const [valid, setValid] = useState(1)
@@ -14,6 +14,11 @@ const QuestionEdit = ({data, childToParent}) => {
         setAnswers(answers)
         setVld(1)
     }
+
+    useEffect(() => {
+      childToParent(collectData())
+    }, [saveState])
+    
 
     function setVld(ind) {
         setValid(ind)
@@ -60,7 +65,7 @@ const QuestionEdit = ({data, childToParent}) => {
                 {renderButtons()}
              {error ? <div className="errortext">Заполните все поля !</div> : ''}
             <div className='counter'>
-                <button type="button" className='unset counter_button'
+                <button type="button" className=' unset counter_button'
                  onClick = {() => {cntAnsw == 4 ? setCntAnsw(cntAnsw) : setCntAnsw(cntAnsw + 1)}}
                 >+</button>
                 <button type="button" className='unset counter_button'

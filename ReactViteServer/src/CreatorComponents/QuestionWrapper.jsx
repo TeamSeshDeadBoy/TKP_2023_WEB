@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import QuestionViewer from "./QuestionViewer"
 
 
-const QuestionWrapper = ({data, change}) => {
+const QuestionWrapper = ({data, change, trigger}) => {
     const [questions, setQuestions] = useState(data)
     const [components, setComponents] = useState([])
 
@@ -34,7 +34,13 @@ const QuestionWrapper = ({data, change}) => {
     
 
   return (
-    <div className="questions grid">{components}</div>
+    <div className="questions grid">{components}
+    {/* <div className="button_plus_container">
+      <button type="button" className='button_plus pointer'
+              onClick={() => trigger(true)}
+              >+</button>
+    </div> */}
+    </div>
   )
 }
 

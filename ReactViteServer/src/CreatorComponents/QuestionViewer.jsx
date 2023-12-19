@@ -37,10 +37,9 @@ const QuestionViewer = ({ind, data, deleteQuestion, passQuestion}) => {
           <p style={{fontSize: "26px"}}>ВОПРОС {ind}</p>
           {/* <p>Правильный ответ: {valid + 1}</p> */}
           <div className='btns_cntainer'>
-            <button id="1111" className='absolute_tr beige svg unset_hover pointer' onClick={() => {deleteQuestion(ind)}} style={ active ? {} : {visibility: "hidden"}}><IoMdClose className="svg"/></button>
-            <button id="2222" className='absolute_tl beige unset_hover pointer' onClick={() => setIsEditing(true)} style={ active ? {} : {visibility: "hidden"}}><MdEditNote className="svg"/></button>
+            <button id="1111" className='absolute_tr add_hover_size reposizion_r beige unset_hover pointer' onClick={() => {deleteQuestion(ind)}} style={ active ? {} : {visibility: "hidden"}}><IoMdClose className="svg"/></button>
+            <button id="2222" className='absolute_tl add_hover_size reposizion_l beige unset_hover pointer' onClick={() => setIsEditing(true)} style={ active ? {} : {visibility: "hidden"}}><MdEditNote className="svg"/></button>
           </div>
-          <p>{data.text}</p>
           <div className='buttons'>
               {/* {renderButtons()} */}
           </div>

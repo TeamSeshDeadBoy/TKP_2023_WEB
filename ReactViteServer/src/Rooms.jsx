@@ -57,7 +57,7 @@ const Rooms = () => {
       {error}
       <div className="grid">
         {parsed}
-        <a href="/editor" className='button_plus pointer'>+</a>
+        <div className="button_plus_container"><a href="/editor" className='button_plus pointer'>+</a></div>
       </div>
       <div className="flex_col absolute_tr">
         <button className="a_to_normal blue" onClick = {() => logOut()}>ВЫЙТИ</button>
