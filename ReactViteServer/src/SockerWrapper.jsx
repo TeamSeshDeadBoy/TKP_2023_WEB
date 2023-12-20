@@ -134,8 +134,10 @@ const SockerWrapper = () => {
         socket.on('join', onJoin);
 
         function onLeave(left) {
+          console.log('Leave detected', left)
           setConnect(oldArray => [...oldArray.filter(obj => obj.userId !== left.userId)]);
         }
+        console.log('Leave detected')
       socket.on('leave', onLeave);
 
 

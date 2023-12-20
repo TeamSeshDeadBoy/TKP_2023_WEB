@@ -38,7 +38,7 @@ const QuestionViewer = ({ind, data, deleteQuestion, passQuestion}) => {
           {/* <p>Правильный ответ: {valid + 1}</p> */}
           <div className='btns_cntainer'>
             <button id="1111" className='absolute_tr add_hover_size reposizion_r beige unset_hover pointer' onClick={() => {deleteQuestion(ind)}} style={ active ? {} : {visibility: "hidden"}}><IoMdClose className="svg"/></button>
-            <button id="2222" className='absolute_tl add_hover_size reposizion_l beige unset_hover pointer' onClick={() => setIsEditing(true)} style={ active ? {} : {visibility: "hidden"}}><MdEditNote className="svg"/></button>
+            <button id="2222" className='absolute_tl add_hover_size_big reposizion_l beige unset_hover pointer' onClick={() => setIsEditing(true)} style={ active ? {} : {visibility: "hidden"}}><MdEditNote className="svg"/></button>
           </div>
           <div className='buttons'>
               {/* {renderButtons()} */}

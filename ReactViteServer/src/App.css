@@ -148,7 +148,14 @@
 .add_hover_size {
   min-width: 150px;
   min-height: 150px;
+  z-index: 10;
 }
+.add_hover_size_big {
+  min-width: 270px;
+  min-height: 270px;
+  z-index: 9;
+}
+
 
 .add_hover_size_big {
   width: 300px !important;
@@ -374,7 +381,8 @@
   border-color: #242424;
   padding-right: 130px;
   margin-top: 10px;
-}
+} 
+
 
 .question {
   height: 620px;
@@ -472,6 +480,12 @@
 
 .flex_row{
   display: flex;
+}
+
+.enlarge{
+  position: absolute;
+  height: 500px;
+  width: 500px;
 }
 
 .input_area{

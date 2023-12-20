@@ -63,7 +63,7 @@ const Editor = () => {
 
   return (
   <>
-        <input placeholder='НАЗВАНИЕ' value={nameVar} type="text" onChange={(e) => setName(e.target.value)}></input>
+        <input placeholder='НАЗВАНИЕ' value={nameVar} type="text" onChange={(e) => setName(e.target.value)} onClick={() => {nameVar == "БЕЗ НАЗВАНИЯ" ? setName("") : ""}}></input>
     <div className='flex_row relative'>
           <div className="questionedit">
             <QuestionEdit childToParent={childToParent} data={data} saveState={savePus}/>
