@@ -37,7 +37,7 @@ const Login = () => {
     }
   return (
     <>
-    <h1>ВОЙТИ</h1>
+    <h1 className="text_login">ВОЙТИ</h1>
         <form className='form'>
             <input name="email" placeholder="E-MAIL" onChange={(e) => setEmail(e.target.value)}/>
             <input name="password" placeholder="ПАРОЛЬ" type="password"  onChange={(e) => setPass(e.target.value)}/>

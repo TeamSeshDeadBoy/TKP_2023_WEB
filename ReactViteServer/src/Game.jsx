@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { useEffect, useState } from "react"
+import { IoIosArrowForward } from "react-icons/io";
 
 
 const Game = ({answers, passNext, passReveal, length}) => {
@@ -58,7 +59,7 @@ const Game = ({answers, passNext, passReveal, length}) => {
         <div className="question_numbers">{num}/{length}</div>
         <div className="question">{ revealed ? renderRevealed() : renderAnswers()}</div>
         {/*<div className="clock">120</div>*/}
-        <button className={revealed ? "absolute_tr question_next_btn" : "absolute_tr question_next_btn"} onClick={() => {toPass()}}>СЛЕДУЮЩИЙ</button>
+        <button className={revealed ? "absolute_tr question_next_btn" : "question_next_btn"} onClick={() => {toPass()}}><div className="relative"><IoIosArrowForward className="arrowsvg"/><IoIosArrowForward className="right_arrow arrowsvg"/></div></button>
         {/* <button className="absolute_tr space_top a_to_normal black" onClick={() => {toPassReveal()}}>ПОКАЗАТЬ</button> */}
     </div>
   )

@@ -52,16 +52,16 @@ const Rooms = () => {
   
   return (
     <>
-      <h1 className="logo_corner">РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
+      <h1 className="logo_corner pointer">РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
       <h1 className="absolute_t">ВИКТОРИНЫ</h1>
       {error}
       <div className="grid">
         {parsed}
         <div className="button_plus_container"><a href="/editor" className='button_plus pointer'>+</a></div>
       </div>
-      <div className="flex_col absolute_tr">
-        <button className="a_to_normal blue" onClick = {() => logOut()}>ВЫЙТИ</button>
-        <button className="a_to_normal blue" onClick = {() => delAccount()}>УДАЛИТЬ АККАУНТ</button>
+      <div className="flex_col absolute_tr pading_top">
+        <button className="a_to_normal blue leavebtn pointer" onClick = {() => logOut()}>ВЫЙТИ</button>
+        <button className="a_to_normal blue leavebtn pointer" onClick = {() => delAccount()}>УДАЛИТЬ АККАУНТ</button>
       </div>
       <div className='footer'>СОЗДАНО РЫБАЛКО К., ЛЕБЕДЕВЫМ С., МОНАХОВЫМ А.</div>
     </>

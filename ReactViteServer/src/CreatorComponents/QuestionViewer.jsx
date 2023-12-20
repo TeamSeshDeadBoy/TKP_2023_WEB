@@ -2,8 +2,8 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react'
 import EditingQuestion from "./EditingQuestion";
-import { IoMdClose } from "react-icons/io";
-import { MdEditNote } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import { CgCloseR } from "react-icons/cg";
 
 const QuestionViewer = ({ind, data, deleteQuestion, passQuestion}) => {
     // const [valid, setvalid] = useState(0)
@@ -34,11 +34,11 @@ const QuestionViewer = ({ind, data, deleteQuestion, passQuestion}) => {
   return (
     <div className="card pointer relative" onMouseOver={() => setActive(true)} onMouseOut={() => setActive(false)}>
       {isEditing ? <EditingQuestion question={data} dataToParent={collectData} ind={ind}/> : <>
-          <p style={{fontSize: "26px"}}>ВОПРОС {ind}</p>
+          <p className='text_constraint' style={{fontSize: "26px"}}>{data.text}</p>
           {/* <p>Правильный ответ: {valid + 1}</p> */}
           <div className='btns_cntainer'>
-            <button id="1111" className='absolute_tr add_hover_size reposizion_r beige unset_hover pointer' onClick={() => {deleteQuestion(ind)}} style={ active ? {} : {visibility: "hidden"}}><IoMdClose className="svg"/></button>
-            <button id="2222" className='absolute_tl add_hover_size_big reposizion_l beige unset_hover pointer' onClick={() => setIsEditing(true)} style={ active ? {} : {visibility: "hidden"}}><MdEditNote className="svg"/></button>
+            <button id="1111" className='absolute_tr add_hover_size reposizion_r beige unset_hover pointer' onClick={() => {deleteQuestion(ind)}} style={ active ? {} : {visibility: "hidden"}}><CgCloseR className="svg"/></button>
+            <button id="2222" className='absolute_tl add_hover_size_big reposizion_l beige unset_hover pointer' onClick={() => setIsEditing(true)} style={ active ? {} : {visibility: "hidden"}}><FiEdit className="svg"/></button>
           </div>
           <div className='buttons'>
               {/* {renderButtons()} */}

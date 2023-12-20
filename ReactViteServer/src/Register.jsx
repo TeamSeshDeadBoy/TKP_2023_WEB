@@ -39,7 +39,7 @@ const Register = () => {
     }
   return (
     <>
-    <h1>РЕГИСТРАЦИЯ</h1>
+    <h1 className="text_login">РЕГИСТРАЦИЯ</h1>
         <form className='form'>
             <input name="name" placeholder="ИМЯ" onChange={(e) => setName(e.target.value)}/>
             <input name="email" placeholder="E-MAIL" type="email"  onChange={(e) => setEmail(e.target.value)}/>

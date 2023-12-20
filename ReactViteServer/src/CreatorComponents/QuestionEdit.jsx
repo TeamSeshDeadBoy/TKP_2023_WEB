@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import {useEffect, useState} from 'react'
 
+
 const QuestionEdit = ({data, childToParent, saveState}) => {
     const [cntAnsw, setCntAnsw] = useState(2)
     const [questionText, setQuestionText] = useState('')
@@ -59,18 +60,18 @@ const QuestionEdit = ({data, childToParent, saveState}) => {
 
   return (
     <div className='adder relative'>
-      <p className='text_question unset space_bottom'>ДОБАВИТЬ ВОПРОС</p>
+      <p className='text_question unset space_bottom'>СОЗДАТЬ ВОПРОС</p>
         <form className='form'>
             <input placeholder='ТЕКСТ ВОПРОСА' className='long_input' name="text"  onChange={(e) => setQuestionText(e.target.value)}/>
                 {renderButtons()}
-             {error ? <div className="errortext">Заполните все поля !</div> : ''}
+             {error ? <div className="errortext">Заполните все поля!</div> : ''}
             <div className='counter'>
                 <button type="button" className=' unset counter_button'
-                 onClick = {() => {cntAnsw == 4 ? setCntAnsw(cntAnsw) : setCntAnsw(cntAnsw + 1)}}
-                >+</button>
-                <button type="button" className='unset counter_button'
                  onClick = {() => {cntAnsw == 2 ? setCntAnsw(cntAnsw) : setCntAnsw(cntAnsw - 1)}}
                 >-</button>
+                <button type="button" className='unset counter_button'
+                 onClick = {() => {cntAnsw == 4 ? setCntAnsw(cntAnsw) : setCntAnsw(cntAnsw + 1)}}
+                >+</button>
              </div>
             <button type="button" className='width_to_fit'
             onClick={() => childToParent(collectData())}

@@ -29,7 +29,9 @@
   visibility: "hidden";
   padding: 0px;
   margin: 0px;
-  text-align: center;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  text-align: start;
 }
 
 .footer {
@@ -39,11 +41,24 @@
   font-size: 12px;
 }
 
+.text_constraint{
+  max-width: 265px;
+  max-height: 125px !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; 
+  overflow: hidden;
+  text-overflow: ellipsis;  
+}
+
 .a_to_normal, .a_to_normal:hover{
   border: 0px;
   text-align: center !important;
   font-size: 18px;
   justify-content: end;
+}
+.a_to_normal:hover{
+  font-size: 20px;
 }
 
 .button_login {
@@ -202,14 +217,26 @@
   height: 40px;
 }
 
+.svg2.svg2{
+  width: 60px;
+  height: 60px;
+}
+
 .add_hover_size:hover > .svg.svg{
   width: 50px;
   height: 50px;
 }
 
+
 .add_hover_size_big:hover > .svg.svg{
   width: 50px;
   height: 50px;
+}
+
+
+.add_hover_size_big:hover > .svg2.svg2{
+  width: 75px;
+  height: 75px;
 }
 
 .svg2.svg{
@@ -285,7 +312,7 @@
 .game_geometry {
   width: 1260px;
   height: 800px;
-  margin-left: 30px;
+  margin-left: 10px;
   border-radius: 5px;
   position: relative;
 }
@@ -365,6 +392,24 @@
   color: #242424;
   vertical-align: start;
   text-align: start;
+  padding-left: 20px;
+  max-width: 900px;
+  z-index: 20;
+}
+
+.right_arrow.right_arrow {
+  position: absolute;
+  left: -10px;
+}
+
+.pdtp{
+  max-height: 50px !important;
+  max-height: 50px !important;
+}
+
+.arrowsvg.arrowsvg{
+  height: 40px;
+  width: 40px;
 }
 
 .question_numbers{
@@ -381,7 +426,24 @@
   border-color: #242424;
   padding-right: 130px;
   margin-top: 10px;
-} 
+
+  height: 50px !important;
+  max-height: 50px !important;
+  min-height: 50px !important;
+  width: 50px !important;
+  max-width: 50px !important;
+  min-width: 50px !important;
+  padding: 0px;
+  padding-left: 9px;
+  padding-top: 7px;
+
+  position: absolute;
+  right: -60px;
+  top: 440px;
+}
+.question_next_btn:hover{
+  padding-left: 7px;
+}
 
 
 .question {
@@ -581,10 +643,18 @@
   margin-top: 20px;
 }
 
+.text_login{
+  width: 315px;
+  text-align: start !important;
+  padding-left: 20px;
+}
+
 .text_question{
   font-size: 26px;
   text-align: start;
-  padding: 0px !important;
+  padding-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 20px !important;
 }
 
 .long_input{
@@ -601,6 +671,24 @@
   margin-bottom: 30px;
 }
 
+.leavebtn{
+  all: unset;
+  align-self: flex-end;
+  margin: 0px !important;
+  max-height: 40px !important;
+  font-size: 18px;
+  padding-bottom: 10px;
+  padding-right: 50px;
+}
+.leavebtn:hover{
+ font-size: 20px;
+ padding-bottom: 7px;
+}
+
+.pading_top{
+  padding-top: 25px;
+}
+
 .blue {
   color: #0FD4CD;
 }
@@ -615,7 +703,6 @@
   display: flex;
   flex-direction: row;
   max-width: 500px;
-  
 }
 
 .counter_button{
@@ -646,7 +733,7 @@
 }
 
 .logo_wrap{
-  width: 1350px;
+  width: 1330px;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -703,7 +790,8 @@
   border-radius: 5px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
+  padding-left: 20px;
   align-items: center;
 }
 
@@ -720,24 +808,24 @@
 
 .user_first_ind{
   box-sizing: border-box;
-  color: #D6BF81 !important;
-  border-color: #D6BF81 !important;
+  /* color: #D6BF81 !important;
+  border-color: #D6BF81 !important; */
   border: 2px solid;
-  background-color: rgba(214, 191, 129, 0.4) !important;
+  background-color: #D7CCAD !important;
 }
 
 .user_first_name{
   box-sizing: border-box;
-  color: #D6BF81 !important;
-  border-color: #D6BF81 !important;
+  /* color: #D6BF81 !important;
+  border-color: #D6BF81 !important; */
   border: 2px solid;
-  background-color: rgba(214, 191, 129, 0.1) !important;
+  background-color: #C5B078 !important;
 }
 
 .user_first_score{
   box-sizing: border-box;
-  color: #D6BF81 !important;
-  border-color: #D6BF81 !important;
+  /* color: #D6BF81 !important;
+  border-color: #D6BF81 !important; */
   border: 2px solid;
-  background-color: rgba(214, 191, 129, 0.1) !important;
+  background-color: #C5B078 !important;
 }
