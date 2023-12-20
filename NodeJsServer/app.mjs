@@ -192,7 +192,7 @@ io.on('connection', (socket) => {
       console.log("socket was found");
       if (socketsData[socket.id].roomId){
         console.log("socket room was found");
-        io.to(socketsData[socket.id].roomId).emit('leave',{userId: socketsData[socket.id].playerId, userName: socketsData[socket.id].userName})
+        io.to(socketsData[socket.id].roomId).emit('leave',{userId: socketsData[socket.id].userId, userName: socketsData[socket.id].userName})
         console.log("leave event emitted");
       } else {console.log("didn't find socket's room");}
       console.log(playerIds.deleteId(socketsData[socket.id].userId));
