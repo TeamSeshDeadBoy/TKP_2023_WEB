@@ -55,7 +55,7 @@ const Game = ({answers, passNext, passReveal, length}) => {
   return (
     <div className="game_geometry">
         {/* {revealed ? answers.answers[answers.validIndex].text : ""} */}
-        <div className="question_title black_scroll">{answers.text}</div>
+        <div className="text_question_wrapper black_scroll"><div className="question_title black_scroll">{answers.text}</div></div>
         <div className="question_numbers">{num}/{length}</div>
         <div className="question">{ revealed ? renderRevealed() : renderAnswers()}</div>
         {/*<div className="clock">120</div>*/}

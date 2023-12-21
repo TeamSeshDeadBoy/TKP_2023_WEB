@@ -173,7 +173,7 @@ const SockerWrapper = () => {
     <div className="flex_col" style={start ? end ? {} : white_bg : black_bg}>
       {end ? <div className="spacer"></div> : ""}
       <div className="flex_center">
-          <div className={ start ? end ? "timer_b" : "timer_w space_top_timer":"timer_b"}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
+          <div className={ start ? end ? "timer_b " : "timer_w space_top_timer":"timer_b "}>ВИКТОРИНА {quiz.title.toUpperCase()}</div>
           {start ?  end ? <Endgame scores={scoresState} scoresToParent={getScores} connected={connected} socket={socket}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal} length={length}/> : <Lobby users={connected} passStartFlag={getStartFlag} roomId={userId}/>}
       </div>
       <div className="logo_wrap">
