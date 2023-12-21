@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { socket } from './socket';
 import bg_w from '/src/bg_w.png';
 import bg_b from '/src/bg_b.png';
@@ -15,6 +15,8 @@ const SockerWrapper = () => {
     const {state} = useLocation();
     const { quiz } = state;
     const length = quiz.questions.length
+
+    const navigate = useNavigate();
 
     let result_placeholder = []
     for (let i = 0; i < quiz.questions.length; i++) {
@@ -175,7 +177,7 @@ const SockerWrapper = () => {
           {start ?  end ? <Endgame scores={scoresState} scoresToParent={getScores} connected={connected} socket={socket}/> : <Game answers={quiz.questions[currIndex]} passNext={next} passReveal={reveal} length={length}/> : <Lobby users={connected} passStartFlag={getStartFlag} roomId={userId}/>}
       </div>
       <div className="logo_wrap">
-        {start ? <h1 className="logo_down">РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1> : ""}
+        {start ? <h1 className="logo_down pointer" onClick={() => navigate('/rooms')}>РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1> : ""}
       </div>
     </div>
   )

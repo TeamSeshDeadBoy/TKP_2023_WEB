@@ -139,3 +139,7 @@ textarea {
   background-color: #D6BF81;
   border-radius: 5px;
 }
+
+Link{
+ all: unset;
+}

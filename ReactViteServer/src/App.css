@@ -254,6 +254,10 @@
   min-height: fit-content;
 }
 
+.unset_all{
+  all: unset;
+}
+
 .unset_hover:hover{
   padding-left: 0px !important;
   border: 0px;
@@ -385,16 +389,27 @@
   background-color: #D9D9D9;
 }
 
+.black_scroll::-webkit-scrollbar-track {
+  border-color: #242424;
+}
+
+.black_scroll::-webkit-scrollbar-thumb {
+  background-color: #242424;
+}
+
 .question_title {
-  height: 100px;
-  padding-top: 50px;
+  height: 140px;
   font-size: 36px;
+  line-height: 40px;
   color: #242424;
-  vertical-align: start;
-  text-align: start;
   padding-left: 20px;
-  max-width: 900px;
+  max-width: 1150px;
   z-index: 20;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 10px;
+  text-align: start;
+  vertical-align: super;
 }
 
 .right_arrow.right_arrow {

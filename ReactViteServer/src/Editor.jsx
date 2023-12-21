@@ -2,7 +2,7 @@
 import QuestionEdit from './CreatorComponents/QuestionEdit.jsx'
 import { useState } from "react";
 import QuestionWrapper from './CreatorComponents/QuestionWrapper.jsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Editor = () => {
   let tempd = [{"text":"Test question #1","answers":[{"text":"true"},{"text":"false"}],"validIndex":0},{"text":"Test question #2","answers":[{"text":"false"},{"text":"true"}],"validIndex":1},{"text":"Test question #3","answers":[{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":2},{"text":"Test question #4","answers":[{"text":"false"},{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":3}]
@@ -63,6 +63,7 @@ const Editor = () => {
 
   return (
   <>
+      <h1 className="logo_corner pointer" onClick={() => navigate('/rooms')}>РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
         <input placeholder='НАЗВАНИЕ' value={nameVar} type="text" onChange={(e) => setName(e.target.value)} onClick={() => {nameVar == "БЕЗ НАЗВАНИЯ" ? setName("") : ""}}></input>
     <div className='flex_row relative'>
           <div className="questionedit">

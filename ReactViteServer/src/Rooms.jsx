@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import QuizCard from "./QuizCard";
 
 
@@ -52,7 +52,7 @@ const Rooms = () => {
   
   return (
     <>
-      <h1 className="logo_corner pointer">РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
+    <h1 className="logo_corner pointer" onClick={() => navigate('/rooms')}>РУБИЛЬ<span style={{color: "#D6BF81"}}>НИК</span></h1>
       <h1 className="absolute_t">ВИКТОРИНЫ</h1>
       {error}
       <div className="grid">
