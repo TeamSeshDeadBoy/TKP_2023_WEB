@@ -9,6 +9,9 @@ const Register = () => {
     const [pass, setPass] = useState(null)
     const [pass2, setPass2] = useState(null)
     const [error, setError] = useState(false)
+
+    let regexp = /^.+@\S+[.]+\S+$/
+
     useEffect(() => {
         if (!email || !name || !pass){
             setError("ЗАПОЛНИТЕ ВСЕ ПОЛЯ")
@@ -18,6 +21,8 @@ const Register = () => {
             if (pass.length < 8){
                 setError("МИНИМУМ 8 СИМВОЛОВ")
             }
+        } else if (!email.match(regexp)) {
+            setError("НЕСУЩЕСТВУЮЩИЙ E-MAIL")
         } else {
             setError(false)
         }

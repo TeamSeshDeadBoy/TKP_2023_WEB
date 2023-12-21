@@ -8,11 +8,15 @@ const Login = () => {
     const [pass, setPass] = useState(null)
     const [error, setError] = useState(false)
     const [logged, setLogged] = useState(false)
+    let regexp = /^.+@\S+[.]+\S+$/
+
     useEffect(() => {
         if (!email || !pass){
             setError("ЗАПОЛНИТЕ ВСЕ ПОЛЯ")
         } else if (pass.length < 8){
             setError("МИНИМУМ 8 СИМВОЛОВ")
+        } else if (!email.match(regexp)) {
+            setError("НЕСУЩЕСТВУЮЩИЙ E-MAIL")
         } else {
             setError(false)
         }
