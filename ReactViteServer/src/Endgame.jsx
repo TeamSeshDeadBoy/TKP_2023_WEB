@@ -7,7 +7,6 @@ const Endgame = ({scores, scoresToParent}) => {
   const connected =JSON.parse(localStorage.getItem('connections'))
   console.log("Received scores :", scores)
   console.log("Connected people:", connected)
-  connected.push({userName: "console.log", userId:"BBBBB"})
 
   const modifiedObj = (object) => {
     console.log("Object before mutating:", object)
