@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import CryptoJS from "crypto-js"
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ const Login = () => {
 
     const postUser = () => {
         if (!error) {
-            axios.post('http://localhost:3000/getUser', {email: email, password: pass}).then((response) => {
+            axios.post('http://localhost:3000/getUser', {email: email, password: CryptoJS.SHA256(pass).toString()}).then((response) => {
                 localStorage.setItem('userId', response.data.id)
                 localStorage.setItem('userQuizzes', [JSON.stringify(response.data.quizzes)])
                 localStorage.setItem('userName', response.data.name)
