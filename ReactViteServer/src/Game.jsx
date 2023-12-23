@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io";
+import random from 'random'
 
 
 const Game = ({answers, passNext, passReveal, length}) => {
@@ -11,10 +12,11 @@ const Game = ({answers, passNext, passReveal, length}) => {
     const [num, setNum] = useState(0)
   const [revealed, setRevealed] = useState(false)
 
+
     function renderAnswers() {
         let temp = []
         for (let i = 0; i < answers.answers.length; i++) {
-          temp.push(<div key={JSON.stringify(answers.answers[i])} 
+          temp.push(<div key={random.int(0, 10000)} 
           style={(i == 2 && answers.answers.length == 3) ? {backgroundColor: colors[i], left: "300px"} : {backgroundColor: colors[i]}} className="answer">
             {answers.answers[i].text}
             <div className={i == 0 ? "letter_1" : i == 1 ? "letter_2" : i == 2 ? "letter_3" : "letter_4"}>{letters[i]}</div>
@@ -26,7 +28,7 @@ const Game = ({answers, passNext, passReveal, length}) => {
       function renderRevealed() {
         let tempRev = []
         for (let i = 0; i < answers.answers.length; i++) {
-          tempRev.push(<div key={JSON.stringify(answers.answers[i])} 
+          tempRev.push(<div key={random.int(0, 10000)} 
           style={(i == 2 && answers.answers.length == 3) ? (i == answers.validIndex ? {backgroundColor: colors[i], left: "300px"} : {backgroundColor: wrongColors[i], left: "300px"}) : (i == answers.validIndex ? {backgroundColor: colors[i]} : {backgroundColor: wrongColors[i]})} className="answer">
             {answers.answers[i].text}
             <div className={i == 0 ? "letter_1" : i == 1 ? "letter_2" : i == 2 ? "letter_3" : "letter_4"}>{letters[i]}</div>
