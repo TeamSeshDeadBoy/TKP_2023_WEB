@@ -5,7 +5,7 @@ import QuestionWrapper from './CreatorComponents/QuestionWrapper.jsx';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Editor = () => {
-  let tempd = [{"text":"Test question #1","answers":[{"text":"true"},{"text":"false"}],"validIndex":0},{"text":"Test question #2","answers":[{"text":"false"},{"text":"true"}],"validIndex":1},{"text":"Test question #3","answers":[{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":2},{"text":"Test question #4","answers":[{"text":"false"},{"text":"false"},{"text":"false"},{"text":"true"}],"validIndex":3}]
+  let tempd = [{"text":"Назовите столицу Франции","answers":[{"text":"Париж"},{"text":"Токио"}, {"text":"Москва"}],"validIndex":0},{"text":"Чему равно 2+2 ?","answers":[{"text":"четыре"},{"text":"four"},{"text":"4"}, {"text":"Все перечисленное выше"}],"validIndex":3},{"text":"Сколько лучше варить яйцо вкрутую?","answers":[{"text":"0 мин"},{"text":"15 секунд"},{"text":"6 минут"},{"text":"4 недели"}],"validIndex":2},{"text":"Какую оценку вы хотите получить за крусовую работу?","answers":[{"text":"2"},{"text":"3"},{"text":"4"},{"text":"5"}],"validIndex":3}]
   const {state} = useLocation(); // {}
   let question, index
   
